@@ -136,3 +136,99 @@ for name, fn in [("glass", glass), ("concrete", concrete), ("plaster", plaster),
                  ("off", offlimits), ("core", core), ("roofkit", roofkit)]:
     save(fn(), name)
     print("wrote", name)
+
+
+# ---------- per-building facade variants: a 2048 px atlas of 8 x 8 tiles (256 px = 24 m x 28 m each) ----------
+# The game picks one tile per building (vertex attribute _FAC) and tints it (_TINT); walls wrap inside their tile.
+AT, TS = 2048, 256
+PX, PY = TS / TW, TS / TH
+
+
+def tile_rect(d, ox, oy, x0, y0, x1, y1, col):
+    d.rectangle([ox + x0 * PX, oy + y0 * PY, ox + x1 * PX - 1, oy + y1 * PY - 1], fill=tuple(int(c) for c in col))
+
+
+def v_curtain(d, ox, oy, r, p):
+    tint, mull, mcol, band, fin = p
+    for f in range(8):
+        y0 = f * 3.5
+        x = 0.0
+        while x < TW - 1e-6:
+            t = r.uniform(-1, 1)
+            base = np.array(tint) + t * 8
+            if r.random() < 0.1: base = np.array(tint) * 0.6 + 70
+            for k in range(int(3.5 * PY)):
+                g = base + (1 - k / (3.5 * PY)) * 30
+                d.line([(ox + x * PX + 1, oy + y0 * PY + k), (ox + (x + mull) * PX - 2, oy + y0 * PY + k)], fill=tuple(int(v) for v in g))
+            x += mull
+        if band: tile_rect(d, ox, oy, 0, y0 + 2.9, TW, y0 + 3.5, np.array(tint) * 0.55)
+    x = 0.0
+    while x <= TW + 1e-6:
+        d.line([(ox + x * PX, oy), (ox + x * PX, oy + TS - 1)], fill=mcol, width=2 if fin else 1)
+        x += mull * (2 if fin else 1)
+    for f in range(9): d.line([(ox, oy + f * 3.5 * PY), (ox + TS - 1, oy + f * 3.5 * PY)], fill=mcol, width=1)
+
+
+def v_ribbon(d, ox, oy, r, p):
+    clad, ratio, glass, fins = p
+    d.rectangle([ox, oy, ox + TS - 1, oy + TS - 1], fill=clad)
+    for f in range(8):
+        y0 = f * 3.5
+        wy0, wy1 = y0 + 3.5 * (1 - ratio) * 0.6, y0 + 3.5 * (1 - (1 - ratio) * 0.4)
+        tile_rect(d, ox, oy, 0, wy0, TW, wy1, glass)
+        for b in range(17): d.line([(ox + b * 1.5 * PX, oy + wy0 * PY), (ox + b * 1.5 * PX, oy + wy1 * PY)], fill=tuple(int(c * 0.8) for c in clad))
+        for b in range(16):
+            if r.random() < 0.15: tile_rect(d, ox, oy, b * 1.5 + 0.1, wy0 + 0.1, b * 1.5 + 1.4, wy1 - 0.1, np.array(glass) * 0.5 + 90)
+        tile_rect(d, ox, oy, 0, wy1, TW, wy1 + 0.12, np.array(clad) * 0.75)
+    if fins:
+        for b in range(0, 8, 2): tile_rect(d, ox, oy, b * 3, 0, b * 3 + 0.5, TH, np.array(clad) * 1.06)
+
+
+def v_grid(d, ox, oy, r, p):
+    frame, glass, bay = p
+    d.rectangle([ox, oy, ox + TS - 1, oy + TS - 1], fill=frame)
+    for f in range(8):
+        for b in range(int(TW / bay)):
+            t = r.uniform(-6, 6)
+            tile_rect(d, ox, oy, b * bay + 0.35, f * 3.5 + 0.45, (b + 1) * bay - 0.35, f * 3.5 + 3.1, np.array(glass) + t)
+            tile_rect(d, ox, oy, b * bay + 0.35, f * 3.5 + 0.45, (b + 1) * bay - 0.35, f * 3.5 + 0.9, np.array(glass) + 35)
+
+
+def v_punched(d, ox, oy, r, p):
+    wall, ww, glass = p
+    d.rectangle([ox, oy, ox + TS - 1, oy + TS - 1], fill=wall)
+    for f in range(8):
+        for b in range(8):
+            x0 = b * 3 + (3 - ww) / 2
+            col = glass if r.random() > 0.15 else np.array(wall) * 0.7
+            tile_rect(d, ox, oy, x0, f * 3.5 + 1.0, x0 + ww, f * 3.5 + 2.6, col)
+            tile_rect(d, ox, oy, x0 - 0.1, f * 3.5 + 2.6, x0 + ww + 0.1, f * 3.5 + 2.75, np.array(wall) * 1.08)
+
+
+def facade_atlas():
+    r = np.random.default_rng(23)
+    TINTS = [(70, 92, 112), (62, 96, 98), (86, 96, 104), (112, 98, 80), (122, 132, 138), (44, 54, 64), (76, 104, 92), (92, 110, 130)]
+    CLADS = [(226, 226, 222), (192, 190, 184), (206, 196, 176), (122, 124, 128), (162, 112, 88), (172, 178, 184), (150, 140, 128), (96, 98, 104)]
+    GLASS = [(52, 64, 76), (60, 78, 92), (48, 70, 70), (70, 76, 84)]
+    WALLS = [(214, 198, 170), (172, 98, 78), (200, 200, 194), (236, 232, 224), (152, 150, 146), (190, 170, 140)]
+    variants = []
+    for i in range(24): variants.append(("curtain", (TINTS[i % 8], [1.5, 1.2, 3.0][i // 8], [(40, 44, 50), (150, 158, 164), (110, 116, 122)][(i + i // 8) % 3], i % 2 == 0, i % 3 == 0)))
+    for i in range(16): variants.append(("ribbon", (CLADS[i % 8], [0.5, 0.65][i // 8], GLASS[i % 4], i % 3 == 0)))
+    for i in range(12): variants.append(("grid", (CLADS[(i * 3) % 8], GLASS[i % 4], [3.0, 1.5][i % 2])))
+    for i in range(12): variants.append(("punched", (WALLS[i % 6], [1.4, 2.0][i // 6], GLASS[i % 4])))
+    img = Image.new("RGB", (AT, AT), (0, 0, 0)); d = ImageDraw.Draw(img)
+    info = []
+    for k, (kind, p) in enumerate(variants):
+        ox, oy = (k % 8) * TS, (k // 8) * TS
+        {"curtain": v_curtain, "ribbon": v_ribbon, "grid": v_grid, "punched": v_punched}[kind](d, ox, oy, r, p)
+        mean = np.asarray(img.crop((ox, oy, ox + TS, oy + TS)), dtype=np.float32).reshape(-1, 3).mean(0)
+        info.append({"i": k, "kind": kind, "mean": [int(v) for v in mean]})
+    img = noise(img, 3, 0.8)
+    img.save(OUT / "facades.webp", quality=90, method=6)
+    img.save(RAWT / "facades.png")
+    (OUT / "facades.json").write_text(json.dumps({"tiles": 8, "tile_m": [TW, TH], "variants": info}), encoding="utf-8")
+    print("wrote facades atlas:", len(info), "variants")
+
+
+import json
+facade_atlas()

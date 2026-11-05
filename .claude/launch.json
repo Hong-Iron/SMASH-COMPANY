@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "smash-company", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8790", "--directory", "site"], "port": 8790 }
+  ]
+}

@@ -41,18 +41,21 @@ MATS = [material("ground", GROUND_IMG), material("roof", GROUND_IMG),
         material("glass", TEXD / "glass.png", rough=0.25, metal=0.35), material("concrete", TEXD / "concrete.png"),
         material("plaster", TEXD / "plaster.png"), material("shop", TEXD / "shop.png", rough=0.5),
         material("off", TEXD / "off.png"), material("core", TEXD / "core.png"), material("roofkit", TEXD / "roofkit.png"),
-        material("roofplain", color=(0.55, 0.57, 0.58, 1))]
+        material("roofplain", color=(0.55, 0.57, 0.58, 1)),
+        material("facade", TEXD / "facades.png", rough=0.4, metal=0.2)]
 MI = {m.name: i for i, m in enumerate(MATS)}
 
 # ---------- geometry helpers ----------
 bm = bmesh.new()
 UV = bm.loops.layers.uv.new("UVMap")
 CH = bm.verts.layers.float.new("_chunk")
+FA = bm.verts.layers.float.new("_fac")      # facade atlas tile, -1 = not a facade face
+TI = bm.verts.layers.float.new("_tint")     # tint packed as r*65536 + g*256 + b (0-255 each)
 
 
-def face(pts, uvs, mat, cid):
+def face(pts, uvs, mat, cid, fac=-1.0, tint=0.0):
     vs = [bm.verts.new(p) for p in pts]
-    for v in vs: v[CH] = cid
+    for v in vs: v[CH] = cid; v[FA] = fac; v[TI] = tint
     try:
         f = bm.faces.new(vs)
     except ValueError:
@@ -131,7 +134,8 @@ for b in prep["buildings"]:
     zbot = base + minh if minh > 0 else base - SINK
     ztop = base + h
     kind = b["kind"]
-    mb = {"id": b["id"], "name": b["name"], "kind": kind, "smash": b["smash"], "h": h, "c0": len(chunks)}
+    mb = {"id": b["id"], "name": b["name"], "kind": kind, "smash": b["smash"], "h": h, "c0": len(chunks),
+          "fac": b.get("fac"), "roof": b.get("roof")}
 
     if not b["smash"]:
         # off-limits or canopy: one static block (chunk id -1), never cut
@@ -163,6 +167,8 @@ for b in prep["buildings"]:
         zs.append(z); z += LAYER
     zs.append(ztop)
     wk = wall_kind(b)
+    FAC = float(b.get("fac", -1)); UOFF = b.get("uoff", 0.0)
+    TINT = float(sum(int(round(min(t * 200, 255))) << sh for t, sh in zip(b.get("tint", [1, 1, 1]), (16, 8, 0))))
     col = 0
     for gi in range(nx_):
         for gj in range(ny_):
@@ -194,14 +200,15 @@ for b in prep["buildings"]:
                             m_, u0, u1, v0, v1 = "shop", sa / SHOP_W, sc / SHOP_W, (z0 - base) / SHOP_H, (z1 - base) / SHOP_H
                         else:
                             zb = base + PODIUM
-                            m_, u0, u1, v0, v1 = wk, sa / TW, sc / TW, (z0 - zb) / TH, (z1 - zb) / TH
+                            m_, u0, u1, v0, v1 = ("facade" if FAC >= 0 else wk), (sa + UOFF) / TW, (sc + UOFF) / TW, (z0 - zb) / TH, (z1 - zb) / TH
                         face([(a[0], a[1], z0), (c[0], c[1], z0), (c[0], c[1], z1), (a[0], a[1], z1)],
-                             [(u0, v0), (u1, v0), (u1, v1), (u0, v1)], m_, cid)
+                             [(u0, v0), (u1, v0), (u1, v1), (u0, v1)], m_, cid, FAC if m_ == "facade" else -1.0, TINT)
                         if top and h > 9:     # parapet: outer face continues the facade, inner face is plain
                             zp = z1 + PARAPET
                             face([(a[0], a[1], z1), (c[0], c[1], z1), (c[0], c[1], zp), (a[0], a[1], zp)],
                                  [(u0, v1), (u1, v1), (u1, v1 + PARAPET / TH), (u0, v1 + PARAPET / TH)],
-                                 "core" if wk == "glass" else wk, cid)
+                                 "core" if wk == "glass" else ("facade" if FAC >= 0 else wk), cid,
+                                 -1.0 if wk == "glass" else FAC, TINT)
                             face([(c[0], c[1], z1), (a[0], a[1], z1), (a[0], a[1], zp), (c[0], c[1], zp)],
                                  [(0, 0), (1, 0), (1, 0.1), (0, 0.1)], "core", cid)
                     else:

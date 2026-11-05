@@ -233,6 +233,52 @@ for b in items:
                 "levels": num(t.get("building:levels")),
                 "ring": [[round(x, 2), round(y, 2)] for x, y in b["ring"]]})
 
+# ---------- per-building facade: variant from the shared atlas + tint from the building's own roof photo ----------
+FAC = json.loads((ROOT / "site" / "tex" / "facades.json").read_text(encoding="utf-8"))["variants"]
+BYKIND = {}
+for v_ in FAC: BYKIND.setdefault(v_["kind"], []).append(v_)
+MIX = {"glass": [("curtain", 0.7), ("grid", 0.3)], "concrete": [("ribbon", 0.6), ("grid", 0.4)],
+       "plaster": [("punched", 0.7), ("ribbon", 0.3)]}
+aerial = None
+if (RAW / "aerial.jpg").exists():
+    aerial = Image.open(RAW / "aerial.jpg").convert("RGB")
+    AS = aerial.width / SIZE
+    web = ROOT / "site" / "areas" / AID; web.mkdir(parents=True, exist_ok=True)
+    aerial.save(web / "ground.webp", quality=78, method=6)                       # desktop
+    aerial.resize((2048, 2048), Image.LANCZOS).save(web / "ground_m.webp", quality=80, method=6)   # phones
+
+
+def roof_colour(ring):
+    xs_ = [(x + HALF) * AS for x, _ in ring]; ys_ = [(HALF - y) * AS for _, y in ring]
+    x0, y0, x1, y1 = int(min(xs_)), int(min(ys_)), int(max(xs_)) + 1, int(max(ys_)) + 1
+    if x1 - x0 < 3 or y1 - y0 < 3: return None
+    crop = np.asarray(aerial.crop((x0, y0, x1, y1)), dtype=np.float32)
+    m = Image.new("L", (x1 - x0, y1 - y0), 0)
+    ImageDraw.Draw(m).polygon([(x - x0, y - y0) for x, y in zip(xs_, ys_)], fill=255)
+    m = np.asarray(m.filter(ImageFilter.MinFilter(5))) > 0          # shrink so street pixels at the edge don't count
+    if m.sum() < 9: return None
+    return np.median(crop[m], axis=0)
+
+
+for b in out:
+    if not b["smash"]: continue
+    h_ = (int.from_bytes(b["osm"].encode()[-6:].rjust(6, b"0"), "big") + b["id"] * 7919) * 2654435761 % 2**32   # stable per building
+    rc = roof_colour(b["ring"]) if aerial is not None else None
+    roll = (h_ % 1000) / 1000
+    cat = MIX[b["kind"]][0][0] if roll < MIX[b["kind"]][0][1] else MIX[b["kind"]][1][0]
+    cand = BYKIND[cat]
+    if rc is not None:
+        # light roofs lean to light facades and dark roofs to dark ones; the hash keeps neighbours apart
+        lum = float(rc.mean())
+        cand = sorted(cand, key=lambda v_: abs(sum(v_["mean"]) / 3 - lum) + ((h_ >> 8) % 7) * 9)
+        tint = np.clip((rc / max(rc.mean(), 1)) ** 0.35, 0.86, 1.14)
+    else:
+        tint = np.ones(3)
+    b["fac"] = cand[(h_ >> 4) % min(3, len(cand))]["i"]
+    b["tint"] = [round(float(t), 3) for t in tint]
+    b["uoff"] = round((h_ >> 12) % 240 / 10, 1)
+    b["roof"] = [int(c) for c in rc] if rc is not None else None
+
 # ---------- trees ----------
 trees = []
 for e in osm["elements"]:

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>SMASH 회사</title>
+<meta name="description" content="업무지구의 실제 회사 사옥을 3D로 부수는 스트레스 해소 게임">
+<style>
+  :root { --ink:#f5f2ea; --dim:#a9a3b5; --bar:#1d1b22; --accent:#d9622b; --gold:#ffd166; }
+  html,body { margin:0; height:100%; background:#1d1b22; overflow:hidden; touch-action:none; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none;
+    font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif; color:var(--ink); }
+  canvas { display:block; }
+  #top { position:fixed; left:max(12px,env(safe-area-inset-left)); right:max(12px,env(safe-area-inset-right));
+    top:max(10px,env(safe-area-inset-top)); display:flex; gap:8px; pointer-events:none; }
+  .pill { background:rgba(29,27,34,.88); border-radius:14px; padding:8px 12px; }
+  #area { font-weight:800; font-size:15px; }
+  #dmgbox { margin-left:auto; text-align:right; }
+  #dmgbox small { display:block; font-size:11px; color:var(--dim); }
+  #dmg { font-weight:800; font-size:16px; color:var(--gold); }
+  #rank { position:fixed; left:max(12px,env(safe-area-inset-left)); top:calc(max(10px,env(safe-area-inset-top)) + 52px);
+    display:flex; align-items:center; gap:8px; pointer-events:none; }
+  #rankname { font-weight:800; color:var(--accent); font-size:17px; min-width:36px; }
+  #meter { width:80px; height:8px; border-radius:4px; background:#4a4552; overflow:hidden; }
+  #meter i { display:block; height:100%; width:0; background:var(--accent); }
+  #toast { position:fixed; left:50%; top:30%; transform:translateX(-50%); font-weight:800; font-size:22px; color:var(--gold);
+    text-shadow:0 2px 8px #000a; opacity:0; transition:opacity .25s; pointer-events:none; }
+  #label { position:fixed; left:50%; top:calc(max(10px,env(safe-area-inset-top)) + 100px); transform:translateX(-50%);
+    background:#fffffff0; color:#1d1b22; border-radius:10px; padding:6px 10px; font-size:12px; font-weight:800; display:none; pointer-events:none; }
+  #bar { position:fixed; left:0; right:0; bottom:0; background:var(--bar); padding:10px max(10px,env(safe-area-inset-left))
+    calc(10px + env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  #bar button { height:56px; border:0; border-radius:12px; background:#2a2631; color:var(--ink); font:inherit; font-size:13px; font-weight:700; }
+  #bar button.on { background:var(--accent); }
+  #bar button:disabled { opacity:.38; }
+  #bar button.nuke { color:#ff8f7a; box-shadow:inset 0 0 0 2px #ff4a3a; }
+  #load { position:fixed; inset:0; display:grid; place-items:center; background:#1d1b22; font-size:15px; color:var(--dim); }
+  #credit { position:fixed; right:8px; bottom:calc(150px + env(safe-area-inset-bottom)); font-size:9px; color:#ffffffb0;
+    text-shadow:0 1px 2px #000; pointer-events:none; text-align:right; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
+               "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/" } }
+</script>
+</head>
+<body>
+<div id="load">불러오는 중…</div>
+<div id="top"><div class="pill" id="area">판교 · 제1테크노밸리</div>
+  <div class="pill" id="dmgbox"><small>오늘 피해액</small><span id="dmg">0원</span></div></div>
+<div id="rank" class="pill"><span id="rankname">인턴</span><span id="meter"><i></i></span></div>
+<div id="label"></div>
+<div id="toast"></div>
+<div id="credit">© OpenStreetMap · 국토교통부 브이월드 · AWS Terrain Tiles</div>
+<div id="bar">
+  <button data-w="resign" class="on">사직서</button><button disabled>뜨거운<br>커피</button><button disabled>부장님<br>가발</button><button disabled>결재<br>도장</button>
+  <button disabled>엑셀<br>레이저</button><button disabled>월요병</button><button disabled class="nuke">퇴사</button><button disabled>공유</button>
+</div>
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const params = new URLSearchParams(location.search);
+const AREA = params.get("a") || "pangyo-tv1";
+const PHONE = matchMedia("(pointer:coarse)").matches || innerWidth < 700;
+const WON_PER_M3 = 15000;
+
+// ---------- renderer, scene, camera ----------
+const renderer = new THREE.WebGLRenderer({ antialias: !PHONE, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(devicePixelRatio, PHONE ? 1.5 : 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.NeutralToneMapping;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const SKY = new THREE.Color("#b9cde0");
+scene.background = SKY;
+scene.fog = new THREE.Fog(SKY, 900, 2600);
+const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 1, 6000);
+camera.position.set(330, 330, 420);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 20, 0);
+controls.enableDamping = true;
+controls.minDistance = 120; controls.maxDistance = 1400;
+controls.minPolarAngle = THREE.MathUtils.degToRad(15); controls.maxPolarAngle = THREE.MathUtils.degToRad(65);
+controls.screenSpacePanning = false;
+controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
+
+scene.add(new THREE.HemisphereLight("#dfe9f5", "#8a7d68", 1.6));
+const sun = new THREE.DirectionalLight("#fff1dc", 2.6);
+sun.position.set(-420, 520, 260);
+sun.castShadow = true;
+sun.shadow.mapSize.setScalar(PHONE ? 1024 : 2048);
+Object.assign(sun.shadow.camera, { left: -700, right: 700, top: 700, bottom: -700, near: 10, far: 2000 });
+sun.shadow.bias = -0.0008; sun.shadow.normalBias = 1.2;
+scene.add(sun);
+
+// ---------- textures ----------
+const tl = new THREE.TextureLoader();
+const tex = (url, repeat = true) => { const t = tl.load(url); t.colorSpace = THREE.SRGBColorSpace; t.flipY = false;
+  if (repeat) t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 4; return t; };
+const T = {
+  ground: tex(`areas/${AREA}/${PHONE ? "ground_m" : "ground"}.webp`, false),
+  facade: tex("tex/facades.webp", false), shop: tex("tex/shop.webp"), off: tex("tex/off.webp"),
+  core: tex("tex/core.webp"), roofkit: tex("tex/roofkit.webp"),
+};
+T.ground.flipY = false;
+
+// chunk visibility: one texel per chunk, 255 = standing
+let alive, aliveTex, ATW = 1024;
+const chunkUniforms = { uAlive: { value: null }, uAliveW: { value: ATW } };
+
+function chunkify(mat) {
+  // every material shares this onBeforeCompile source, so the facade variant needs its own program cache key
+  mat.customProgramCacheKey = () => (mat.userData.facade ? "chunk-facade" : "chunk");
+  mat.onBeforeCompile = (sh) => {
+    Object.assign(sh.uniforms, chunkUniforms);
+    sh.vertexShader = sh.vertexShader
+      .replace("#include <common>", "#include <common>\nattribute float _chunk;\nuniform sampler2D uAlive;\nuniform float uAliveW;\n" + (mat.userData.facade ? "attribute float _fac;\nattribute float _tint;\nvarying float vFac;\nvarying vec3 vTint;\nvarying vec2 vRaw;\n" : ""))
+      .replace("#include <project_vertex>", `#include <project_vertex>
+        if (_chunk >= 0.0) {
+          float id = _chunk;
+          float a = texelFetch(uAlive, ivec2(int(mod(id, uAliveW)), int(floor(id / uAliveW))), 0).r;
+          if (a < 0.5) gl_Position = vec4(0.0, 0.0, -2.0, 1.0);
+        }` + (mat.userData.facade ? `
+        vFac = _fac; vRaw = uv;
+        vTint = vec3(floor(_tint / 65536.0), mod(floor(_tint / 256.0), 256.0), mod(_tint, 256.0)) / 200.0;` : ""));
+    if (mat.userData.facade) {
+      sh.fragmentShader = sh.fragmentShader
+        .replace("#include <common>", "#include <common>\nvarying float vFac;\nvarying vec3 vTint;\nvarying vec2 vRaw;\n")
+        .replace("#include <map_fragment>", `
+          // wrap inside this building's tile of the 8 x 8 atlas; gradients from the unwrapped UV avoid seams
+          vec2 tileO = vec2(mod(vFac, 8.0), floor(vFac / 8.0)) / 8.0;
+          vec2 inner = vec2(1.0 / 8.0 - 2.0 / 2048.0);
+          vec2 auv = tileO + 1.0 / 2048.0 + fract(vRaw) * inner;
+          vec4 sampledDiffuseColor = textureGrad(map, auv, dFdx(vRaw) * inner, dFdy(vRaw) * inner);
+          diffuseColor *= vec4(sampledDiffuseColor.rgb * vTint, 1.0);`);
+    }
+  };
+  return mat;
+}
+
+function materialFor(name) {
+  const std = (o) => new THREE.MeshStandardMaterial(Object.assign({ roughness: 0.9, metalness: 0 }, o));
+  switch (name) {
+    case "ground": return new THREE.MeshLambertMaterial({ map: T.ground });
+    case "roof": return chunkify(new THREE.MeshLambertMaterial({ map: T.ground }));
+    case "facade": { const m = std({ map: T.facade, roughness: 0.45, metalness: 0.15 }); m.userData.facade = true; return chunkify(m); }
+    case "shop": return chunkify(std({ map: T.shop, roughness: 0.6 }));
+    case "off": return chunkify(std({ map: T.off }));
+    case "core": return chunkify(std({ map: T.core }));
+    case "roofkit": return chunkify(std({ map: T.roofkit }));
+    default: return chunkify(std({ color: "#8c9194" }));
+  }
+}
+
+// ---------- load area ----------
+const meta = await (await fetch(`areas/${AREA}/meta.json`)).json();
+const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+const gltf = await loader.loadAsync(`areas/${AREA}/scene.glb`);
+const city = [];
+gltf.scene.traverse((o) => {
+  if (!o.isMesh) return;
+  o.material = materialFor(o.material.name);
+  o.castShadow = o.material.name !== "ground" && !o.material.map?.isTexture || o.material.map !== T.ground;
+  o.receiveShadow = true;
+  if (o.geometry.attributes._chunk) city.push(o);
+});
+scene.add(gltf.scene);
+const N = meta.chunks.length;
+const ATH = Math.ceil(N / ATW);
+alive = new Uint8Array(ATW * ATH).fill(255);
+aliveTex = new THREE.DataTexture(alive, ATW, ATH, THREE.RedFormat);
+aliveTex.needsUpdate = true;
+chunkUniforms.uAlive.value = aliveTex;
+const CH = meta.chunks;
+const columns = new Map();            // building:column → chunks bottom to top
+CH.forEach((c, i) => { const k = c.b * 10000 + c.col; if (!columns.has(k)) columns.set(k, []); columns.get(k)[c.l] = i; });
+// spatial hash for radius queries
+const CELL = 30, grid = new Map();
+CH.forEach((c, i) => { const k = Math.floor(c.c[0] / CELL) + "," + Math.floor(c.c[2] / CELL); if (!grid.has(k)) grid.set(k, []); grid.get(k).push(i); });
+function near(p, r) {
+  const out = [];
+  for (let x = Math.floor((p.x - r - 20) / CELL); x <= Math.floor((p.x + r + 20) / CELL); x++)
+    for (let z = Math.floor((p.z - r - 20) / CELL); z <= Math.floor((p.z + r + 20) / CELL); z++)
+      for (const i of grid.get(x + "," + z) || []) {
+        const c = CH[i]; if (!alive[i]) continue;
+        const dx = c.c[0] - p.x, dz = c.c[2] - p.z, dy = Math.max(0, Math.abs(c.c[1] - p.y) - c.hh);
+        if (Math.hypot(Math.max(0, Math.hypot(dx, dz) - c.r), dy) < r) out.push(i);
+      }
+  return out;
+}
+document.getElementById("load").remove();
+document.getElementById("area").textContent = { "pangyo-tv1": "판교 · 제1테크노밸리", "gangnam-yeoksam": "강남 · 역삼" }[AREA] || AREA;
+
+// ---------- debris ----------
+const MAXD = PHONE ? 1500 : 4000;
+const dGeo = new THREE.BoxGeometry(1, 1, 1);
+const dMat = new THREE.MeshLambertMaterial({ color: "#9a9a96" });
+const debris = new THREE.InstancedMesh(dGeo, dMat, MAXD);
+debris.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+debris.castShadow = true; debris.count = 0;
+debris.setColorAt(0, new THREE.Color());
+scene.add(debris);
+const D = [];          // {p, v, s, rot, w, life}
+const tmpM = new THREE.Matrix4(), tmpQ = new THREE.Quaternion(), tmpE = new THREE.Euler(), tmpS = new THREE.Vector3(), tmpC = new THREE.Color();
+const SHARD_COL = ["#8f9aa4", "#a8a39a", "#6b7782", "#c4bfb4", "#55606a"];
+function spawn(c, burst, from) {
+  const n = burst ? 4 : 1;
+  for (let k = 0; k < n; k++) {
+    if (D.length >= MAXD) D.shift();
+    const s = burst ? new THREE.Vector3(c.r * 0.7, c.hh * 0.9, c.r * 0.6).multiplyScalar(0.5 + Math.random() * 0.4)
+                    : new THREE.Vector3(c.r * 1.6, c.hh * 2, c.r * 1.6);
+    const p = new THREE.Vector3(c.c[0] + (Math.random() - 0.5) * c.r, c.c[1] + (Math.random() - 0.5) * c.hh, c.c[2] + (Math.random() - 0.5) * c.r);
+    const v = burst ? p.clone().sub(from).setY(0).normalize().multiplyScalar(6 + Math.random() * 14).setY(4 + Math.random() * 10) : new THREE.Vector3(0, 0, 0);
+    D.push({ p, v, s, rot: new THREE.Vector3(Math.random() * 3, Math.random() * 3, Math.random() * 3), w: new THREE.Vector3(...[0, 0, 0].map(() => (Math.random() - 0.5) * 6)),
+             life: 8 + Math.random() * 2, col: SHARD_COL[(Math.random() * SHARD_COL.length) | 0], whole: !burst, ground: 0 });
+  }
+}
+const groundAt = () => 0;   // terrain is gentle under the towers; shards rest on the lowest street level for now
+
+// ---------- damage, rank ----------
+let won = 0, style = 0, lastHit = 0;
+const RANKS = ["인턴", "사원", "대리", "과장", "차장", "부장", "사장"];
+let rankI = 0;
+const fmtWon = (w) => w >= 1e8 ? (w / 1e8).toFixed(1) + "억 원" : w >= 1e4 ? Math.round(w / 1e4).toLocaleString() + "만 원" : Math.round(w) + "원";
+function toast(t) { const el = document.getElementById("toast"); el.textContent = t; el.style.opacity = 1; clearTimeout(toast.h); toast.h = setTimeout(() => el.style.opacity = 0, 900); }
+
+function kill(ids, from) {
+  let vol = 0;
+  const falling = new Set();
+  for (const i of ids) { if (!alive[i]) continue; alive[i] = 0; vol += CH[i].v; spawn(CH[i], true, from); }
+  // anything left standing over a broken chunk loses its support and drops as one block
+  for (const i of ids) {
+    const col = columns.get(CH[i].b * 10000 + CH[i].col);
+    for (let l = CH[i].l + 1; l < col.length; l++) { const j = col[l]; if (j !== undefined && alive[j]) falling.add(j); }
+  }
+  for (const j of falling) { alive[j] = 0; vol += CH[j].v; spawn(CH[j], false, from); }
+  aliveTex.needsUpdate = true;
+  if (vol > 0) {
+    won += vol * WON_PER_M3;
+    document.getElementById("dmg").textContent = fmtWon(won);
+    style = Math.min(1, style + 0.04 + vol / 60000); lastHit = performance.now();
+  }
+  return vol;
+}
+
+// ---------- weapon: 사직서 ----------
+const ray = new THREE.Raycaster();
+const env = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.25, 2.2), new THREE.MeshLambertMaterial({ color: "#f4efe2" }));
+const shots = [];
+function throwResign(target) {
+  const m = env.clone(); m.position.copy(camera.position).add(new THREE.Vector3(0, -12, 0));
+  scene.add(m);
+  shots.push({ m, a: m.position.clone(), b: target.clone(), t: 0, dur: Math.min(0.45, 0.12 + camera.position.distanceTo(target) / 2400) });
+}
+const fx = [];
+function boom(p, r) {
+  const s = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 12), new THREE.MeshBasicMaterial({ color: "#ffd166", transparent: true, opacity: 0.9 }));
+  s.position.copy(p); scene.add(s); fx.push({ s, t: 0, r });
+  return kill(near(p, r), p);
+}
+let down = null;
+renderer.domElement.addEventListener("pointerdown", (e) => { down = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+renderer.domElement.addEventListener("pointerup", (e) => {
+  if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8 || performance.now() - down.t > 350) return;
+  ray.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -e.clientY / innerHeight * 2 + 1), camera);
+  const hit = ray.intersectObjects(gltf.scene.children, true)[0];
+  if (hit) throwResign(hit.point);
+});
+
+// ---------- loop ----------
+const clock = new THREE.Clock();
+let frames = 0, ftime = 0;
+function step(dt) {
+  for (let i = shots.length - 1; i >= 0; i--) {
+    const s = shots[i]; s.t += dt; const k = Math.min(1, s.t / s.dur);
+    s.m.position.lerpVectors(s.a, s.b, k); s.m.position.y += Math.sin(k * Math.PI) * 18; s.m.rotation.y += dt * 30;
+    if (k >= 1) { scene.remove(s.m); shots.splice(i, 1); boom(s.b, 10); }
+  }
+  for (let i = fx.length - 1; i >= 0; i--) {
+    const f = fx[i]; f.t += dt; const k = f.t / 0.35;
+    f.s.scale.setScalar(f.r * (0.4 + k)); f.s.material.opacity = 0.9 * (1 - k);
+    if (k >= 1) { scene.remove(f.s); fx.splice(i, 1); }
+  }
+  let n = 0;
+  for (let i = D.length - 1; i >= 0; i--) {
+    const d = D[i]; d.life -= dt;
+    if (d.life <= 0) { D.splice(i, 1); continue; }
+    d.v.y -= 22 * dt; d.p.addScaledVector(d.v, dt); d.rot.addScaledVector(d.w, dt);
+    const gy = groundAt() + d.s.y / 2;
+    if (d.p.y < gy) { d.p.y = gy; d.v.y *= -0.25; d.v.x *= 0.6; d.v.z *= 0.6; d.w.multiplyScalar(0.5);
+      if (d.whole && d.s.x > 3) { const c = { c: [d.p.x, d.p.y, d.p.z], r: d.s.x / 1.6, hh: d.s.y / 2 }; D.splice(i, 1); spawn(c, true, d.p.clone().add(new THREE.Vector3(0, -5, 0))); continue; } }
+  }
+  for (const d of D) {
+    if (n >= MAXD) break;
+    const sc = d.life < 1 ? d.life : 1;
+    tmpM.compose(d.p, tmpQ.setFromEuler(tmpE.set(d.rot.x, d.rot.y, d.rot.z)), tmpS.copy(d.s).multiplyScalar(sc));
+    debris.setMatrixAt(n, tmpM); debris.setColorAt(n, tmpC.set(d.col)); n++;
+  }
+  debris.count = n; debris.instanceMatrix.needsUpdate = true; if (debris.instanceColor) debris.instanceColor.needsUpdate = true;
+  if (performance.now() - lastHit > 2000) style = Math.max(0, style - dt * 0.12);
+  const ri = Math.min(RANKS.length - 1, Math.floor(style * RANKS.length));
+  if (ri > rankI) toast("승진! " + RANKS[ri]);
+  rankI = ri;
+  document.getElementById("rankname").textContent = RANKS[ri];
+  document.querySelector("#meter i").style.width = ((style * RANKS.length) % 1 * 100).toFixed(0) + "%";
+}
+function frame() {
+  const dt = Math.min(0.05, clock.getDelta());
+  controls.update(); step(dt);
+  renderer.render(scene, camera);
+  frames++; ftime += dt;
+}
+renderer.setAnimationLoop(frame);
+addEventListener("resize", () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+
+// test handle
+window.__sc = {
+  state: () => ({ won, rank: RANKS[rankI], alive: alive.reduce((a, b) => a + (b ? 1 : 0), 0), chunks: N, debris: D.length,
+                  calls: renderer.info.render.calls, tris: renderer.info.render.triangles, fps: frames / Math.max(ftime, 1e-3) }),
+  fireAt: (x, y, z) => boom(new THREE.Vector3(x, y, z), 10),
+  attrs: () => city.map((o) => { const g = o.geometry.attributes, r = {};
+    for (const k of ["_fac", "_tint", "_chunk"]) if (g[k]) { const a = g[k]; r[k] = [a.array.constructor.name, a.normalized, a.getX(0), a.getX(Math.floor(a.count / 2))]; }
+    return [o.material.name, r]; }),
+  step: (s = 1 / 60, n = 1) => { for (let i = 0; i < n; i++) step(s); },
+  look: (x, y, z, tx = 0, ty = 20, tz = 0) => { camera.position.set(x, y, z); controls.target.set(tx, ty, tz); controls.update(); },
+};
+</script>
+</body>
+</html>
