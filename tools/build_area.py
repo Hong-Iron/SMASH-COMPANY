@@ -13,7 +13,7 @@ OUT = ROOT / "site" / "areas" / AID
 OUT.mkdir(parents=True, exist_ok=True)
 prep = json.loads((RAW / "prep.json").read_text(encoding="utf-8"))
 SIZE = prep["size"]; HALF = SIZE / 2
-CELL, LAYER, PODIUM, PARAPET = 8.0, 7.0, 5.0, 1.0      # chunk width, chunk height (2 storeys), ground floor, parapet
+CELL, LAYER, PODIUM, PARAPET = 12.0, 7.0, 5.0, 1.0      # chunk width, chunk height (2 storeys), ground floor, parapet
 TW, TH, SHOP_W, SHOP_H = 24.0, 28.0, 24.0, 6.0          # metres covered by one facade / shop-front tile
 SINK = 3.0                                              # walls reach this far below the lowest ground point
 GROUND_IMG = RAW / "aerial.jpg" if (RAW / "aerial.jpg").exists() else RAW / "ground.png"
@@ -211,7 +211,7 @@ for b in prep["buildings"]:
                 if top:
                     face([(x, y, z1) for x, y in P], [guv(x, y) for x, y in P],
                          "roofplain" if (h >= 60 and kind == "glass") else "roof", cid)
-                    if h > 28 and A > 40 and random.random() < 0.45:      # rooftop plant box
+                    if h >= 60 and kind == "glass" and A > 40 and random.random() < 0.45:   # plant box where the photo roof is not used
                         s = min(6.0, math.sqrt(A) * 0.45) / 2; hh = random.uniform(1.8, 3.6)
                         bx = [(cx - s, cy - s), (cx + s, cy - s), (cx + s, cy + s), (cx - s, cy + s)]
                         for i in range(4):
@@ -264,7 +264,8 @@ bpy.context.collection.objects.link(ground)
 # ---------- export ----------
 bpy.ops.export_scene.gltf(filepath=str(OUT / "scene.glb"), export_format="GLB", export_attributes=True,
                           export_image_format="NONE", export_yup=True, export_texcoords=True, export_normals=True,
-                          export_materials="EXPORT", export_cameras=False, export_lights=False)
+                          export_materials="EXPORT", export_cameras=False, export_lights=False,
+                          export_meshopt_compression_enable=True)
 meta = {"id": AID, "size": SIZE, "lat": prep["lat"], "lon": prep["lon"], "buildings": meta_b, "chunks": chunks}
 (OUT / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 ntri = sum(len(p.vertices) - 2 for p in mesh.polygons) + sum(len(p.vertices) - 2 for p in gm.polygons)

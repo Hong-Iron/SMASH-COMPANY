@@ -140,8 +140,61 @@ for b in outlines:
             if inside(p["c"], b["ring"]): p.setdefault("parent", b)
 
 
+# ---------- VWorld building data (heights, floors, use codes, names) when tools/vworld.py has run ----------
+# 건축물 용도 코드: 01000 단독주택, 02000 공동주택, 06000 종교, 09000 의료, 11000 노유자, 23000 교정·군사 → never smashable
+VW_OFF = {"01000", "02000", "06000", "09000", "11000", "23000"}
+VW_USE = {"14000": "office", "03000": "commercial", "04000": "commercial", "07000": "retail", "10000": "research",
+          "17000": "industrial", "18000": "warehouse", "20000": "garage"}
+vw = json.loads((RAW / "vworld_bld.json").read_text(encoding="utf-8")) if (RAW / "vworld_bld.json").exists() else []
+for v in vw:
+    if len(v["ring"]) > 1 and v["ring"][0] == v["ring"][-1]: v["ring"] = v["ring"][:-1]
+    v["area"] = abs(area_of([tuple(p) for p in v["ring"]])) if len(v["ring"]) > 2 else 0
+    v["c"] = centroid(v["ring"]) if v["ring"] else (1e9, 1e9)
+
+
+def overlap(a, b, n=14):
+    # share of polygon a's area that lies inside polygon b, by grid sampling
+    xs_ = [p[0] for p in a]; ys_ = [p[1] for p in a]
+    hit = tot = 0
+    for i in range(n):
+        for j in range(n):
+            p = (min(xs_) + (i + 0.5) * (max(xs_) - min(xs_)) / n, min(ys_) + (j + 0.5) * (max(ys_) - min(ys_)) / n)
+            if inside(p, a):
+                tot += 1
+                if inside(p, b): hit += 1
+    return hit / tot if tot else 0.0
+
+
+def vw_match(b):
+    best, bo = None, 0.0
+    for v in vw:
+        if v["area"] < 10 or abs(v["c"][0] - b["c"][0]) > 120 or abs(v["c"][1] - b["c"][1]) > 120: continue
+        o = overlap(b["ring"], v["ring"]) * b["area"]
+        if o > bo: best, bo = v, o
+    if best and bo >= 0.4 * min(b["area"], best["area"]):
+        best["used"] = True
+        return best
+    return None
+
+
+for b in items:
+    b["vw"] = vw_match(b) if not b.get("skip") else None
+# VWorld buildings that OSM lacks become buildings too
+for v in vw:
+    if v.get("used") or v["area"] < 60 or abs(v["c"][0]) > HALF or abs(v["c"][1]) > HALF: continue
+    if any(overlap(v["ring"], b["ring"]) > 0.25 for b in items if abs(b["c"][0] - v["c"][0]) < 120 and abs(b["c"][1] - v["c"][1]) < 120):
+        continue
+    r = [tuple(p) for p in v["ring"]]
+    if area_of(r) < 0: r = r[::-1]
+    items.append({"osm": "vw", "ring": r, "tags": {"building": "yes"}, "part": False, "area": v["area"], "c": v["c"], "vw": v})
+
+
 def height_of(b):
     t = b["tags"]
+    v = b.get("vw")
+    if v and not b["part"] and (v["h"] > 0 or v["floors"] > 0):
+        h = v["h"] if v["h"] >= max(v["floors"], 1) * 2.4 else v["floors"] * 3.8 + 1.0
+        return max(h, 3.0), 0.0
     h = num(t.get("height"))
     lv = num(t.get("building:levels"))
     if h is None and lv is not None: h = lv * STOREY + 1.0
@@ -163,8 +216,11 @@ for b in items:
     pt = parent["tags"] if parent else {}
     h, mh = height_of(b)
     btype = t.get("building") if t.get("building") not in (None, "yes", "part") else pt.get("building", t.get("building", "yes"))
-    name = t.get("name") or pt.get("name") or ""
-    off = (btype in OFF_TYPES) or bool(OFF_NAME.search(name)) or t.get("amenity") in ("school", "hospital", "place_of_worship")
+    v = b.get("vw") or (parent or {}).get("vw")
+    name = t.get("name") or pt.get("name") or (v and (v["name"] or v["dong"])) or ""
+    if v and btype in ("yes", None) and v["use"] in VW_USE: btype = VW_USE[v["use"]]
+    off = (btype in OFF_TYPES) or bool(OFF_NAME.search(name)) or t.get("amenity") in ("school", "hospital", "place_of_worship") \
+        or bool(v and v["use"] in VW_OFF)
     if btype == "roof": kind = "canopy"
     elif off: kind = "off"
     elif h >= 60 or (btype == "office" and h >= 36): kind = "glass"
