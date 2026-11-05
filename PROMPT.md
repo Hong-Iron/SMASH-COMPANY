@@ -1,6 +1,9 @@
-# SMASH 회사 — build prompt (v1)
+# SMASH 회사 — build prompt (v2)
 
 Source of truth for the game, written in the "Marigold Park" format ([[_시스템/프롬프트 템플릿/게임 빌드 프롬프트|게임 빌드 프롬프트]]). Decisions come from [[_시스템/게임 개발/디렉터 회의록|디렉터 회의록]] 안건 2. When a playtest finds a problem, fix the code AND rewrite the matching sentence here (never append "also fix …"). Decisions also from 안건 3–4. Lines marked **[제안]** are not yet confirmed by the user; everything else is.
+
+
+> **v2 (2026-11-06, 사용자 지시): 건물이 부서지는 로직, 텍스트, 폰트, UI는 SMASH 대학교와 동일하게 한다.** 게임 엔진은 SMASH 대학교의 `src/app.html`(three 0.160)을 그대로 가져와 쓴다. 건물은 엔진이 OSM·브이월드 데이터로 직접 만들고 조각내므로, 아래 LOOK의 "Blender로 건물 모델링·chunk id·per-chunk visibility texture" 문장은 대체되었다(블렌더는 무기·소품 모델에 쓴다). 데이터는 `tools/to_smash.py`가 SMASH 형식(`data/<area>.json`)으로 바꾸고, 건물마다 엔진의 `look`(style·wall·glass)을 지붕 사진 색과 외벽 선택으로 정한다. 엔진 변경은 세 가지뿐이다: 땅에 브이월드 항공사진을 그림, 부술 수 없는 건물을 무기 대상 밖의 회색 덩어리로 그림, 글자(무기 이름 사직서·가발·엑셀·결재·월요병·퇴사, 학교→회사, 캠퍼스→업무지구). 거인(7)은 SMASH 그대로 두었다. 뜨거운 커피는 아직 자리가 없다.
 
 ```text
 PROMPT
@@ -64,6 +67,7 @@ No personal data, keys or paths in the source; the only external requests are js
 
 | 날짜 | 바뀐 것 | 이유 |
 |---|---|---|
+| 2026-11-06 | v2: 엔진·부서짐·글자·폰트·UI를 SMASH 대학교와 동일하게 (엔진 포크), 블렌더 건물 대체 | 사용자 지시 |
 | 2026-11-06 | v1.1: 외벽은 건물마다 실제 사진 텍스처, 공용 텍스처는 대체용 | 회의록 안건 5 |
 | 2026-11-06 | v1: 이름 확정, 블렌더 모델링 + OSM·AWS 지형·항공사진 텍스처 | 회의록 안건 4 |
 | 2026-11-06 | v0 작성 | 회의록 안건 2: 직원/외부 구분 없음, 업무지구·세부 구역 단위, 회사 물건 무기, SMASH 형식 참고·새로 작성 |
