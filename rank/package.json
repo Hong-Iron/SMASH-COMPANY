@@ -1,0 +1,12 @@
+{
+  "name": "smash-company-rank",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node test/worker_test.mjs && python3 -I test/sql_test.py"
+  },
+  "devDependencies": {
+    "wrangler": "^4.156.1"
+  }
+}

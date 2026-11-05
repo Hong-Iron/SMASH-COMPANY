@@ -4,3 +4,6 @@ raw/
 __pycache__/
 *.blend1
 site/areas/
+rank/node_modules
+.wrangler/
+rank/.wrangler/

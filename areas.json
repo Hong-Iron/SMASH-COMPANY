@@ -5,7 +5,9 @@
   "lat": 37.401,
   "lon": 127.108,
   "size": 1200,
-  "anchor": "삼평동 판교테크노밸리 (판교역 북서쪽)"
+  "anchor": "삼평동 판교테크노밸리 (판교역 북서쪽)",
+  "region": "경기 성남시 분당구",
+  "nameEn": "Pangyo Techno Valley 1"
  },
  "gangnam-yeoksam": {
   "district": "강남",
@@ -13,7 +15,9 @@
   "lat": 37.50082,
   "lon": 127.03696,
   "size": 1200,
-  "anchor": "역삼역 (OSM)"
+  "anchor": "역삼역 (OSM)",
+  "region": "서울 강남구",
+  "nameEn": "Yeoksam Teheran-ro"
  },
  "pangyo-station": {
   "district": "판교",
@@ -21,7 +25,9 @@
   "lat": 37.39437,
   "lon": 127.11115,
   "size": 1200,
-  "anchor": "판교역 (OSM)"
+  "anchor": "판교역 (OSM)",
+  "region": "경기 성남시 분당구",
+  "nameEn": "Pangyo Station"
  },
  "pangyo-tv2": {
   "district": "판교",
@@ -29,7 +35,9 @@
   "lat": 37.41136,
   "lon": 127.0996,
   "size": 1200,
-  "anchor": "판교제2테크노밸리 (OSM)"
+  "anchor": "판교제2테크노밸리 (OSM)",
+  "region": "경기 성남시 수정구",
+  "nameEn": "Pangyo Techno Valley 2"
  },
  "yeouido": {
   "district": "여의도",
@@ -37,7 +45,9 @@
   "lat": 37.5226,
   "lon": 126.9257,
   "size": 1400,
-  "anchor": "여의도역과 한국거래소 사이"
+  "anchor": "여의도역과 한국거래소 사이",
+  "region": "서울 영등포구",
+  "nameEn": "Yeouido Financial District"
  },
  "gangnam-station": {
   "district": "강남",
@@ -45,7 +55,9 @@
   "lat": 37.49804,
   "lon": 127.02798,
   "size": 1200,
-  "anchor": "강남역 (OSM)"
+  "anchor": "강남역 (OSM)",
+  "region": "서울 강남구·서초구",
+  "nameEn": "Gangnam Station"
  },
  "gangnam-seolleung": {
   "district": "강남",
@@ -53,7 +65,9 @@
   "lat": 37.50447,
   "lon": 127.04895,
   "size": 1200,
-  "anchor": "선릉역 (OSM)"
+  "anchor": "선릉역 (OSM)",
+  "region": "서울 강남구",
+  "nameEn": "Seolleung"
  },
  "gangnam-samseong": {
   "district": "강남",
@@ -61,7 +75,9 @@
   "lat": 37.50884,
   "lon": 127.06314,
   "size": 1200,
-  "anchor": "삼성역 (OSM)"
+  "anchor": "삼성역 (OSM)",
+  "region": "서울 강남구",
+  "nameEn": "Samseong COEX"
  },
  "dosim-gwanghwamun": {
   "district": "도심",
@@ -69,7 +85,9 @@
   "lat": 37.57162,
   "lon": 126.9769,
   "size": 1200,
-  "anchor": "광화문역 (OSM)"
+  "anchor": "광화문역 (OSM)",
+  "region": "서울 종로구",
+  "nameEn": "Gwanghwamun"
  },
  "dosim-euljiro": {
   "district": "도심",
@@ -77,7 +95,9 @@
   "lat": 37.56595,
   "lon": 126.98262,
   "size": 1200,
-  "anchor": "을지로입구역 (OSM)"
+  "anchor": "을지로입구역 (OSM)",
+  "region": "서울 중구",
+  "nameEn": "City Hall Euljiro"
  },
  "jamsil": {
   "district": "잠실",
@@ -85,7 +105,9 @@
   "lat": 37.51322,
   "lon": 127.10014,
   "size": 1200,
-  "anchor": "잠실역 (OSM)"
+  "anchor": "잠실역 (OSM)",
+  "region": "서울 송파구",
+  "nameEn": "Jamsil"
  },
  "seongsu": {
   "district": "성수",
@@ -93,7 +115,9 @@
   "lat": 37.54457,
   "lon": 127.0561,
   "size": 1200,
-  "anchor": "성수역 (OSM)"
+  "anchor": "성수역 (OSM)",
+  "region": "서울 성동구",
+  "nameEn": "Seongsu"
  },
  "magok": {
   "district": "마곡",
@@ -101,7 +125,9 @@
   "lat": 37.56671,
   "lon": 126.82785,
   "size": 1200,
-  "anchor": "마곡나루역 (OSM)"
+  "anchor": "마곡나루역 (OSM)",
+  "region": "서울 강서구",
+  "nameEn": "Magok"
  },
  "gvalley-guro": {
   "district": "G밸리",
@@ -109,7 +135,9 @@
   "lat": 37.48528,
   "lon": 126.90159,
   "size": 1200,
-  "anchor": "구로디지털단지역 (OSM)"
+  "anchor": "구로디지털단지역 (OSM)",
+  "region": "서울 구로구",
+  "nameEn": "Guro Digital Complex"
  },
  "gvalley-gasan": {
   "district": "G밸리",
@@ -117,7 +145,9 @@
   "lat": 37.48159,
   "lon": 126.88262,
   "size": 1200,
-  "anchor": "가산디지털단지역 (OSM)"
+  "anchor": "가산디지털단지역 (OSM)",
+  "region": "서울 금천구",
+  "nameEn": "Gasan Digital Complex"
  },
  "sangam": {
   "district": "상암",
@@ -125,6 +155,8 @@
   "lat": 37.57767,
   "lon": 126.90008,
   "size": 1200,
-  "anchor": "디지털미디어시티역 (OSM)"
+  "anchor": "디지털미디어시티역 (OSM)",
+  "region": "서울 마포구",
+  "nameEn": "Sangam DMC"
  }
 }

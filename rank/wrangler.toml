@@ -1,0 +1,13 @@
+# SMASH 회사 지구별 랭킹 Worker (SMASH 대학교 smash-rank와 같은 코드, 데이터베이스만 따로)
+# database_id는 `npx wrangler d1 create smash_company` 뒤에 나오는 값
+name = "smash-company-rank"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "smash_company"
+database_id = "90a283e2-0d77-4fbe-8f27-e87f1f14b7fc"
+
+[triggers]
+crons = ["0 19 * * *"]

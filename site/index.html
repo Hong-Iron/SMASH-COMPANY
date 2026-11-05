@@ -1,4 +1,988 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SMASH 회사</title><meta http-equiv="refresh" content="0; url=pangyo-tv1/"></head>
-<body style="background:#1d1b22;color:#f5f2ea;font-family:system-ui"><p><a href="pangyo-tv1/" style="color:#ffd166">판교 제1테크노밸리로 가기</a></p></body></html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SMASH 회사 — 우리 회사 부수기 게임 | 업무지구 9개 3D</title>
+<meta name="description" content="판교, 강남, 여의도, 광화문 등 업무지구의 실제 회사 건물을 3D로 부수는 월요병 해소 게임입니다. 업무지구 9개를 폭탄, 야구 배트, 레이저, 운석, 지진, 핵폭탄으로 부숴 보세요. 설치 없이 휴대폰과 PC에서 무료로 할 수 있습니다.">
+<link rel="canonical" href="https://hong-iron.github.io/SMASH-COMPANY/">
+<meta property="og:site_name" content="SMASH 회사">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="SMASH 회사">
+<meta property="og:description" content="우리 회사를 부셔 (월요병 해소)">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hong-iron.github.io/SMASH-COMPANY/">
+<meta property="og:image" content="https://hong-iron.github.io/SMASH-COMPANY/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="여러 업무지구의 회사 건물이 3D로 부서지는 화면과 SMASH 회사 제목">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hong-iron.github.io/SMASH-COMPANY/og.png">
+<link rel="icon" href="icon-32.png" sizes="32x32">
+<link rel="icon" href="icon-512.png" sizes="512x512">
+<link rel="apple-touch-icon" href="icon-180.png">
+<script data-goatcounter="https://sassafras.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "name": "SMASH 회사", "alternateName": "우리 회사 부수기 게임", "url": "https://hong-iron.github.io/SMASH-COMPANY/", "inLanguage": "ko"}, {"@type": "ItemList", "name": "SMASH 회사 업무지구 목록", "numberOfItems": 9, "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://hong-iron.github.io/SMASH-COMPANY/gangnam-yeoksam/", "name": "강남 역삼 부수기 게임"}, {"@type": "ListItem", "position": 2, "url": "https://hong-iron.github.io/SMASH-COMPANY/gangnam-station/", "name": "강남 강남역 부수기 게임"}, {"@type": "ListItem", "position": 3, "url": "https://hong-iron.github.io/SMASH-COMPANY/gangnam-seolleung/", "name": "강남 선릉 부수기 게임"}, {"@type": "ListItem", "position": 4, "url": "https://hong-iron.github.io/SMASH-COMPANY/gangnam-samseong/", "name": "강남 삼성 부수기 게임"}, {"@type": "ListItem", "position": 5, "url": "https://hong-iron.github.io/SMASH-COMPANY/dosim-gwanghwamun/", "name": "도심 광화문 부수기 게임"}, {"@type": "ListItem", "position": 6, "url": "https://hong-iron.github.io/SMASH-COMPANY/yeouido/", "name": "여의도 금융가 부수기 게임"}, {"@type": "ListItem", "position": 7, "url": "https://hong-iron.github.io/SMASH-COMPANY/pangyo-tv1/", "name": "판교 제1테크노밸리 부수기 게임"}, {"@type": "ListItem", "position": 8, "url": "https://hong-iron.github.io/SMASH-COMPANY/pangyo-station/", "name": "판교 판교역 앞 부수기 게임"}, {"@type": "ListItem", "position": 9, "url": "https://hong-iron.github.io/SMASH-COMPANY/pangyo-tv2/", "name": "판교 제2테크노밸리 부수기 게임"}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Hong-Iron", "item": "https://hong-iron.github.io/"}, {"@type": "ListItem", "position": 2, "name": "SMASH 회사", "item": "https://hong-iron.github.io/SMASH-COMPANY/"}]}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* Layout: one arcade-dark column — title, school cards in an auto-fit grid, a request card, then support and credits */
+:root {
+  --bg: #0b0d12;
+  --panel: #151922;
+  --panel-hi: #1c2230;
+  --line: #2a3140;
+  --fg: #eef1f6;
+  --muted: #9aa4b2;
+  --hot: #ff6a2b;
+  --gold: #ffd23f;
+  --font-display: "Bungee", Impact, "Arial Black", sans-serif;
+  --font-ui: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 15px/1.6 var(--font-ui); }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top, 0px)) 16px calc(40px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 28px; }
+
+.hero { display: grid; gap: 10px; padding-top: 12px; }
+.hero h1 {
+  margin: 0; font: 400 clamp(44px, 9vw, 92px)/0.95 var(--font-display); letter-spacing: -.01em; transform: skewX(-8deg); transform-origin: left;
+  color: #fff; -webkit-text-stroke: 2px #2a1206; text-shadow: 0 6px 0 rgba(0, 0, 0, .45), 0 0 40px rgba(255, 110, 40, .45); text-wrap: balance;
+}
+.hero h1 span { color: var(--gold); }
+.hero p { margin: 0; max-width: 60ch; color: var(--muted); font-size: 16px; }
+.hero .tag { color: var(--fg); font-size: clamp(17px, 2.6vw, 21px); font-weight: 600; }
+
+/* 학교 찾기: 제목 바로 아래 큰 검색창. 입력하면 맞는 학교가 바로 아래 링크로 뜬다 */
+.finder { display: grid; gap: 10px; margin-top: -8px; }
+.finder h2 { margin: 0; font: 400 22px/1.2 var(--font-display); }
+.finder h2 span { color: var(--gold); }
+.search { display: flex; align-items: center; gap: 9px; min-width: 0; padding: 0 14px; background: var(--panel); border: 2px solid var(--gold); border-radius: 14px; box-shadow: 0 0 0 4px rgba(255, 210, 63, .12), 0 10px 30px rgba(0, 0, 0, .35); cursor: text; }
+.search:focus-within { border-color: var(--hot); box-shadow: 0 0 0 4px rgba(255, 106, 43, .25), 0 10px 30px rgba(0, 0, 0, .35); }
+.search svg { width: 20px; height: 20px; flex: none; color: var(--gold); }
+.search input { flex: 1; min-width: 0; padding: 12px 0; border: 0; outline: 0; background: transparent; color: var(--fg); font: 500 16px var(--font-ui); }   /* 16px 밑으로 내리면 아이폰이 눌렀을 때 확대한다 */
+.search input::placeholder { color: var(--muted); font-weight: 400; }
+.search input::-webkit-search-cancel-button { filter: invert(1); }
+.hits { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.hits[hidden] { display: none; }
+.hits a, .hits button { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; width: 100%; padding: 10px 12px 10px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; color: var(--fg); text-decoration: none; text-align: left; font: inherit; cursor: pointer; }
+.hits a:hover, .hits a:focus-visible, .hits button:hover, .hits button:focus-visible { border-color: var(--hot); background: var(--panel-hi); }
+.hits .c { font: 400 17px/1.25 var(--font-display); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hits .n { grid-column: 1; font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hits .go { grid-column: 2; grid-row: 1 / span 2; padding: 6px 12px; border-radius: 8px; background: var(--hot); color: #1a0d05; font-weight: 600; font-size: 14px; white-space: nowrap; }
+.hits .more { grid-template-columns: 1fr; justify-items: center; color: var(--gold); font-weight: 600; font-size: 14px; background: transparent; border-style: dashed; }
+.hits .ask .go { background: var(--gold); color: #1a1405; }
+.list-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: -14px; scroll-margin-top: 16px; }
+.sort { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; white-space: nowrap; }
+.sort select { padding: 9px 10px; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 10px; font: inherit; }
+.count { margin: 0; color: var(--muted); font-size: 13px; }
+.empty { grid-column: 1 / -1; padding: 22px; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); text-align: center; }
+.card .region { font-size: 13px; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.card {
+  display: grid; grid-template-rows: auto 1fr; overflow: hidden; text-decoration: none;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px; transition: transform .15s, border-color .15s, background .15s;
+}
+.card:hover { transform: translateY(-3px); border-color: var(--hot); background: var(--panel-hi); }
+.card img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; background: #10141b; }
+.card .body { display: grid; gap: 4px; padding: 14px 16px 16px; min-width: 0; }
+.card .code { font: 400 22px/1.1 var(--font-display); letter-spacing: .01em; }
+.card .name { font-weight: 600; font-size: 16px; }
+.card .meta { font: 500 12.5px var(--font-data); color: var(--muted); font-variant-numeric: tabular-nums; }
+.card .go { margin-top: 8px; justify-self: start; padding: 7px 14px; border-radius: 8px; background: var(--hot); color: #1a0d05; font-weight: 600; font-size: 14px; }
+
+.request { display: grid; align-content: center; gap: 8px; padding: 22px; text-decoration: none; background: transparent; border: 1px dashed var(--line); border-radius: 14px; min-height: 180px; }
+.request:hover { border-color: var(--gold); }
+.request strong { font: 400 20px var(--font-display); }
+.request span { color: var(--muted); font-size: 14px; }
+
+.support { display: grid; gap: 10px; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.support h2 { margin: 0; font-size: 16px; font-weight: 600; }
+.support p { margin: 0; color: var(--muted); font-size: 14px; }
+.support .row { display: flex; flex-wrap: wrap; gap: 8px; }
+.support a { flex: 1 1 auto; max-width: 420px; padding: 12px 18px; border-radius: 10px; text-align: center; text-decoration: none; font-weight: 700; font-size: 15px; color: #191919; }
+.support .kakao { background: #fee500; }
+.support a.toss { background: #3182f6; color: #fff; }
+
+.board { display: grid; gap: 12px; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; scroll-margin-top: 16px; }
+.board-head { display: flex; align-items: center; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; }
+.board h2 { margin: 0; font: 400 20px/1.2 var(--font-display); }
+.board h2 span { color: var(--gold); }
+.rank-down p { margin: 0; color: var(--fg); font-size: 15px; line-height: 1.6; }
+.rank-down .paused { padding: 3px 10px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); font-size: 12.5px; }
+.rank-down .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.rank-down .acts a { flex: 1 1 220px; text-align: center; padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 14.5px; text-decoration: none; }
+.rank-down .acts a.kakao { background: #fee500; color: #191919; }
+.rank-down .acts a.toss { background: #3182f6; color: #fff; }
+.tabs { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+.tabs button { padding: 5px 14px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: 600 13px var(--font-ui); cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--hot); color: #1a0d05; }
+.board-note { margin: -4px 0 0; color: var(--muted); font-size: 13px; }
+.board-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.board-list li { display: grid; grid-template-columns: 34px minmax(0, 1fr) 136px; align-items: center; column-gap: 12px; row-gap: 5px; padding: 9px 12px 10px; border-radius: 10px; background: var(--bg); }
+.board-list .pos { grid-row: span 2; font: 400 20px var(--font-display); color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+.board-list li:nth-child(1) .pos { color: var(--gold); }
+.board-list li:nth-child(2) .pos { color: #d7dde6; }
+.board-list li:nth-child(3) .pos { color: #e0965a; }
+.board-list .who { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; text-decoration: none; }
+.board-list .who:hover { color: var(--hot); }
+.board-list .pts { font: 500 15px var(--font-data); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.board-list .bar { height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.board-list .bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--hot), var(--gold)); }
+.board-list .sub { color: var(--muted); font-size: 12px; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .board-list li { grid-template-columns: 26px minmax(0, 1fr) 112px; column-gap: 10px; padding: 8px 10px 9px; } .board-list .sub { font-size: 11px; } }
+.board-empty { margin: 0; padding: 16px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); text-align: center; font-size: 14px; }
+.board-more { justify-self: center; padding: 7px 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--fg); font: 600 13px var(--font-ui); cursor: pointer; }
+.board-more:hover { border-color: var(--gold); }
+/* 랭킹은 접힌 채 시작: 1위 학교 이름만. 펼치면 3위까지, 더보기로 전체 */
+.board-body { display: grid; gap: 12px; }
+.board-fold { margin-left: auto; padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--fg); font: 600 13px var(--font-ui); cursor: pointer; white-space: nowrap; }
+.board-fold:hover { border-color: var(--gold); }
+.board-peek { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; border: 0; border-radius: 10px; background: var(--bg); color: var(--fg); font: inherit; text-align: left; cursor: pointer; }
+.board-peek .pos { font: 400 20px var(--font-display); color: var(--gold); }
+.board-peek .who { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; font-size: 16px; }
+.board-peek .lbl { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+.list-more { margin-top: -12px; padding: 9px 20px; font-size: 14px; }
+.sec-title { margin: 0; font: 400 20px/1.2 var(--font-display); }
+.card .today { color: var(--gold); }
+
+/* 공지: 제목 아래 가로 카드 (그림 왼쪽, 글 오른쪽). 폰에서는 그림이 위로 */
+.support-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 8px 10px 8px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; font-size: 13px; }
+.support-strip p { flex: 1 1 320px; margin: 0; color: var(--muted); min-width: 0; }
+.support-strip p b { color: var(--fg); font-weight: 600; }
+/* 버튼이 줄의 남은 너비를 채운다: 폰에서는 한 줄 전체, PC에서는 문구 옆 절반쯤 */
+.support-strip .acts { flex: 1 1 280px; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.support-strip .acts a { flex: 1; padding: 8px 14px; border-radius: 9px; color: #191919; font-weight: 700; font-size: 13.5px; text-align: center; text-decoration: none; white-space: nowrap; }
+.support-strip .kakao { background: #fee500; }
+.support-strip .acts a.toss { background: #3182f6; color: #fff; }
+.support-strip .close { width: 28px; height: 28px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer; }
+.support-strip .close:hover { background: var(--panel-hi); color: var(--fg); }
+.notices { display: grid; gap: 10px; }
+.notice { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); overflow: hidden; text-decoration: none; background: var(--panel); border: 1px solid var(--gold); border-radius: 14px; transition: background .15s; }
+.notice:hover { background: var(--panel-hi); }
+.notice img { display: block; width: 100%; height: 100%; aspect-ratio: 1200 / 630; object-fit: cover; background: #10141b; }
+.notice img.px { image-rendering: pixelated; }
+.notice .body { display: grid; align-content: center; gap: 6px; padding: 14px 18px; min-width: 0; }
+.notice .tag { justify-self: start; padding: 2px 9px; border-radius: 999px; background: var(--gold); color: #1a1405; font: 600 12px var(--font-ui); }
+.notice .tag time { font-weight: 500; }
+.notice strong { font: 400 22px/1.15 var(--font-display); }
+.notice .text { color: var(--muted); font-size: 14px; }
+.notice .go { justify-self: start; padding: 7px 14px; border-radius: 8px; background: var(--hot); color: #1a0d05; font-weight: 600; font-size: 14px; }
+@media (max-width: 640px) { .notice { grid-template-columns: 1fr; } .notice img { height: auto; } }
+.maker { justify-self: end; margin: 0 0 -18px; color: var(--muted); font-size: 13px; }
+.maker a { color: inherit; text-decoration: none; }
+.maker a:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+.fab { position: fixed; right: max(calc(16px + env(safe-area-inset-right, 0px)), calc((100vw - 1080px) / 2 + 16px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 50; display: flex; gap: 8px; transition: opacity .2s, transform .2s; }
+.fab a { padding: 11px 16px; border-radius: 999px; font: 700 14px var(--font-ui); text-decoration: none; white-space: nowrap; }
+.fab .kakao { background: #fee500; color: #191919; box-shadow: 0 8px 24px rgba(0, 0, 0, .5), 0 0 0 3px rgba(254, 229, 0, .18); }
+.fab .toss { background: #3182f6; color: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, .5), 0 0 0 3px rgba(49, 130, 246, .2); }
+.fab.off { opacity: 0; transform: translateY(12px); pointer-events: none; }
+.wrap { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+/* 지도: 남한을 8개 구역으로 나눈 어두운 지도. 구역을 누르면 그 구역으로 확대되고 학교가 핀으로 나온다.
+   핀을 누르면 더 확대되어 핀은 왼쪽, 그 학교 썸네일은 오른쪽에 뜬다 */
+.view-tabs { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+.view-tabs button { padding: 6px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: 600 13px var(--font-ui); cursor: pointer; }
+.view-tabs button[aria-selected="true"] { background: var(--hot); color: #1a0d05; }
+.list-head .grow { flex: 1; }
+.mapbox { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: #0a1220; }
+.kmap { display: block; width: 100%; height: auto; max-height: 78vh; touch-action: none; cursor: pointer; -webkit-user-select: none; user-select: none; }
+.kmap.dragging { cursor: grabbing; }
+.kmap .sea { fill: #0a1220; }
+.kmap .sec path { stroke: #0a1220; stroke-width: 1.6; vector-effect: non-scaling-stroke; stroke-linejoin: round; transition: filter .2s, opacity .25s; }
+.kmap .sec[data-sec="seoul"] path { fill: #4a3658; }
+.kmap .sec[data-sec="gyeonggi"] path { fill: #2d4566; }
+.kmap .sec[data-sec="gangwon"] path { fill: #25503f; }
+.kmap .sec[data-sec="chungcheong"] path { fill: #554a2a; }
+.kmap .sec[data-sec="jeolla"] path { fill: #3a5a2e; }
+.kmap .sec[data-sec="gyeongbuk"] path { fill: #5a3a2e; }
+.kmap .sec[data-sec="gyeongnam"] path { fill: #2a4d58; }
+.kmap .sec[data-sec="jeju"] path { fill: #4b3a5e; }
+.kmap .sec:hover path { filter: brightness(1.3); }
+.kmap .sec.on path { stroke: var(--hot); stroke-width: 2.5; filter: brightness(1.15); }
+.kmap .sec.off path { opacity: .35; }
+.kmap .sec.empty path { opacity: .5; }
+.kmap .inset rect { fill: none; stroke: #3a4763; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-dasharray: 4 3; }
+.kmap .inset circle { fill: #1d2536; stroke: #3a4763; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.kmap .isl, .kmap .pname { fill: #d4dae4; font-family: var(--font-ui); font-weight: 600; paint-order: stroke; stroke: #0a1220; stroke-linejoin: round; pointer-events: none; }
+.kmap .slab rect { fill: rgba(11, 13, 18, .86); stroke: rgba(255, 255, 255, .14); vector-effect: non-scaling-stroke; }
+.kmap .slab text { fill: #fff; font-family: var(--font-ui); font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+.kmap .slab .cnt { fill: var(--gold); font-family: var(--font-data); }
+.kmap .slab { pointer-events: none; }
+.kmap .pin { cursor: pointer; }
+.kmap .pin path { stroke: #0a1220; vector-effect: non-scaling-stroke; stroke-width: 1.5; }
+.kmap .pin circle { fill: #0a1220; }
+.kmap .pin.sel path { stroke: #fff; stroke-width: 2.5; }
+.kmap .pin.dim { opacity: .3; }
+.kmap .crown { fill: var(--gold); font-family: var(--font-display); text-anchor: middle; pointer-events: none; paint-order: stroke; stroke: #0a1220; }
+.map-back { position: absolute; left: 10px; top: 10px; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: rgba(11, 13, 18, .9); color: var(--fg); font: 600 13px var(--font-ui); cursor: pointer; white-space: nowrap; }
+.map-hint { margin: 0; padding: 8px 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; text-align: center; }
+.map-side { position: absolute; top: 0; right: 0; bottom: 37px; width: 52%; max-width: 380px; display: flex; flex-direction: column; gap: 8px; padding: 12px; background: linear-gradient(90deg, rgba(10, 18, 32, 0), rgba(10, 18, 32, .92) 14%, #0e1626 30%); }
+.map-side .x { align-self: flex-end; width: 30px; height: 30px; border: 0; border-radius: 8px; background: rgba(255, 255, 255, .06); color: var(--muted); font-size: 20px; cursor: pointer; }
+.map-side img { width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; border-radius: 10px; border: 1px solid var(--hot); background: #10141b; }
+.map-side .c { font: 400 18px/1.15 var(--font-display); overflow-wrap: anywhere; }
+.map-side .n { font-weight: 600; font-size: 14px; }
+.map-side .m { color: var(--muted); font-size: 12.5px; }
+.map-side .m b { color: var(--gold); font-weight: 600; }
+.map-side .go { align-self: stretch; margin-top: auto; padding: 11px 12px; border-radius: 10px; background: var(--hot); color: #1a0d05; font-weight: 700; font-size: 15px; text-align: center; text-decoration: none; }
+.map-list { margin-top: -14px; }
+.map-search { border-width: 1px; box-shadow: none; }
+.map-search input { padding: 12px 0; font-size: 16px; }
+@media (max-width: 560px) { .map-side { width: 56%; padding: 10px; gap: 6px; } .map-side .c { font-size: 15px; } .map-side .n { font-size: 13px; } }
+footer { color: var(--muted); font-size: 12.5px; display: grid; gap: 4px; }
+/* ============ plain and specific: warm charcoal, solid 1px borders, small radii, one accent colour (orange) for the action.
+   No translucent glass, no glow, no gradients; the only picture is a real game screenshot. */
+:root {
+  --bg: #141413; --panel: #1c1b19; --panel-hi: #24221f; --line: #34312c; --fg: #ece8df; --muted: #a39d92;
+  --hot: #ff5a1f; --gold: #ece8df; --r: 4px;
+}
+body { background: var(--bg); font-size: 15px; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.num, .count, .card .meta, .board-list .pts, .board-list .sub, .hits .n { font-variant-numeric: tabular-nums; }
+a:focus-visible, button:focus-visible { outline-color: var(--hot); }
+
+/* first screen: a game screenshot as a dark background, title and search on top of it */
+.scene { position: absolute; inset: 0 0 auto 0; height: min(600px, 76vh); z-index: -1; overflow: hidden; pointer-events: none; }
+.scene img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 45%; display: block; }
+.scene::after { content: ""; position: absolute; inset: 0; background: rgba(20, 20, 19, .72); box-shadow: inset 0 -160px 120px -40px var(--bg); }
+body { position: relative; }
+.top { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 24px; padding-top: clamp(24px, 7vh, 80px); }
+.hero { gap: 14px; padding-top: 0; }
+.hero h1 { font-size: clamp(48px, 7.4vw, 96px); line-height: .92; letter-spacing: -.035em; transform: none; color: var(--fg); -webkit-text-stroke: 0; text-shadow: none; }
+.hero h1 span { color: var(--hot); }
+.hero .tag { color: #d6d1c6; font-size: clamp(17px, 2.2vw, 21px); font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
+.hero .tag .num { color: var(--fg); font-weight: 700; }
+.finder { margin-top: 0; }
+.finder h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.search { background: var(--panel); border: 2px solid var(--line); border-radius: var(--r); box-shadow: none; padding: 0 20px; gap: 14px; }
+.search:focus-within { border-color: var(--hot); box-shadow: none; }
+.search svg { color: var(--hot); width: 28px; height: 28px; }
+.search input { padding: 22px 0; font-size: 20px; font-weight: 500; }
+@media (max-width: 640px) { .search { padding: 0 14px; gap: 10px; } .search svg { width: 24px; height: 24px; } .search input { padding: 17px 0; font-size: 17px; } }
+.hits a, .hits button { background: var(--panel); border-radius: var(--r); }
+.hits .c { font-family: var(--font-ui); font-weight: 700; font-size: 15px; }
+.hits .go, .card .go, .notice .go, .map-side .go { border-radius: 3px; background: var(--hot); color: #fff; box-shadow: none; }
+.hits .more { color: var(--fg); }
+.hits .ask .go { background: var(--fg); color: var(--bg); }
+
+/* panels: flat, one step lighter than the page, 1px solid border */
+.board, .support, .support-strip, .notice, .mapbox, .request, .empty, .board-empty { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); box-shadow: none; }
+.board h2, .sec-title, .finder h2 { font-family: var(--font-ui); font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
+.board h2 span { color: inherit; }
+.rank-down { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 10px 14px; border-left: 3px solid var(--hot); }
+.rank-down .board-head { gap: 8px; }
+.rank-down h2 { font-size: 14px; }
+.rank-down .paused { order: -1; padding: 1px 7px; border-radius: 3px; background: transparent; border: 1px solid var(--line); font: 500 12px var(--font-data); color: var(--muted); }
+.rank-down p { flex: 1 1 300px; margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+.rank-down .acts { display: none; }
+.support-strip { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 60; width: min(760px, calc(100% - 24px)); transform: translateX(-50%); padding: 12px 10px 12px 16px; border-color: #4a463f; box-shadow: 0 10px 30px rgba(0, 0, 0, .55); animation: sheet-up .32s cubic-bezier(.2, .9, .3, 1) both; }
+.support-strip.closing { animation: sheet-down .18s ease-in both; }
+@keyframes sheet-up { from { transform: translate(-50%, 24px); opacity: 0; } }
+@keyframes sheet-down { to { transform: translate(-50%, 24px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .support-strip, .support-strip.closing { animation: none; } }
+.support-strip p b { font-weight: 600; }
+.support-strip .acts a, .support a, .fab a, .rank-down .acts a { border-radius: 3px; box-shadow: none !important; }
+.tabs, .view-tabs { background: transparent; border: 1px solid var(--line); border-radius: var(--r); padding: 2px; }
+.tabs button, .view-tabs button { border-radius: 2px; }
+.tabs button[aria-selected="true"], .view-tabs button[aria-selected="true"] { background: var(--fg); color: var(--bg); }
+.sort select { background: var(--panel); border-radius: var(--r); }
+.board-list li, .board-peek { background: var(--bg); border-radius: 3px; }
+.board-more, .board-fold, .list-more { border-radius: var(--r); background: transparent; }
+.map-back { border-radius: var(--r); }
+.map-side img { border-radius: 3px; border-color: var(--line); }
+.notice { border-color: var(--line); }
+.notice .tag { border-radius: 3px; background: var(--fg); color: var(--bg); }
+.notice strong { font-family: var(--font-ui); font-weight: 700; font-size: 18px; }
+.maker { margin-bottom: -10px; }
+
+/* school cards: real thumbnail on top, then the campus name and the one action. Long names wrap to two lines, then cut */
+.grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }   /* 3 across on PC: the first page shows 9 schools */
+.card { border-radius: var(--r); background: var(--panel); border: 1px solid var(--line); transition: border-color .12s, transform .12s; }
+.card:hover { transform: none; border-color: var(--hot); background: var(--panel); }
+.card:active { transform: translateY(1px); }
+.card img { border-bottom: 1px solid var(--line); }
+.card .body { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 10px; row-gap: 0; padding: 10px 10px 10px 12px; }
+.card .code { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.card .name { grid-column: 1; font-size: 14.5px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card .region { display: none; }
+.card .meta { display: none; }
+.cardwrap { position: relative; display: grid; }
+.card { position: relative; }
+.fav { position: absolute; top: 8px; left: 8px; z-index: 1; width: 34px; height: 34px; padding: 0; border: 1px solid var(--line); border-radius: 3px; background: #141413; color: var(--muted); font-size: 19px; line-height: 1; cursor: pointer; }
+.fav:hover { color: var(--fg); border-color: var(--fg); }
+.fav[aria-pressed="true"] { color: #ffc531; border-color: #ffc531; }
+.card .badge { position: absolute; top: 8px; right: 8px; padding: 3px 8px; border-radius: 3px; background: #141413; border: 1px solid var(--line); color: var(--fg); font: 700 13px var(--font-ui); font-variant-numeric: tabular-nums; }
+.board-peek .lbl { color: var(--fg); font-variant-numeric: tabular-nums; }
+.board-peek { flex-wrap: wrap; row-gap: 2px; min-width: 0; }
+@media (max-width: 560px) { .board-peek .who { flex: 1 1 60%; font-size: 15px; } .board-peek .lbl { flex: 1 0 100%; padding-left: 26px; font-size: 12.5px; white-space: normal; } .board-head { flex-wrap: wrap; } }
+.wrap { min-width: 0; overflow-x: clip; }
+.card .go { grid-column: 2; grid-row: 1; margin: 0; padding: 7px 10px; font-size: 13px; white-space: nowrap; }
+.card:hover .go { background: #ff6f3a; }
+.request { border-style: dashed; }
+.request strong { font-family: var(--font-ui); font-weight: 700; font-size: 16px; }
+
+.fab { gap: 6px; padding: 0; background: none; border: 0; }
+.fab a { padding: 10px 14px; font-size: 13.5px; }
+.fab .kakao, .fab .toss { box-shadow: 0 4px 14px rgba(0, 0, 0, .45) !important; }
+button:active, .hits a:active { transform: translateY(1px); }
+
+@media (max-width: 640px) { .scene { height: 440px; } .top { padding-top: 12px; } }
+@media (prefers-reduced-motion: reduce) { .card, .card:active, button:active { transform: none; transition: none; } }
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true"><img src="hero.webp" alt="" width="1600" height="640" fetchpriority="high"></div>
+<main class="wrap">
+  <p class="maker">만든 사람 <a href="https://x.com/Hong_Iron_DEV" target="_blank" rel="noopener" id="x-link">@Hong_Iron_DEV</a> · <a href="https://hong-iron.github.io/Hongs_Blog/" target="_blank" rel="noopener" id="blog-link">블로그 ↗</a></p>
+  <div class="top">
+  <header class="hero">
+    <h1>SMASH <span>회사</span></h1>
+    <p class="tag">우리 회사를 부숴 봐</p>
+  </header>
+  <section class="finder" aria-labelledby="finder-title">
+    <h2 id="finder-title">우리 회사 <span>찾기</span></h2>
+    <label class="search" for="q">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" maxlength="60" placeholder="회사·건물·지역 이름 (예: 엔씨, 판교, ㅇㅅ)" aria-label="회사·건물 이름, 업무지구, 지역, 초성으로 찾기" autocomplete="off" enterkeyhint="go">
+    </label>
+    <ul class="hits" id="hits" aria-label="찾은 업무지구" hidden></ul>
+  </section>
+  </div>
+
+  <section class="board rank-down" id="rank-down" aria-labelledby="rank-down-title" hidden>
+    <div class="board-head">
+      <h2 id="rank-down-title">업무지구 대항 <span>파괴 랭킹</span></h2>
+      <span class="paused">잠시 멈춤</span>
+    </div>
+    <p>10월 23일부터 방문이 몰려 랭킹 서버 무료 한도를 넘었어요. 점수 집계만 멈췄고 게임은 그대로예요.</p>
+    <div class="acts">
+      <a class="kakao" id="rank-down-kakao" href="https://qr.kakaopay.com/FKcOJKyOy1f405462" target="_blank" rel="noopener">카카오페이로 서버비 보태기 →</a>
+      <a class="toss" data-ev="hub-rank-down-toss" href="supertoss://send?amount=1000&amp;bank=%ED%86%A0%EC%8A%A4%EB%B1%85%ED%81%AC&amp;accountNo=100123297463&amp;origin=qr">토스로 서버비 보태기 →</a>
+    </div>
+  </section>
+
+  <section class="board" id="rank" aria-labelledby="rank-title" hidden>
+    <div class="board-head">
+      <h2 id="rank-title">업무지구 대항 <span>파괴 랭킹</span></h2>
+      <div class="tabs" role="tablist" aria-label="기간">
+        <button type="button" role="tab" aria-selected="true" data-span="today">오늘</button>
+        <button type="button" role="tab" aria-selected="false" data-span="total">전체</button>
+      </div>
+      <button type="button" class="board-fold" id="board-fold" aria-expanded="false" aria-controls="board-body">펼치기 ▾</button>
+    </div>
+    <button type="button" class="board-peek" id="board-peek" aria-label="랭킹 펼치기"></button>
+    <div class="board-body" id="board-body" hidden>
+      <p class="board-note" id="board-note"></p>
+      <ol class="board-list" id="board-list"></ol>
+      <button type="button" class="board-more" id="board-more" hidden></button>
+    </div>
+  </section>
+
+  <aside class="support-strip" id="support-strip" aria-label="개발자 응원" hidden>
+    <p><b>학부생이 혼자 만드는 게임이에요.</b> 작은 후원이 큰 힘이 됩니다!</p>
+    <div class="acts">
+      <a class="kakao" data-ev="hub-support-kakaopay" href="https://qr.kakaopay.com/FKcOJKyOy1f405462" target="_blank" rel="noopener">카카오페이로 응원</a>
+      <a class="toss" data-ev="hub-support-toss" href="supertoss://send?amount=1000&amp;bank=%ED%86%A0%EC%8A%A4%EB%B1%85%ED%81%AC&amp;accountNo=100123297463&amp;origin=qr">토스로 응원</a>
+      <button type="button" class="close" id="support-strip-close" aria-label="응원 안내 닫기 (7일 동안 숨김)">&times;</button>
+    </div>
+  </aside>
+
+  <div class="list-head" id="list-head">
+    <p class="count" id="count" aria-live="polite">업무지구 수 9</p>
+    <div class="view-tabs" role="tablist" aria-label="보기">
+      <button type="button" role="tab" aria-selected="true" data-view="list">목록</button>
+      <button type="button" role="tab" aria-selected="false" data-view="map">지도</button>
+    </div>
+    <span class="grow"></span>
+    <label class="sort" for="sort">정렬
+      <select id="sort">
+        <option value="name">이름순</option>
+        <option value="new">최근 추가순</option>
+        <option value="big">건물 많은 순</option>
+        <option value="hot" hidden>오늘 많이 부서진 순</option>
+      </select>
+    </label>
+  </div>
+  <section class="mapbox" id="mapbox" aria-label="지도로 업무지구 고르기" hidden>
+    <svg class="kmap" id="kmap" viewBox="0 0 506.8 575.0" data-w="506.8" data-h="575.0" role="img" aria-label="수도권 지도: 구역을 누르면 그 지역 업무지구가 핀으로 나온다"><rect class="sea" x="-2000" y="-2000" width="5000" height="5000"/><g id="kmap-land"><g class="sec" data-sec="seoul"><path d="M183.2,119.9L185.3,117.1L186.2,114.9L187.4,116.2L189.9,117.7L191.9,117.3L194,115.8L193.9,114L194.8,110.8L197.7,109.4L199.9,112.1L200.7,111.6L200.3,109.8L201.3,107.5L202.5,106.8L203.2,105.2L206,106.5L208.5,105.6L209.6,106.4L209.4,110.3L210.6,110.8L211.4,114.8L210.1,116.9L210.1,119.3L215.9,117.3L216.6,119.2L216.4,120.6L215.1,120.8L213.2,124.4L214.9,125.3L213.7,127.6L211.4,129.1L209.8,129.4L207.2,132.4L206.1,132.4L204.8,131.2L204.9,129.6L202.8,129.7L202.2,128.6L198.9,131.2L197,131.7L195.9,130.4L194.1,131.9L191.2,125.9L189,127.7L187.6,127.7L186.9,126L188.1,122.6L187.6,121.2L183.4,120.4L183.2,119.9Z"/></g><g class="sec" data-sec="gyeonggi"><path d="M170.3,144.4L168.3,145.8L167.2,147.3L169.4,149L170.3,149L171.5,151.6L173.7,152.7L173.4,154.2L170.6,153.4L169.9,154.5L168.4,153.2L167.1,154.9L165.1,154.6L164.9,152.8L166.4,151.1L166.6,149.7L165.5,147.3L167,147.1L167.9,145.7L170.3,144.4ZM262.3,153.6L261.4,154.3L260.5,157L259.9,156.9L257.3,161.8L253.4,161.2L252.8,165.7L250.4,166.7L247.6,169L247.6,170.6L246.5,170.9L243.5,169.5L242.2,170.5L241.2,169.9L238.8,170.9L238.9,173.2L236.6,175.1L233.7,175.5L233,176.8L234.3,178.5L232.5,180.1L230.1,180L229.6,180.9L226.9,182.4L225.3,185.9L223.7,184L221.6,183.5L219.7,182.3L218.2,180.1L217.3,180L213.6,178.1L212.4,178.8L211.1,178L207.9,181.4L206.8,181.3L204.5,182.5L201.5,181.7L194.5,184.8L194.2,182.7L192.8,181.7L191,182L190.8,180.4L189.5,179.3L187.8,176.6L187.7,175.7L185.6,174.5L184.9,172.4L181.8,172.4L181.6,170.4L182.6,168.5L183.4,165L182.5,164.2L183.2,162.5L185.4,162.4L186.1,160.1L185,157.8L184,158.8L181.5,158.7L180,161.4L176.8,163.7L175.5,161.5L176.3,160.4L174.5,159.1L175,154.4L175.9,152.9L174.8,151.6L176.6,149L180.4,150.2L182.3,149.8L184.9,150.8L185,148.6L187.8,146.4L186.1,145.7L183.6,146.3L179.8,145.1L179.5,143.9L177.1,141.9L176.8,140.4L177.8,139.8L180.6,135.7L182,133L183.3,132.5L184,130.2L183.2,128.1L181.1,126.6L181.3,123.9L182.6,123.6L183.2,119.9L183.4,120.4L187.6,121.2L188.1,122.6L186.9,126L187.6,127.7L189,127.7L191.2,125.9L194.1,131.9L195.9,130.4L197,131.7L198.9,131.2L202.2,128.6L202.8,129.7L204.9,129.6L204.8,131.2L206.1,132.4L207.2,132.4L209.8,129.4L211.4,129.1L213.7,127.6L214.9,125.3L213.2,124.4L215.1,120.8L216.4,120.6L216.6,119.2L215.9,117.3L210.1,119.3L210.1,116.9L211.4,114.8L210.6,110.8L209.4,110.3L209.6,106.4L208.5,105.6L206,106.5L203.2,105.2L202.5,106.8L201.3,107.5L200.3,109.8L200.7,111.6L199.9,112.1L197.7,109.4L194.8,110.8L193.9,114L194,115.8L191.9,117.3L189.9,117.7L187.4,116.2L186.2,114.9L185.3,117.1L181.2,115.9L179.7,116.1L177.6,113.5L174.2,111.5L172.6,112.5L171.9,114.6L170.3,114.9L167.4,116.5L165.9,114.3L165.6,112.6L163.9,110L164.4,108.6L163.4,107.6L163.8,105L163.1,104L163.7,101.5L163.8,100.4L162.7,98.6L164.5,98.1L166,98.4L166.9,99.7L170.4,100L172.8,97.4L174.6,96.3L175.6,92.2L174.5,91.4L177,88.6L175.4,86.6L175.9,85.5L174.9,83.2L175.5,79.7L176.9,80.9L178.9,81.3L181.3,80.1L180.9,78L182.8,76.8L184.2,77L185.5,75.9L188.2,76L187.6,74.1L188.3,71.9L190.1,72.1L191.6,73.4L192.3,71.4L193.3,70.1L193.3,67.8L191.2,67.2L189.8,65.8L188,67.4L187.5,66.5L185.5,67.1L184.6,65.4L181.6,62.5L183.3,59.8L187.9,55.5L191.7,53L193.5,54.8L195.9,54.9L198.1,54.2L199.1,55.5L200.6,54.1L199.9,51.9L201.2,51.6L204,49.5L207.6,48.2L210.7,46.1L211.1,48.7L210.8,51.1L212.4,52L213.9,51L215,52.1L215.6,53.9L215.3,55.3L216.4,56.8L217.2,59.2L219.9,60.6L222.6,59L223.8,57.1L225.3,57.6L225.1,60L224.2,61.6L224.8,63.6L227,63.7L227.8,65.8L232.9,63.8L234.5,64L235.2,65.1L236.7,63.8L237.5,64.5L238,68.2L237.7,69.4L238.9,73.7L240,74.7L242.4,75.3L245.5,75.2L246.1,77.4L245.8,78.5L250.6,79.8L251.4,81.3L251.8,84.6L250.4,87.8L249.1,87.7L247.3,89.7L244.9,91.1L244.3,92.9L245.1,94.4L244,96.1L245.9,99.2L242.9,102.2L245.6,103.4L247.3,103.2L246.3,106.7L246.5,109.1L245.2,111L247,112.4L248.7,112L250.5,110.1L252.6,111L254.6,113L258.1,115.2L259.1,116.6L262.8,116.1L263.7,117L265.9,116.7L267.5,118.8L270.5,120L269.9,121.4L267,121.8L264.4,124.7L264.4,126.1L266.2,128.9L266.8,132.4L266,132.9L264.7,136.4L264.6,138.2L263.2,138.6L263.2,142.3L263.9,144.5L262.8,145.5L263.1,149.5L262.3,150.5L262.3,153.6ZM127.6,164.4L128.4,165.8L127.2,166.9L126.1,165.7L127.6,164.4ZM129,156.6L130.3,158.2L128.8,158.6L129,156.6ZM144.4,148L146.8,149L145.7,149.9L144,148.9L144.4,148ZM129.9,148L130.8,149.5L132.9,151.4L134.2,151.7L132.7,153.9L130.7,154.4L130.3,153.1L128.6,152.3L128.4,150.6L129.9,148ZM159.2,146.5L160.7,147L161.7,149.5L160.1,150.3L158.2,152.7L156,151.8L156.5,148L159.2,146.5ZM154.4,134.1L156.8,136.7L156.3,138.2L154.6,138.7L153.4,135.2L154.4,134.1ZM167.9,125.2L168.4,126.3L167,127.3L165,127.5L162.2,128.7L161.2,130.5L156.9,133.2L155.1,133.1L154.7,132L153.1,130.7L151.2,130.5L149.9,128.6L151.3,128.1L156.1,124.9L158.7,125.3L160.2,124.9L161.4,122.1L163.7,122.5L166.8,123.8L167.9,125.2ZM158.4,120.8L159.4,121.5L158.9,124.2L156,122.7L158.4,120.8ZM146.1,119.2L150.3,122.2L147.7,122.6L147.7,121.2L146.1,119.2ZM185.3,117.1L183.2,119.9L182.6,123.6L181.3,123.9L181.1,126.6L183.2,128.1L184,130.2L183.3,132.5L182,133L180.6,135.7L180.1,136.5L174.6,141L171,141L170.6,137.9L169.5,136.8L169.5,132.4L169.1,128.9L170,125.6L169.8,122.5L170.1,119.9L169.1,119.3L167.4,116.5L170.3,114.9L171.9,114.6L172.6,112.5L174.2,111.5L177.6,113.5L179.7,116.1L181.2,115.9L185.3,117.1ZM140,109.6L141.7,109.9L141,112.2L139.4,110.4L140,109.6ZM98.3,107.3L97.8,108.7L95.6,109.9L95.7,107.2L98.3,107.3ZM137,106.4L138.3,108.6L137.7,109.7L135.5,108.3L137,106.4ZM147.7,100.3L147.1,103.7L149.2,105.4L151.2,105.8L151.6,108.5L148.9,110.9L147.4,111.1L147.6,109.1L146.8,107.1L144.2,105.7L143,104.4L144.2,103.5L144.5,100.9L147.7,100.3ZM142.6,93.7L144.8,94.8L147.6,94.8L148.3,95.4L146.8,97.8L144.8,98.8L143.1,98.3L141.2,98.7L139.5,100L137.9,98.4L139.1,96.2L139.2,94.7L140.3,93.6L142.6,93.7ZM163.7,101.5L163.1,104L163.8,105L163.4,107.6L164.4,108.6L163.9,110L164,111.4L165.4,114.8L163.5,115.6L162.9,117.3L161.6,116.3L160,116.9L159.4,115.5L156.4,116L153.8,115.9L151.7,114.3L151.2,112L153.9,110.2L152.4,106.3L149.6,104.7L148.9,103.2L148.8,100.4L149.8,99.4L149.4,96.1L151.2,94.7L153,92.7L156.4,92.2L158.7,94.8L162.2,96.9L162.6,98.9L163.7,101.5ZM16.8,90.6L18,90.6L18,93.6L17.2,94.6L15,94.7L14.6,93.1L16.8,90.6ZM15.1,77.1L16.7,76.9L18.7,77.4L18.8,79.9L16.9,80.9L15.9,83.7L11.2,82.9L9.1,79.2L9.4,77.6L11.3,78.4L15.1,77.1Z"/></g></g><g id="kmap-labels"></g><g id="kmap-pins"></g></svg><script type="application/json" id="map-sections">[{"k": "seoul", "name": "서울", "bbox": [183.2, 105.2, 216.6, 132.4], "lx": 202.2, "ly": 119.9, "n": 6}, {"k": "gyeonggi", "name": "경기·인천", "bbox": [9.1, 46.1, 270.5, 185.9], "lx": 235.6, "ly": 163.0, "n": 3}]</script>
+    <button type="button" class="map-back" id="map-back" hidden></button>
+    <p class="map-hint" id="map-hint">지역을 누르면 그 지역 업무지구가 나와요</p>
+    <aside class="map-side" id="map-side" hidden>
+      <button type="button" class="x" id="ms-x" aria-label="닫기">&times;</button>
+      <img id="ms-img" alt="" width="600" height="315">
+      <span class="c" id="ms-code"></span><span class="n" id="ms-name"></span><span class="m" id="ms-meta"></span>
+      <a class="go" id="ms-go" href="#">부수러 가기 →</a>
+    </aside>
+  </section>
+  <div class="map-list" id="map-list" hidden>
+    <label class="search map-search" for="mq">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="mq" type="search" maxlength="60" placeholder="회사·건물·지역 이름 (예: 엔씨, 판교, ㅇㅅ)" aria-label="지도에서 업무지구 찾기" autocomplete="off" enterkeyhint="search">
+    </label>
+  </div>
+  <section class="grid" id="schools" aria-label="업무지구 고르기"><a class="card" href="gangnam-yeoksam/"><img src="gangnam-yeoksam/card.webp" alt="강남 역삼가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 강남</span><span class="name">강남 역삼</span><span class="region">서울 강남구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a><a class="card" href="gangnam-station/"><img src="gangnam-station/card.webp" alt="강남 강남역가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 강남</span><span class="name">강남 강남역</span><span class="region">서울 강남구·서초구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a><a class="card" href="gangnam-seolleung/"><img src="gangnam-seolleung/card.webp" alt="강남 선릉가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 강남</span><span class="name">강남 선릉</span><span class="region">서울 강남구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a><a class="card" href="gangnam-samseong/"><img src="gangnam-samseong/card.webp" alt="강남 삼성가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 강남</span><span class="name">강남 삼성</span><span class="region">서울 강남구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a><a class="card" href="dosim-gwanghwamun/"><img src="dosim-gwanghwamun/card.webp" alt="도심 광화문가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 도심</span><span class="name">도심 광화문</span><span class="region">서울 종로구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a><a class="card" href="yeouido/"><img src="yeouido/card.webp" alt="여의도 금융가가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 여의도</span><span class="name">여의도 금융가</span><span class="region">서울 영등포구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a><a class="card" href="pangyo-tv1/"><img src="pangyo-tv1/card.webp" alt="판교 제1테크노밸리가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 판교</span><span class="name">판교 제1테크노밸리</span><span class="region">경기 성남시 분당구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a><a class="card" href="pangyo-station/"><img src="pangyo-station/card.webp" alt="판교 판교역 앞가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 판교</span><span class="name">판교 판교역 앞</span><span class="region">경기 성남시 분당구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a><a class="card" href="pangyo-tv2/"><img src="pangyo-tv2/card.webp" alt="판교 제2테크노밸리가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace('card.webp','og.png')"><div class="body"><span class="code">SMASH 판교</span><span class="name">판교 제2테크노밸리</span><span class="region">경기 성남시 수정구</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a></section>
+  <button type="button" class="board-more list-more" id="list-more" hidden></button>
+
+
+  
+
+  <section class="support" id="support" aria-labelledby="support-title">
+    <h2 id="support-title">개발자 응원하기</h2>
+    <p>학부생이 혼자 만드는 게임이에요. 작은 후원이 큰 힘이 됩니다!</p>
+    <div class="row">
+      <a class="kakao" href="https://qr.kakaopay.com/FKcOJKyOy1f405462" target="_blank" rel="noopener">카카오페이로 응원</a>
+      <a class="toss" data-ev="hub-support-box-toss" href="supertoss://send?amount=1000&amp;bank=%ED%86%A0%EC%8A%A4%EB%B1%85%ED%81%AC&amp;accountNo=100123297463&amp;origin=qr">토스로 응원</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>회사와 관계없는 비공식 패러디 게임입니다. 회사 로고는 쓰지 않으며, 회사가 요청하면 내립니다.</span>
+    <span>학교 랭킹에는 학교 코드와 점수만 보냅니다. 방문 수는 쿠키를 쓰지 않는 GoatCounter로 셉니다.</span>
+    <span>건물·도로 © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap 기여자</a> · 고도 AWS Terrain Tiles (SRTM 30 m 기반) · 소스 <a href="https://github.com/Hong-Iron/SMASH-COMPANY" target="_blank" rel="noopener">GitHub</a></span>
+    <span>만든 사람 HongCM · X <a href="https://x.com/Hong_Iron_DEV" target="_blank" rel="noopener" id="x-link-foot">@Hong_Iron_DEV</a> · 문의 <a href="mailto:hongcheolmin004@gmail.com" id="mail-link">hongcheolmin004@gmail.com</a></span>
+  </footer>
+</main>
+<div class="fab off" id="fab">
+  <a class="kakao" id="fab-kakao" href="https://qr.kakaopay.com/FKcOJKyOy1f405462" target="_blank" rel="noopener" aria-label="카카오페이로 개발자 응원하기">💛 카카오페이로 응원</a>
+  <a class="toss" data-ev="hub-support-fab-toss" href="supertoss://send?amount=1000&amp;bank=%ED%86%A0%EC%8A%A4%EB%B1%85%ED%81%AC&amp;accountNo=100123297463&amp;origin=qr" aria-label="토스로 개발자 응원하기">🤍 토스로 응원</a>
+</div>
+
+<script type="application/json" id="schools-data">[{"code": "PANGYO-TV1", "name": "판교", "campus": "판교 제1테크노밸리", "url": "pangyo-tv1/", "buildings": 201, "nameEn": "Pangyo Techno Valley 1", "region": "경기 성남시 분당구", "added": "2026-11-06", "lat": 37.401, "lon": 127.108, "names": "(주)에이텍시스템 (주)한화 판교 R&D 센터 A ABN TOWER B B동 C DTC타워 ECO Hub GB1타워 H 스퀘어 N동 H 스퀘어 S동 JS타워 M TOWER NHN엔터테인먼트 플레이뮤지엄 NS홈쇼핑 SG타워 SK 케미컬 SK플래닛 V forum 경기창조경제혁신센터 골드타워 공중화장실 및 관리사무실 광동주유소 네오위즈판교타워 네오트랜스 넥슨코리아 다산타워 더블유스퀘어 디테라스 리치투게더센터 마이다스아이티 미래에셋벤처타워 미레에셋 센터 봇들마을 봇들마을 5단지 후문 경비실 삼도타워 삼성화재 판교사옥 삼환하이펙스 A동 삼환하이펙스 B동 서건타워 성남판교크린타워시설 성남판교환경생태학습원 수질복원센터 시공빌딩 쏠리드스페이스 아름방송,벤처포럼빌딩 아이디스 타워 안랩 알파타워 업무 B동 엔씨소프트R&D센터 원익로보틱스 위메이드타워 유라미래형자동차 R&D센터 유스페이스1 A동 유스페이스1 B동 유스페이스2 A동 유스페이스2 B동 이노와이어리스 판교사옥 이랜텍 정자 제테마 케이피엑스판교센터 코리아 바이오 파크 코리아벤처타운 업무시설 A블럭 투썬월드 빌딩 투썬월드빌딩 판교 이노밸리 판교 효성 해링턴 타워 판교7벤처밸리2(CS건물) 판교럭스타워 판교서일주유소 판교역 KCC웰츠타워 판교역 푸르지오시티 판교예미지 판교이노밸리클러스터 E동 판교이노밸리클러스터 F동 판교타워 판교테크노밸리 글로벌 R&D센터 포스코ICT 프라임스퀘어 플레이허브 한국반도체 산업협회 한컴타워 한화테크윈 R&D센터 화랑공원관리사무소 화랑정", "mx": 210.5, "my": 134.9, "sec": "gyeonggi"}, {"code": "GANGNAM-YEOKSAM", "name": "강남", "campus": "강남 역삼", "url": "gangnam-yeoksam/", "buildings": 348, "nameEn": "Yeoksam Teheran-ro", "region": "서울 강남구", "added": "2026-11-06", "lat": 37.50082, "lon": 127.03696, "names": ". 205빌딩 ABT TOWER AP Tower(에이피타워) ARC PLACE BPT빌딩 Capital Tower GNM GS타워 Hojibobo Uzbek Restaurant JLK 타워 JS빌딩 KB손해보험 본사 KB손해보험빌딩 KNK빌딩 KP빌딩 KT동 KT플라자강남점 MAIBAUM 역삼743-11 MARU 180 WINNERS 빌딩 WeWork study 가람빌딩 강남N타워 강남대성학원 강남텔레피아빌딩 강남파이낸스센터 건축문화사옥 관광호텔 국기원 그랑프리빌딩 나우빌딩 낙양대빌딩 남도빌딩 네스빌 늘봄빌딩 다원디자인 빌딩 대봉 대봉빌딩 대우디오빌플러스 대한사회복지회 더스위트캐슬 더원역삼 동경빌딩 동궁빌딩 동영빌딩 두손 베스티움 라이브빌딩 리엘타워 리틀스타빌딩 마루360 마루심 빌딩 메가존빌딩 미드타운센터 바노바기 버드나무집 봉화정씨회관 부전빌딩 비드빌딩 빗썸금융타워 사보이빌딩 삼부 오피스빌딩 삼익 라비돌 빌딩 삼정빌딩 삼환 아르누보 상록회관 서울 인터내셔널 타워 서울인터네셔널타워 서울철강빌딩 선진빌딩 성서공회 역삼회관 성지하이츠-11 성지하이츠3 성현빌딩 세명 프라자 송암Ⅱ빌딩 송촌빌딩 스타팅빌딩 신논현 마에스트로 신성빌딩 신영빌딩 신웅타워 신일유토빌 신풍제약사옥 쓰리엠타워 아이타워 엘지역삼에클라트 역삼 푸르지오 시티 역삼더하이브 역삼동 718빌딩 역삼동 M-SPACE 빌딩 역삼동빌딩 역삼동호텔 역삼마에스트로 역삼빌딩 역삼아르누보씨티 역삼아르누보호텔 역삼역 역삼역센트럴푸르지오시티 역삼하이츠빌딩 역삼현대벤쳐텔 영우빌딩 영창빌딩 예성I라이프 오렌지플래닛 오츠카비전빌딩-Otsuka Vision Building 와이타워 요진와이시티미니 우리빌딩 우리은행 운기빌딩 원불교역삼교당 웨스트타워 위워크빌딩 이스트타워 이투스교육 주식회사 재우빌딩 정원B/D 제일비전타워 젠텍타워(Zentech Tower) 조앤리빌딩 주건축물제1동 지산빌딩 지희빌딩 청심 센터 코레이트 타워 크레신 타워Ⅱ 킵스빌딩 타워770 태양빌딩 텐텐호텔 토스뱅크타워 패스트파이브빌딩 포스코타워 역삼 포스코피엔에스타워 프라임빌딩 프리즘빌딩 하나금융그룹 강남사옥 하나빌딩 한국과학기술회관 한국은행강남본부 한국타이어빌딩 한빛빌딩 현익빌딩 호텔그라모스 호텔맥스 휴머스온빌딩 휴먼빌딩", "mx": 204.7, "my": 124.9, "sec": "seoul"}, {"code": "PANGYO-STATION", "name": "판교", "campus": "판교 판교역 앞", "url": "pangyo-station/", "buildings": 108, "nameEn": "Pangyo Station", "region": "경기 성남시 분당구", "added": "2026-11-06", "lat": 37.39437, "lon": 127.11115, "names": "154kv 동판교 변전소 JS타워 KT동판교빌딩 SG타워 골드타워 공중화장실 및 관리사무실 그래비티 서울 판교 네오트랜스 리치투게더센터 미레에셋 센터 백현마을 봇들마을 삼도타워 삼성화재 판교사옥 서건타워 성남판교 환승주차빌딩 성남판교자동크린넷-4 알파돔타워 알파리움타워1 알파리움타워2 알파타워 엔씨알앤디센터 오수중계펌프장 카카오 판교아지트 크래프톤타워 판교 노인복지관 판교 테크원타워 판교 푸르지오그랑블 판교 효성 해링턴 타워 판교럭스타워 판교역 KCC웰츠타워 판교역 푸르지오시티 판교예미지 판교제3크린넷 판교타워 프라임스퀘어 한국가스공사 판교관리소 한국반도체 산업협회 현대백화점 판교복합몰 화랑공원관리사무소", "mx": 210.7, "my": 135.6, "sec": "gyeonggi"}, {"code": "PANGYO-TV2", "name": "판교", "campus": "판교 제2테크노밸리", "url": "pangyo-tv2/", "buildings": 228, "nameEn": "Pangyo Techno Valley 2", "region": "경기 성남시 수정구", "added": "2026-11-06", "lat": 37.41136, "lon": 127.0996, "names": ". 가동 공공지식산업센터 금토동 272-29 제2종근린생활시설 (강수옥) 금토동272-23번지 금토동273-24근생 금토동근린생활시설 나동 본관동 삼평동402-10근린생활시설 삼평동402-8근린생활시설 세종프라자 솔레시티 13호 시흥동 280-34번지 시흥동근생시설 파이어스몰 판교 제2테크노밸리 LH 1단지 판교OP빌딩 판교블랑쉬에Ⅱ 판교제2테크노밸리기업성장센터 판교창조경제밸리 판교테크노밸리 글로벌 R&D센터 판교테크노밸리글로벌R&D센터 한국 파스퇴르 연구소 한국국제협력단", "mx": 209.8, "my": 133.9, "sec": "gyeonggi"}, {"code": "YEOUIDO", "name": "여의도", "campus": "여의도 금융가", "url": "yeouido/", "buildings": 221, "nameEn": "Yeouido Financial District", "region": "서울 영등포구", "added": "2026-11-06", "lat": 37.5226, "lon": 126.9257, "names": "(주)유수홀딩스 (호성개발주식회사) 501 동 9호선 ABL타워 Conrad Seoul DB증권빌딩 IFC mall (North Gate) IFC mall (South Gate) KBS 별관 KB국민은행 본점 KB국민은행 신관 KB국민은행여의도전자센터 KB금융타워 KDB산업은행 본점 KTB빌딩 KT여의도타워 LG트윈타워 MEA Seoul NH금융타워(타워2) One IFC S-TRENUE SK증권빌딩 The-K타워 Three IFC Two IFC iM증권 B동 가든빌딩 관리사무소(1) 교보증권빌딩 금융감독원 금융투자교육원 금투센터 나라키움여의도빌딩 노총회관 대영빌딩 대오빌딩 더 코노셔 레지던스 & 살롱 드 여의도 더현대 서울 동양증권빌딩 동화빌딩 메리츠화재여의도사옥 미라클빌딩 서여의도 본점 서울상가 성우빌딩 센터빌딩 수정상가 스타빌딩 신길 빗물펌프장 신송빌딩 신영증권빌딩 신한금융투자타워 씨티플라자 빌딩 아일렉스 아일렉스타워 알라딘세차장 앵커원 엔이에치농협캐피탈빌딩 엘지트윈타워 여의도공원 관리사무소 여의도공원 사모정 여의도메리어트파크센터 여의도백화점 여의도역 여의도현대주유소 영창빌딩 오투타워 용산빌딩 우정빌딩 원창빌딩 유진빌딩 유화증권빌딩 이룸센터 이마트 여의도지점 일신빌딩 전경련회관 전경련회관 컨퍼런스센터 정곡빌딩 정원빌딩 제일정밀공업(주)사옥 중소기업중앙회 중앙빌딩 진주상가 코스콤 본사 코오롱포레스텔 파이내셜뉴스빌딩 파크원 타워1 페어몬트 앰배서더 서울 하나금용투자빌딩 하나증권빌딩 한국금융IT빌딩 한국산업은행 한국수출입은행 한국예탁결제원서울사옥 한국정책금융공사 한국평가데이터 한송빌딩 한양빌딩 한양상가 한화손해보험빌딩 해운빌딩 행진빌딩 홍우빌딩 화장실및매점(2) 화장실및매점(3) 화장실및매점(5)", "mx": 195.7, "my": 122.7, "sec": "seoul"}, {"code": "GANGNAM-STATION", "name": "강남", "campus": "강남 강남역", "url": "gangnam-station/", "buildings": 348, "nameEn": "Gangnam Station", "region": "서울 강남구·서초구", "added": "2026-11-06", "lat": 37.49804, "lon": 127.02798, "names": "(주)시스원 강남사옥 2동 823-2 8258빌딩 BLOCK77 BNK디지털타워 D.A디에이성형외과 EWR빌딩 GNM GT타워 Goose Island Brewery HB-TOWER J타워 K TOWER KB손해보험 본사 KI타워 Milbridge Hall S&C TOWER 강남 W타워 YBM강남센터 가동 가락빌딩 강남 누드죤빌딩 강남 지웰타워2 강남A타워 강남ELS빌딩 강남N타워 강남교구 강남대성학원 강남빌딩 강남선인빌딩 강남센터빌딩 강남아르누보씨티 강남애니타워 강남역지하쇼핑센터 강남제일빌딩 강남지웰타워 갤러리L 갤럭시타워 건암빌딩 경원빌딩 광일프라자 국기원 그랑프리빌딩 글로리서울 금성상가 남도빌딩 남서울빌딩 남영빌딩 넛지캠퍼스 빌딩 다원디자인 빌딩 대각빌딩 대경빌딩 대동빌딩 대륭강남타워 대연빌딩 대우도씨에빛2 대원빌딩 대지프라자 덕흥빌딩 도원빌딩 동궁빌딩 동영빌딩 동원빌딩 라인빌딩 롯데칠성음료 리츠 빌 마니빌딩 만이빌딩 메가존빌딩 메디타워 메리츠타워 메트로 빌딩 모델하우스 미림타워 미진프라자 반석빌딩 백암빌딩 부띠크 모나코 비젼타워 삼성물산 서초사옥 삼성생명 서초타워 삼성전자 서초사옥 삼성화재 서초사옥 삼오빌딩 삼원빌딩 삼한빌딩 삼호종합상가 삼흥역삼빌딩 샹그리아 서산빌딩 서전빌딩 서초동월드1308상가 서초동유빌딩 서초한일유앤아이주상복합 서호호텔 성원빌딩 성현빌딩 성홍타워 세경빌딩 세계빌딩 세명 프라자 세진빌딩 송림빌딩 송민빌딩 스퀘어큐브 스타크 강남빌딩 스타플렉스 신덕빌딩 신소애빌딩 신영빌딩 쓰리엠타워 아라타워 아워홈 역삼빌딩 양원빌딩별관 양지빌딩 에레프 에스앤디빌딩 에이동,비동 에이비씨마트빌딩 에이프로스퀘어 에이플러스에셋타워 엔데버빌딩 역삼1문화센터 역삼동 모텔 역삼빌딩 영림빌딩 예미프레스티지 오제제 오클라우드호텔 우남빌딩 우영빌딩 우인빌딩 유성빌딩 유신빌딩 유진빌딩 유창빌딩 유화빌딩 융전빌딩 이조빌딩 이즈타워 이투스교육 주식회사 익산빌딩 재전빌딩 점프밀라노 제니스빌딩 제이스타워 주건축물제1동 주구센타 주류성빌딩 준빌딩 지희빌딩 진우빌딩 진흥상가 천궁빌딩 청남빌딩 캠브리지빌딩 코너스톤 코레이트 타워 코오롱스포렉스 킵스빌딩 타임빌딩 태리빌딩 통영빌딩 투명교정센터 트라이랜드빌딩 파고다타워 펜타타워 포스코피엔에스타워 풍림아이원매직 피렌체빌딩 하나금융그룹 강남사옥 하나빌딩 하이눈 모텔 한국과학기술회관 한국자산관리공사 한국정보통신진흥협회 빌딩 한국지식재산센터 한국타이어빌딩 한일빌딩 한일시멘트 형제빌딩 혜천빌딩 호텔 소울하다 홍우빌딩 홍우제2빌딩 홍은.동주빌딩 화인타워 후추(whochooz) 흥국화재빌딩", "mx": 204.0, "my": 125.2, "sec": "seoul"}, {"code": "GANGNAM-SEOLLEUNG", "name": "강남", "campus": "강남 선릉", "url": "gangnam-seolleung/", "buildings": 350, "nameEn": "Seolleung", "region": "서울 강남구", "added": "2026-11-06", "lat": 37.50447, "lon": 127.04895, "names": "APEX TOWER BGF사옥 본관 EAN빌딩 EM프라자 GS 개나리주유소 Global Takson 빌딩 H 타워 HJ타워 HOTEL NEWV (호텔 뉴브) Haunted Area Of SimSimi ILJIN Group Headquarters K.R TOWER KR-TOWER KT 선릉타워 West KT선릉타워 L7 HOTELS 강남타워 LIG강남빌딩 LK빌딩 Met Life NemusTech Rubina 사옥 SC빌딩 SM HOTEL SMC빌딩 URBAN BENCH V & S WeWork k art center 빌딩(케이아트센터 빌딩) 가동 가리온 강남등기소청사 강남빌딩 강남시니어플라자 강남파이낸스플라자 강인빌딩 개나리 래미안 개나리5차상가동 광진빌딩 근로복지공단 금강타워 금척빌딩 금천빌딩 남경센타 남전빌딩 노벨빌딩 노블323 다보빌딩 대종빌딩 대종빌딩2차 대치동 업무시설 대치타워 대흥빌딩 더원빌딩 돌채타워 동명빌딩 동보빌딩 동부금융센터 동산빌딩 동성빌딩 동원빌딩 동현빌딩 동훈타워 두올빌딩 디알 스타타워 디자이너스 호텔2 루가빌딩 루브르하우스 마크로젠빌딩 말타니빌딩 목천빌딩 뮤지컬파크2.0 미네르바 미소빌딩 반도빌딩 보성빌딩 본느빌딩 봉화정씨회관 부방빌딩 별관 비꼴리끄 삼성동 127-8 업무시설 (임갑희) 삼성동 남성빌딩 삼성빌딩 삼성스퀘어빌딩 삼성제일빌딩 삼성타워 삼영빌딩 삼정빌딩 상록회관 새롬빌딩 새솔빌딩 샹제리제센터 서원빌딩 선릉 LG에클라트 B 선릉MT빌딩 선릉대림아크로텔 선릉빌딩 선릉역 선릉타워 성보Ⅱ빌딩 성원타워 성진빌딩 세방빌딩 세왕개발빌딩 세웅타워 세화빌딩 송경빌딩 송암빌딩3 송현빌딩 수지빌딩 스카이모텔 스톤빌리지 대치3차 시선빌딩 신도벤처타워 신원빌딩 신일빌딩 싹아트센터 씨엔알빌딩 아남타워 아라타워 아레나빌딩 아름빌딩 아이리스 아이콘 삼성 아이타워 알레르망타워 약산빌딩 에이스 에프엔타워 대치(FN TOWER DAECHI) 엔데버타워 역삼 엔지니어링공제빌딩 엘앤비타워 역삼동벤쳐빌딩 역삼동호텔 역삼모텔 역삼센트럴2차아이파크 역삼아르누보호텔 역삼아르떼 역삼자이상가 연안이씨빌딩 오성빌딩 우진빌딩 원방빌딩 위워크타워(WeWork Tower) 유일빌딩 이강학원 대치프리미엄관 이노타워 이노플레이(INNO Play) 이에스타워 이원빌딩 이케이타워 인화빌딩 자승빌딩 장산빌딩 저스트코타워(JustCo Tower) 정다운빌딩 정인빌딩 제이.엔.케이빌딩 제이빌딩 제이에스타워 제이제이빌딩 좋은사람좋은집 주건축물제1동 지산빌딩 지엠컴빌딩 진경빌딩 창조빌딩 천해빌딩 청록빌딩 캘리포니아여관 케이엘타워 타워432 테헤란아이파크 토펙삼성빌딩 퍼틸레인빌딩 포스타 빌딩 프린스호텔 핀업빌딩 한국기술센터 한국부동산원 서울사무소 한솔필리아 한신인터밸리24빌딩 현대 선릉 GOLD TOWER 현대썬앤빌 테헤란 현대타워 현석타워 호성빌딩 호텔 썬 화남빌딩 화인", "mx": 205.7, "my": 124.6, "sec": "seoul"}, {"code": "GANGNAM-SAMSEONG", "name": "강남", "campus": "강남 삼성", "url": "gangnam-samseong/", "buildings": 350, "nameEn": "Samseong COEX", "region": "서울 강남구", "added": "2026-11-06", "lat": 37.50884, "lon": 127.06314, "names": "(주)경승빌딩 21 23 28 30 37 39 B동 JS빌딩 KC빌딩 KIMA(카이마)빌딩 KM빌딩 KR빌딩 KT&G 타워 LG트윈텔 LG트윈텔2 M TOWER MDM 타워 SOLID CORPORATION kims101 강남 종로학원 강남지역자활센터 강안교육 빌딩 구암빌딩 그랜드 인터콘티넨탈 호텔 서울 그랜드힐 컨벤션 그린메디칼사옥 글라스타워 글래드호텔 금강타워3 길훈빌딩 나라키움 삼성동 A빌딩 다형빌딩 대경타워 대연빌딩 대윤빌딩 대치 스페이스 대치동 995-7 업무시설 대치동 지어로빌딩 대치동 한성모터타워 대치동 항진빌딩 대치동송석빌딩 대한예수교장로회총회회관 대화빌딩 더원트윈타워1 더원트윈타워2 덕유빌딩 도심공항타워 도원빌딩 도화타워 동구빌딩 동국제약 동성빌딩 동우리빌딩 동원빌딩 동일타워 디에이그룹빌딩 로라빌딩 루첸타워 마루빌딩 메디톡스빌딩 미래에셋벤쳐타워A동 미래에셋벤쳐타워B동 바나플 빌딩 바른빌딩 백암아트홀 별관동 보성(寶成)빌딩 본관동 부영빌딩 부티크 호텔 XYM 브이플렉스 블루스카이 보습학원 삼성동 168-20 업무시설 삼성동 K-TOWER 삼성동오피스빌딩 삼성빌딩 삼성역 삼흥2빌딩 새마을금고 서경빌딩 서영빌딩 서울의료원 석광빌딩 석암타워 성도이엔지 성원타워Ⅰ 세븐럭 카지노 강남코엑스점 세아빌딩 세아아인스 세안빌딩 세원빌딩 송강빌딩 슈페리어빌딩 슈페리어타워 승원산업사 신도리코빌딩 신라스테이삼성 신안빌딩 아셈타워 아웃백스테이크하우스 아이큐어타워 엔씨소프트 R&D센터 여송빌딩 영광빌딩 영재빌딩 오로라월드빌딩 오토웨이타워 오트리스 빌딩 옥산빌딩 원영빌딩 월덕빌딩 웨스틴 서울 파르나스 위워크 유리엔호텔 유림빌딩 윤곡빌딩 윤천빌딩 이글스포렉스 이비스서울 호텔 익성대치 재경빌딩 정석빌딩 정우빌딩 제니스타워 주건축물제1동 준성빌딩 중부빌딩 중아빌딩 지산빌딩 칠산컨벤션 카카오 M 캐논타워 컬쳐랜드 타워 케이엔빌딩 코엑스 코엑스 아티움 (무역회관) 퀼트하우스빌딩 트레이드타워 티아이타워 티케이오케이 빌딩 파르나스 파르나스타워 파크 하얏트 페코빌딩 포르쉐타워 포스코 더 샵 포스코센터빌딩 피아이엠(PIM) 하나빌딩 하나은행 한국도심공항터미널(KCAT) 한국문화의집 한국섬유산업연합회 한국에너지기술평가원 한국정밀빌딩 해성1빌딩 해성2빌딩 헤어by수연 현대 현대백화점 본사 현대아이파크타워 현대아이파크타워 별관 현성빌딩 호텔페이토 삼성 후생동", "mx": 206.8, "my": 124.1, "sec": "seoul"}, {"code": "DOSIM-GWANGHWAMUN", "name": "도심", "campus": "도심 광화문", "url": "dosim-gwanghwamun/", "buildings": 346, "nameEn": "Gwanghwamun", "region": "서울 종로구", "added": "2026-11-06", "lat": 37.57162, "lon": 126.9769, "names": ". 1-006 종각역 1동 3 3동 3호선 경복궁역 5 5호선 광화문역 94빌딩 A동 Citi DGB금융센터 D타워 KB국민은행 KB국민카드 KSG빌딩 KT광화문빌딩 West KT광화문빌딩East LG광화문빌딩 OCI미술관 S&S빌딩 SK 서린빌딩 Seoul Global Center S타워 TV조선 The Prima Hotel Jongno former Sontag Hotel 갤러리현대 본관 견지동빌딩 경복궁 경복빌딩 고도빌딩 관정빌딩 광일빌딩 광화문 광화문 고려빌딩 광화문빌딩 광화문오피시아빌딩 광희빌딩 교보생명빌딩 교원광교빌딩 교원종각빌딩 교원종로빌딩 교원투어빌딩 구세군회관 국립고궁박물관 국호빌딩 그랑서울 금융감독원연수원 나인트리 프리미어 호텔 인사동 남강건설회관빌딩 내일신문 노스게이트 농협종로지점증축공사 뉴국제호텔 뉴서울호텔 다자연빌딩 대림빌딩 대만관광청 대모님 기념관 대우건설 대일빌딩 대한민국역사박물관 대한불교조계종전법회관 대한체육회 체육회관 대한출판문화협회 회관 더익스체인지서울 더익스체인지서울몰 더존을지타워 더케이 트윈타워 B동 덕수궁 중명전 도렴빌딩 동덕빌딩 동부다동빌딩 동아일보사 동원빌딩 동일빌딩 로얄빌딩 로얄팰리스스위트 룸비니빌딩 마이다스에셋자산운용 목영빌딩 무교YG타워 변호사회관빌딩 보신각 사랑의 열매 삼공빌딩 삼성빌딩 삼송빌딩 서광종합개발 서라벌빌딩 서울NPO지원센터. 부림빌딩 서울도시건축전시관 서울역사박물관 서울지방국세청 서울특별시 교원단체총연합회 서울파이낸스센터 석탄회관 세계일보 세광빌딩 세일빌딩 세종문화회관 대극장 세종문화회관 미술관 세종문화회관 체임버홀 세종이야기 세종클럽 센터포인트빌딩 센트로폴리스빌딩 A 수송스퀘어 스타벅스 시그나타워 시그너스 빌딩 신라스테이 광화문 신아기념관 신영빌딩 신한은행 씨티은행 아마노OA사무기 알파빌딩 어린이박물관 에이동 연합뉴스 영연빌딩 영진빌딩 영풍빌딩 예금보험공사 우리은행 이마빌딩 이화100주년 기념관 이화정동빌딩 익근빌딩 인왕빌딩 일민미술관 적선현대빌딩 전시1동 전시2동 정동1928 아트센터 정동빌딩 정부서울청사 정부서울청사 별관 정부합동민원센터 정우빌딩 제일은행빌딩 조계사 템플스테이 근린생활시설 조선일보 별관 조선일보미술관 조선저축은행 중역사택 조흥은행별관 종각지하철역사 종로타워 주식회사 투바앤 주한중국문화원 지산빌딩 진학사 진학회관빌딩 참바른메디컬센터 청계11빌딩 청진빌딩 케이트윈타워 코리안리재보험빌딩 콘코디언 타워8 태성빌딩 템플스테이 통합정보센터 트윈트리타워 A동 트윈트리타워 B동 패스트파이브타워 포시즌스호텔 서울 하나빌딩 하나은행 하은빌딩 한국 프레스센터 한국관광공사 서울센터 한국금융사박물관 한국무역보혐공사 한국불교역사문화기념관 한국생산성본부 한글회관 한누리빌딩 한외빌딩 현대해상빌딩 호수빌딩 호텔코리아나 효령 빌딩 흥국생명빌딩 흥례문", "mx": 199.9, "my": 117.8, "sec": "seoul"}]</script>
+<script type="application/json" id="hub-config">{"supabaseUrl": "https://smash-company-rank.smash-rank.workers.dev", "supabaseKey": "smash-company"}</script>
+<script>
+  // 응원 안내: 닫으면 7일 동안 숨기고, 누른 버튼은 방문 통계에 이벤트로 센다
+  (function () {
+    var strip = document.getElementById('support-strip');
+    var ev = function (path) { try { var g = window.goatcounter; if (g && g.count) g.count({ path: path, title: 'SMASH hub', event: true }); } catch (e) {} };
+    // 응원 안내는 허브에 들어올 때마다 아래에서 올라오는 창으로 뜬다. 닫으면 떠 있는 응원 버튼만 남는다
+    strip.hidden = false;
+    strip.querySelectorAll('a[data-ev]').forEach(function (a) { a.addEventListener('click', function () { ev(a.dataset.ev); }); });
+    document.getElementById('blog-link').addEventListener('click', function () { ev('hub-blog'); });
+    document.getElementById('rank-down-kakao').addEventListener('click', function () { ev('hub-rank-down-kakaopay'); });
+    ['x-link', 'x-link-foot'].forEach(function (id) { document.getElementById(id).addEventListener('click', function () { ev('hub-x'); }); });
+    // 토스는 휴대폰에서만 앱 링크로 열린다. PC에서는 대신 계좌번호를 복사한다
+    var phone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform));
+    document.querySelectorAll('a.toss').forEach(function (a) {
+      if (!strip.contains(a)) a.addEventListener('click', function () { ev(a.dataset.ev); });
+      a.addEventListener('click', function (e) {
+        if (phone) return;
+        e.preventDefault();
+        var q = new URLSearchParams(a.getAttribute('href').split('?')[1] || ''), acct = (q.get('bank') || '') + ' ' + (q.get('accountNo') || '');
+        var label = a.textContent, done = function (t) { a.textContent = t; setTimeout(function () { a.textContent = label; }, 3000); };
+        try { navigator.clipboard.writeText(acct).then(function () { done('계좌 복사됨 · ' + acct); }, function () { done(acct); }); } catch (err) { done(acct); }
+      });
+    });
+    document.getElementById('mail-link').addEventListener('click', function () { ev('hub-mail'); });
+    // 떠 있는 버튼: 응원 창이 떠 있는 동안은 숨고, 창을 닫으면 그 자리에 계속 떠 있다
+    var fab = document.getElementById('fab');
+    document.getElementById('fab-kakao').addEventListener('click', function () { ev('hub-support-fab'); });
+    fab.classList.add('off');
+    document.getElementById('support-strip-close').addEventListener('click', function () {
+      strip.classList.add('closing'); ev('hub-support-close');
+      setTimeout(function () { strip.hidden = true; fab.classList.remove('off'); }, 180);
+    });
+  })();
+  // 공지: 기한(until)이 지난 카드는 숨기고, 누르면 방문 통계에 notice-<id>로 센다
+  (function () {
+    var today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // 한국 날짜
+    document.querySelectorAll('.notice').forEach(function (a) {
+      if (a.dataset.until && a.dataset.until < today) a.remove();
+      a.addEventListener('click', function () { try { var g = window.goatcounter; if (g && g.count) g.count({ path: 'notice-' + a.dataset.id, title: 'SMASH hub', event: true }); } catch (e) {} });
+    });
+    var box = document.querySelector('.notices'); if (box && !box.querySelector('.notice')) box.remove();
+  })();
+</script>
+<script>
+  (function () {
+    var schools = JSON.parse(document.getElementById('schools-data').textContent);
+    var grid = document.getElementById('schools'), q = document.getElementById('q'), sortSel = document.getElementById('sort'), countEl = document.getElementById('count');
+    var CHO = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+    function chosung(str) {
+      var out = '';
+      for (var i = 0; i < str.length; i++) {
+        var c = str.charCodeAt(i) - 0xAC00;
+        out += (c >= 0 && c < 11172) ? CHO[Math.floor(c / 588)] : str[i];
+      }
+      return out;
+    }
+    var norm = function (t) { return (t || '').toLowerCase().replace(/[\s·\-_.]/g, ''); };
+    schools.forEach(function (s, i) {
+      s._i = i;
+      var text = [s.name, s.campus, s.code, s.nameEn, s.region, s.names || '', 'SMASH ' + s.code, s.name.replace('대학교', '대'), s.campus.replace('대학교', '대')].join(' ');
+      s._hay = norm(text);
+      s._cho = norm(chosung(text));
+    });
+    function matches(s, query) {
+      if (!query) return true;
+      var nq = norm(query);
+      if (s._hay.indexOf(nq) >= 0) return true;
+      return /^[ㄱ-ㅎ]+$/.test(nq) && s._cho.indexOf(nq) >= 0;
+    }
+    function card(s) {
+      var a = document.createElement('a');
+      a.className = 'card'; a.href = s.url;
+      var img = document.createElement('img');
+      img.src = s.url + 'card.webp'; img.alt = s.campus + '가 부서지는 게임 화면'; img.loading = 'lazy'; img.width = 600; img.height = 315;
+      img.onerror = function () { this.onerror = null; this.src = s.url + 'og.png'; };   // card.webp가 아직 없는 학교
+      var body = document.createElement('div'); body.className = 'body';
+      var code = document.createElement('span'); code.className = 'code'; code.textContent = 'SMASH ' + s.code;
+      var name = document.createElement('span'); name.className = 'name'; name.textContent = s.campus;
+      var region = document.createElement('span'); region.className = 'region'; region.textContent = s.region || '';
+      var meta = document.createElement('span'); meta.className = 'meta';
+      var row = board && board[s.code];
+      var badge = null;
+      if (row && row.today_score > 0) { badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = '오늘 ' + fmtPts(row.today_score) + '점'; }
+      var go = document.createElement('span'); go.className = 'go'; go.textContent = '부수러 가기 →';
+      body.append(code, name, region, meta, go);
+      a.append(img, body);
+      if (badge) a.append(badge);
+      // favourite star sits beside the link (a button may not live inside a link)
+      var wrap = document.createElement('div'); wrap.className = 'cardwrap';
+      var on = favs.indexOf(s.code) >= 0;
+      var star = document.createElement('button'); star.type = 'button'; star.className = 'fav';
+      star.setAttribute('aria-pressed', String(on)); star.setAttribute('aria-label', (on ? '즐겨찾기에서 빼기: ' : '즐겨찾기에 넣기: ') + s.campus);
+      star.textContent = on ? '★' : '☆';
+      star.addEventListener('click', function () { toggleFav(s.code); });
+      wrap.append(a, star);
+      return wrap;
+    }
+    function requestCard(query) {
+      // 깨진 이모지 조각(짝 없는 서로게이트)은 encodeURIComponent가 오류를 내서 목록 갱신이 멈춘다: 대체 문자로 바꾸고, 링크가 너무 길어지지 않게 80자까지만
+      query = Array.from(String(query || '').replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(^|[^\uD800-\uDBFF])[\uDC00-\uDFFF]/g, function (m, pre) { return (pre || '') + '\uFFFD'; })).slice(0, 80).join('');
+      var req = document.createElement('a');
+      req.className = 'request';
+      req.href = 'https://github.com/Hong-Iron/SMASH-COMPANY/issues/new?title=' + encodeURIComponent('업무지구 추가 요청: ' + (query || '')) + '&body=' + encodeURIComponent('회사·업무지구 이름:' + (query ? ' ' + query : '') + '\n업무지구:\n');
+      req.target = '_blank'; req.rel = 'noopener';
+      var st = document.createElement('strong'); st.textContent = query ? '‘' + query + '’도 부수고 싶다면?' : '우리 회사도?';
+      var sp = document.createElement('span'); sp.textContent = '부수고 싶은 회사나 업무지구를 알려 주세요. GitHub에 요청을 남기면 다음 후보에 올립니다.';
+      req.append(st, sp);
+      return req;
+    }
+    // 검색창 바로 아래 결과: 이름·코드가 입력으로 시작하는 학교, 본캠퍼스(짧은 코드)가 먼저
+    var hitsEl = document.getElementById('hits'), HITS = 4, searchUsed = false;
+    var ev = function (path) { try { var g = window.goatcounter; if (g && g.count) g.count({ path: path, title: 'SMASH hub', event: true }); } catch (e) {} };
+    function ranked(query) {
+      var nq = norm(query);
+      var cho = /^[ㄱ-ㅎ]+$/.test(nq);
+      var starts = function (s) {
+        var short = s.name.replace('대학교', '대');
+        var keys = cho ? [chosung(short), chosung(s.name)] : [s.name, short, s.code];
+        return keys.some(function (k) { return norm(k).indexOf(nq) === 0; }) ? 0 : 1;
+      };
+      return schools.filter(function (s) { return matches(s, query); })
+        .sort(function (a, b) { return starts(a) - starts(b) || a.code.length - b.code.length || a.name.localeCompare(b.name, 'ko'); });
+    }
+    function renderHits(query) {
+      hitsEl.replaceChildren();
+      hitsEl.hidden = !query;
+      if (!query) return;
+      var list = ranked(query);
+      list.slice(0, HITS).forEach(function (s) {
+        var li = document.createElement('li'), a = document.createElement('a');
+        a.href = s.url; a.className = 'hit';
+        var c = document.createElement('span'); c.className = 'c'; c.textContent = 'SMASH ' + s.code;
+        var n = document.createElement('span'); n.className = 'n'; n.textContent = s.campus + (s.region ? ' · ' + s.region : '');
+        var go = document.createElement('span'); go.className = 'go'; go.textContent = '부수러 가기 →';
+        a.append(c, go, n);
+        a.addEventListener('click', function () { ev('hub-search-go'); });
+        li.append(a); hitsEl.append(li);
+      });
+      if (list.length > HITS) {
+        var li = document.createElement('li'), b = document.createElement('button');
+        b.type = 'button'; b.className = 'more'; b.textContent = '찾은 업무지구 ' + list.length + '개 모두 보기 ↓';
+        b.addEventListener('click', function () { document.getElementById('list-head').scrollIntoView({ behavior: 'smooth' }); });
+        li.append(b); hitsEl.append(li);
+      }
+      if (!list.length) {
+        var li = document.createElement('li'), a = requestCard(query);
+        a.className = 'ask';
+        a.replaceChildren();
+        var c = document.createElement('span'); c.className = 'n'; c.style.whiteSpace = 'normal';
+        c.textContent = '‘' + query + '’은(는) 아직 없습니다. 추가해 달라고 알려 주세요.';
+        var go = document.createElement('span'); go.className = 'go'; go.textContent = '추가 요청';
+        a.append(c, go);
+        li.append(a); hitsEl.append(li);
+      }
+    }
+    q.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' || e.isComposing) return;
+      var first = hitsEl.querySelector('a.hit');
+      if (first) { e.preventDefault(); first.click(); }
+    });
+    var listMore = document.getElementById('list-more'), listOpen = false;
+    var phoneMQ = window.matchMedia('(max-width: 640px)');
+    function onMQ() { render(); }
+    if (phoneMQ.addEventListener) phoneMQ.addEventListener('change', onMQ); else phoneMQ.addListener(onMQ);
+    listMore.addEventListener('click', function () {
+      listOpen = !listOpen; render();
+      if (!listOpen) document.getElementById('list-head').scrollIntoView({ behavior: 'smooth' });
+    });
+    // ---- 지도 보기: 전국(구역) → 구역(핀) → 학교(핀 왼쪽 + 썸네일 오른쪽)
+    var mapbox = document.getElementById('mapbox'), svg = document.getElementById('kmap');
+    var pinsG = document.getElementById('kmap-pins'), labelsG = document.getElementById('kmap-labels');
+    var SECS = JSON.parse(document.getElementById('map-sections').textContent), secByK = {}; SECS.forEach(function (x) { secByK[x.k] = x; });
+    var FW = +svg.dataset.w, FH = +svg.dataset.h; svg.style.aspectRatio = FW + ' / ' + FH;
+    var NS = 'http://www.w3.org/2000/svg', view = null, mapOn = false, anim = 0, level = 'all', curSec = null, picked = null;
+    var backBtn = document.getElementById('map-back'), hint = document.getElementById('map-hint'), side = document.getElementById('map-side');
+    function ev2(path) { try { var g = window.goatcounter; if (g && g.count) g.count({ path: path, title: 'SMASH hub', event: true }); } catch (e) {} }
+    function aspect() { return (svg.clientHeight || 1) / (svg.clientWidth || 1); }
+    function fullView() { var a = aspect(); return FH / FW > a ? { y: 0, h: FH, w: FH / a, x: (FW - FH / a) / 2 } : { x: 0, w: FW, h: FW * a, y: (FH - FW * a) / 2 }; }
+    function clampView(v) {
+      var f = fullView(), w = Math.max(f.w / 60, Math.min(f.w, v.w)), h = w * aspect();
+      var cx = Math.max(-f.w * .2, Math.min(FW + f.w * .2, v.x + v.w / 2)), cy = Math.max(0, Math.min(FH, v.y + v.h / 2));
+      return { x: cx - w / 2, y: cy - h / 2, w: w, h: h };
+    }
+    function setView(v) { view = clampView(v); svg.setAttribute('viewBox', [view.x, view.y, view.w, view.h].join(' ')); draw(); }
+    function animateTo(v) {
+      var a = view, b = clampView(v), t0 = performance.now(), id = ++anim;
+      (function step(now) {
+        if (id !== anim) return;
+        var k = Math.min(1, (now - t0) / 420), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+        setView({ x: a.x + (b.x - a.x) * e, y: a.y + (b.y - a.y) * e, w: a.w + (b.w - a.w) * e, h: a.h + (b.h - a.h) * e });
+        if (k < 1) requestAnimationFrame(step);
+      })(t0);
+    }
+    function boxView(x0, y0, x1, y1, pad) {
+      var a = aspect(), w = Math.max(x1 - x0, (y1 - y0) / a) * (1 + pad * 2);
+      return { x: (x0 + x1) / 2 - w / 2, y: (y0 + y1) / 2 - w * a / 2, w: w, h: w * a };
+    }
+    function heatOf(s) {
+      var v = todayOf(s); if (!board || v <= 0) return 0;
+      var top = 1; schools.forEach(function (x) { top = Math.max(top, todayOf(x)); });
+      return Math.max(0.08, Math.log10(1 + v) / Math.log10(1 + top));
+    }
+    function heatColor(h) {
+      var A = [255, 138, 61], B = [255, 106, 43], C = [255, 210, 63], m = h < 0.6 ? h / 0.6 : (h - 0.6) / 0.4, P = h < 0.6 ? A : B, Q = h < 0.6 ? B : C;
+      return 'rgb(' + P.map(function (c, i) { return Math.round(c + (Q[i] - c) * m); }).join(',') + ')';
+    }
+    function el(name, attrs) { var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+    function hitList() { var query = q.value.trim(); return schools.filter(function (s) { return matches(s, query); }); }
+    function draw() {
+      if (!mapOn || !view) return;
+      var px = view.w / (svg.clientWidth || 1), hits = hitList(), query = q.value.trim(), count = {};
+      hits.forEach(function (s) { count[s.sec] = (count[s.sec] || 0) + 1; });
+      svg.querySelectorAll('.sec').forEach(function (g) {
+        var k = g.dataset.sec;
+        g.classList.toggle('on', level !== 'all' && k === curSec);
+        g.classList.toggle('off', level !== 'all' && k !== curSec);
+        g.classList.toggle('empty', level === 'all' && !count[k]);
+      });
+      svg.querySelectorAll('.isl').forEach(function (t) { t.setAttribute('font-size', 10 * px); t.setAttribute('stroke-width', 3 * px); });
+      labelsG.replaceChildren(); pinsG.replaceChildren();
+      if (level === 'all') {   // 구역 이름표: 이름 + 학교 수 (검색 중이면 맞는 학교 수)
+        SECS.forEach(function (x) {
+          var n = count[x.k] || 0, label = x.name, num = String(query ? n : x.n);
+          var w = (label.length * 12 + num.length * 8 + 22) * px, h = 23 * px, g = el('g', { 'class': 'slab' });
+          g.append(el('rect', { x: x.lx - w / 2, y: x.ly - h / 2, width: w, height: h, rx: h / 2 }));
+          var t1 = el('text', { x: x.lx - (num.length * 8 + 4) * px / 2, y: x.ly, 'font-size': 11.5 * px }); t1.textContent = label;
+          var t2 = el('text', { 'class': 'cnt', x: x.lx + (label.length * 12 + 6) * px / 2, y: x.ly, 'font-size': 11 * px }); t2.textContent = num;
+          g.append(t1, t2); labelsG.append(g);
+        });
+        return;
+      }
+      var top = null; if (board) schools.forEach(function (s) { if (todayOf(s) > 0 && (!top || todayOf(s) > todayOf(top))) top = s; });
+      var list = schools.filter(function (s) { return s.sec === curSec; });
+      // 가까운 학교끼리 핀이 겹치면 화면에서 서로 밀어내 모두 보이게 하고, 원래 위치까지 가는 가는 선을 긋는다
+      var P = list.map(function (s) { var x = (s.mx - view.x) / px, y = (s.my - view.y) / px; return { s: s, x: x, y: y, ox: x, oy: y }; }), MIN = 24;
+      for (var it = 0; it < 60; it++) {
+        var moved = false;
+        for (var i = 0; i < P.length; i++) for (var j = i + 1; j < P.length; j++) {
+          var A = P[i], Bp = P[j], dx = Bp.x - A.x, dy = (Bp.y - A.y) * 1.2, d = Math.hypot(dx, dy);
+          if (d >= MIN) continue;
+          if (d < 0.01) { dx = Math.cos(i * 2.4 + j); dy = Math.sin(i * 2.4 + j); d = 1; }
+          var push = (MIN - d) / 2, ux = dx / d, uy = dy / d;
+          A.x -= ux * push; A.y -= uy * push; Bp.x += ux * push; Bp.y += uy * push; moved = true;
+        }
+        P.forEach(function (q2) { q2.x += (q2.ox - q2.x) * 0.04; q2.y += (q2.oy - q2.y) * 0.04; });
+        if (!moved) break;
+      }
+      P.forEach(function (q2) { q2.mx = view.x + q2.x * px; q2.my = view.y + q2.y * px; q2.off = Math.hypot(q2.x - q2.ox, q2.y - q2.oy) > 3; });
+      P.sort(function (a, b) { return a.my - b.my; });
+      draw.pins = P;
+      P.forEach(function (q2) {   // 밀려난 핀은 원래 자리에 작은 점과 가는 선
+        if (!q2.off) return;
+        pinsG.append(el('line', { x1: q2.s.mx, y1: q2.s.my, x2: q2.mx, y2: q2.my, stroke: 'rgba(255,255,255,.55)', 'stroke-width': 1.2 * px }));
+        pinsG.append(el('circle', { cx: q2.s.mx, cy: q2.s.my, r: 2.4 * px, fill: '#fff' }));
+      });
+      var placed = []; draw.labels = [];
+      P.forEach(function (q2) {   // 핀: 끝이 학교 위치(또는 밀려난 자리)를 가리키는 물방울 모양 (화면에서 항상 같은 크기)
+        var s = q2.s, X = q2.mx, Y = q2.my, on = matches(s, query), h = heatOf(s), sz = (picked === s ? 34 : 26) * px, r = sz * 0.36;
+        var g = el('g', { 'class': 'pin' + (picked === s ? ' sel' : '') + (on ? '' : ' dim'), 'data-code': s.code });
+        var cy = Y - sz + r;
+        g.append(el('path', { d: 'M' + X + ',' + Y + 'C' + (X - r * .35) + ',' + (Y - sz * .38) + ' ' + (X - r) + ',' + (cy + r * .55) + ' ' + (X - r) + ',' + cy +
+          'A' + r + ',' + r + ' 0 1 1 ' + (X + r) + ',' + cy + 'C' + (X + r) + ',' + (cy + r * .55) + ' ' + (X + r * .35) + ',' + (Y - sz * .38) + ' ' + X + ',' + Y + 'Z', fill: picked === s ? '#ffd23f' : heatColor(h) }));
+        g.append(el('circle', { cx: X, cy: cy, r: r * 0.42 }));
+        pinsG.append(g);
+        if (top === s) { var cr = el('text', { 'class': 'crown', x: X, y: Y - sz - 4 * px, 'font-size': 12 * px, 'stroke-width': 3 * px }); cr.textContent = '1위'; pinsG.append(cr); }
+      });
+      if (level === 'sec') {   // 핀 오른쪽에 학교 이름 (겹치면 생략)
+        P.forEach(function (q2) {
+          var s = q2.s; if (!matches(s, query)) return;
+          var sx = q2.x, sy = q2.y - 17, name = shortName(s), w = name.length * 11.5 + 4;
+          if (placed.some(function (b) { return sx + 12 < b[0] + b[2] && b[0] < sx + 12 + w && sy - 8 < b[1] + 16 && b[1] < sy + 8; })) return;
+          placed.push([sx + 12, sy - 8, w]); draw.labels.push({ s: s, x: sx + 12, y: sy - 8, w: w });
+          var tx = el('text', { 'class': 'pname', x: q2.mx + 12 * px, y: q2.my - 17 * px, 'font-size': 11.5 * px, 'stroke-width': 3 * px, 'dominant-baseline': 'central' });
+          tx.textContent = name; pinsG.append(tx);
+        });
+      }
+    }
+    var mlist = document.getElementById('map-list'), mq = document.getElementById('mq');
+    mq.addEventListener('input', function () { q.value = mq.value; q.dispatchEvent(new Event('input')); });
+    q.addEventListener('input', function () { if (mq.value !== q.value) mq.value = q.value; });
+    function updateChrome() {
+      backBtn.hidden = level === 'all';
+      backBtn.textContent = level === 'pin' ? '← ' + secByK[curSec].name : '← 전국';
+      hint.textContent = level === 'all' ? '지역을 누르면 그 지역 업무지구가 나와요' : level === 'pin' ? '다른 핀을 눌러도 되고, 부수러 가기를 누르면 게임이 열려요' : (secByK[curSec].n ? '핀을 누르면 그 업무지구로 들어가요' : '이 지역은 아직 업무지구가 없어요');
+      side.hidden = level !== 'pin';
+    }
+    function goAll() { level = 'all'; curSec = null; picked = null; updateChrome(); animateTo(fullView()); }
+    function goSec(k) {
+      level = 'sec'; curSec = k; picked = null; updateChrome();
+      var x = secByK[k], list = schools.filter(function (s) { return s.sec === k; }), b = x.bbox;
+      if (list.length >= 2) {   // 학교가 있는 곳 위주로 맞추되 구역 테두리를 넘지 않게
+        var xs = list.map(function (s) { return s.mx; }), ys = list.map(function (s) { return s.my; });
+        b = [Math.max(b[0], Math.min.apply(null, xs) - 8), Math.max(b[1], Math.min.apply(null, ys) - 12), Math.min(b[2], Math.max.apply(null, xs) + 8), Math.min(b[3], Math.max.apply(null, ys) + 6)];
+      }
+      animateTo(boxView(b[0], b[1], b[2], b[3], 0.08));
+      ev2('hub-map-sec');
+    }
+    function goPin(s) {
+      level = 'pin'; curSec = s.sec; picked = s; updateChrome();
+      var a = aspect(), w = 18, h = w * a;   // 핀은 왼쪽 4분의 1 지점, 오른쪽 절반은 썸네일
+      animateTo({ x: s.mx - w * 0.24, y: s.my - h * 0.55, w: w, h: h });
+      var msImg = document.getElementById('ms-img');
+      msImg.onerror = function () { this.onerror = null; this.src = s.url + 'og.png'; };
+      msImg.src = s.url + 'card.webp';
+      document.getElementById('ms-img').alt = s.campus + ' 게임 화면';
+      document.getElementById('ms-code').textContent = 'SMASH ' + s.code;
+      document.getElementById('ms-name').textContent = s.campus;
+      var meta = document.getElementById('ms-meta'); meta.replaceChildren(document.createTextNode((s.region || '') + ' · 건물 ' + s.buildings + '동'));
+      if (board && todayOf(s) > 0) {
+        var r = schools.filter(function (x) { return todayOf(x) > todayOf(s); }).length + 1;
+        meta.append(document.createElement('br')); var bb = document.createElement('b'); bb.textContent = '오늘 ' + r + '위 · ' + fmtPts(todayOf(s)) + '점'; meta.append(bb);
+      }
+      document.getElementById('ms-go').href = s.url;
+    }
+    backBtn.addEventListener('click', function () { if (level === 'pin') goSec(curSec); else goAll(); });
+    document.getElementById('ms-x').addEventListener('click', function () { goSec(curSec); });
+    document.getElementById('ms-go').addEventListener('click', function () { ev2('hub-map-go'); });
+    // 끌기·확대도 된다: 손가락 하나는 옮기기, 둘은 확대, 휠도 확대. 거의 안 움직이고 뗀 손가락은 누르기로 본다
+    var ptrs = new Map(), gesture = null;
+    function snap() { return new Map(Array.from(ptrs, function (kv) { return [kv[0], { x: kv[1].x, y: kv[1].y }]; })); }
+    svg.addEventListener('pointerdown', function (e) {
+      svg.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY }); anim++;
+      gesture = { start: Object.assign({}, view), pts: snap(), moved: ptrs.size > 1 ? 99 : 0, t: performance.now() };
+    });
+    svg.addEventListener('pointermove', function (e) {
+      if (!ptrs.has(e.pointerId) || !gesture) return;
+      ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      var r = svg.getBoundingClientRect(), list = Array.from(ptrs.values()), s0 = Array.from(gesture.pts.values()), v = gesture.start;
+      if (list.length === 1 && s0.length === 1) {
+        var dx = list[0].x - s0[0].x, dy = list[0].y - s0[0].y; gesture.moved = Math.max(gesture.moved, Math.hypot(dx, dy));
+        if (gesture.moved > 6) { svg.classList.add('dragging'); setView({ x: v.x - dx / r.width * v.w, y: v.y - dy / r.height * v.h, w: v.w, h: v.h }); }
+      } else if (list.length >= 2 && s0.length >= 2) {
+        var d0 = Math.hypot(s0[0].x - s0[1].x, s0[0].y - s0[1].y), d1 = Math.hypot(list[0].x - list[1].x, list[0].y - list[1].y), k = d0 / Math.max(1, d1);
+        var ax = v.x + ((s0[0].x + s0[1].x) / 2 - r.left) / r.width * v.w, ay = v.y + ((s0[0].y + s0[1].y) / 2 - r.top) / r.height * v.h;
+        var w = v.w * k, h = v.h * k, mx = ((list[0].x + list[1].x) / 2 - r.left) / r.width, my = ((list[0].y + list[1].y) / 2 - r.top) / r.height;
+        gesture.moved = 99; setView({ x: ax - mx * w, y: ay - my * h, w: w, h: h });
+      }
+    });
+    function endPtr(e) {
+      if (!ptrs.has(e.pointerId)) return;
+      ptrs.delete(e.pointerId); svg.classList.remove('dragging');
+      if (gesture && gesture.moved <= 6 && ptrs.size === 0 && performance.now() - gesture.t < 500) tapAt(e.clientX, e.clientY);
+      gesture = ptrs.size ? { start: Object.assign({}, view), pts: snap(), moved: 99, t: 0 } : null;
+    }
+    svg.addEventListener('pointerup', endPtr); svg.addEventListener('pointercancel', endPtr);
+    svg.addEventListener('wheel', function (e) {
+      e.preventDefault(); anim++;
+      var r = svg.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+      var px0 = view.x + fx * view.w, py0 = view.y + fy * view.h, k = Math.pow(1.0018, e.deltaY);
+      setView({ x: px0 - fx * view.w * k, y: py0 - fy * view.h * k, w: view.w * k, h: view.h * k });
+    }, { passive: false });
+    function tapAt(cx, cy) {
+      var r = svg.getBoundingClientRect(), mx = view.x + (cx - r.left) / r.width * view.w, my = view.y + (cy - r.top) / r.height * view.h, px = view.w / r.width;
+      if (level !== 'all') {   // 학교 이름표를 눌렀거나, 핀 머리(끝에서 약 18px 위)에 가장 가까운 학교
+        var lx = cx - r.left, ly = cy - r.top, lab = null;
+        (draw.labels || []).forEach(function (b) { if (lx > b.x - 6 && lx < b.x + b.w + 6 && ly > b.y - 6 && ly < b.y + 22) lab = b.s; });
+        if (lab) { goPin(lab); return; }
+        var best = null, bd = 24;
+        (draw.pins || []).forEach(function (q2) {   // 그려진(밀려난) 핀 자리로 판단한다
+          var d = Math.hypot((q2.mx - mx) / px, (q2.my - 16 * px - my) / px);
+          if (d < bd) { bd = d; best = q2.s; }
+        });
+        if (best) { goPin(best); return; }
+      }
+      var hit = document.elementFromPoint(cx, cy), g = hit && hit.closest && hit.closest('.sec');
+      if (g && (level === 'all' || g.dataset.sec !== curSec)) goSec(g.dataset.sec);
+      else if (level === 'pin') goSec(curSec);
+    }
+    var qTimer = 0;
+    function mapQuery(query) {   // 검색: 한 곳이면 그 학교로, 한 구역 안이면 그 구역으로, 아니면 전국에서 구역별 수
+      clearTimeout(qTimer);
+      qTimer = setTimeout(function () {
+        if (!query) { if (level !== 'all') goAll(); return; }
+        var hits = hitList(), secsHit = {}; hits.forEach(function (s) { secsHit[s.sec] = 1; });
+        if (hits.length === 1) goPin(hits[0]);
+        else if (hits.length && Object.keys(secsHit).length === 1) goSec(hits[0].sec);
+        else if (level !== 'all') goAll(); else draw();
+      }, 300);
+    }
+    function setMode(m) {
+      mapOn = m === 'map';
+      document.querySelectorAll('.view-tabs button').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.view === m)); });
+      mapbox.hidden = !mapOn; mlist.hidden = !mapOn; mq.value = q.value;
+      if (mapOn) { updateChrome(); setView(view || fullView()); ev2('hub-map-open'); }
+      render();
+    }
+    document.querySelectorAll('.view-tabs button').forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.view); }); });
+    window.addEventListener('resize', function () { if (mapOn) setView(view); });
+    var lastQuery = '';
+    // favourites: kept in this browser only, pinned to the top of the list whatever the sort
+    var FAV_KEY = 'smash-hub-favs', favs = [];
+    try { favs = JSON.parse(localStorage.getItem(FAV_KEY) || '[]').filter(function (c) { return typeof c === 'string'; }); } catch (e) { favs = []; }
+    function toggleFav(code) {
+      var i = favs.indexOf(code);
+      if (i >= 0) favs.splice(i, 1); else { favs.push(code); ev('hub-fav'); }
+      try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch (e) { /* storage blocked: the star lasts until the page closes */ }
+      render();
+    }
+    function render() {
+      var query = q.value.trim(), mode = sortSel.value;
+      renderHits(query);
+      if (mapOn) { draw(); if (query !== lastQuery) mapQuery(query); }
+      lastQuery = query;
+      if (query && !searchUsed) { searchUsed = true; ev('hub-search'); }
+      var list = schools.filter(function (s) { return matches(s, query); });
+      list.sort(function (a, b) {
+        if (mode === 'new') return (b.added || '').localeCompare(a.added || '') || a._i - b._i;   // 같은 날 추가된 학교는 schools.json 순서(요청이 많았던 순)
+        if (mode === 'big') return b.buildings - a.buildings;
+        if (mode === 'hot' && board) return todayOf(b) - todayOf(a) || a.name.localeCompare(b.name, 'ko');
+        return a.name.localeCompare(b.name, 'ko');
+      });
+      var pinned = list.filter(function (s) { return favs.indexOf(s.code) >= 0; });
+      if (pinned.length) list = pinned.concat(list.filter(function (s) { return favs.indexOf(s.code) < 0; }));
+      grid.replaceChildren();
+      var base = (phoneMQ.matches ? 5 : 9) + pinned.length, all = !!query || listOpen || list.length <= base;
+      (all ? list : list.slice(0, base)).forEach(function (s) { grid.append(card(s)); });
+      if (!list.length) {
+        var e = document.createElement('p'); e.className = 'empty'; e.textContent = '‘' + query + '’에 맞는 회사나 업무지구가 아직 없습니다.';
+        grid.append(e);
+      }
+      if (all) grid.append(requestCard(list.length ? '' : query));
+      listMore.hidden = !!query || list.length <= base;
+      listMore.textContent = listOpen ? '접기' : '더보기 · 업무지구 ' + list.length + '개 모두';
+      countEl.textContent = query ? ('‘' + query + '’ 검색 결과 ' + list.length) : ('업무지구 수 ' + schools.length);
+      try { localStorage.setItem('smash-hub-sort', mode); } catch (e) { /* storage blocked */ }
+    }
+    // ---- school leaderboard (Supabase): today's and all-time totals per school
+    var cfg = JSON.parse(document.getElementById('hub-config').textContent || '{}');
+    var board = null, span = 'today', showAll = false;
+    var byCode = {}; schools.forEach(function (s) { byCode[s.code] = s; });
+    function trim0(v, d) { return v.toFixed(d).replace(/\.0$/, ''); }
+    function fmtPts(n) { return n >= 1e8 ? trim0(n / 1e8, n >= 1e9 ? 0 : 1) + '억' : n >= 1e4 ? trim0(n / 1e4, n >= 1e5 ? 0 : 1) + '만' : Math.round(n).toLocaleString('ko-KR'); }
+    function todayOf(s) { var r = board && board[s.code]; return r ? r.today_score : 0; }
+    function shortName(s) { return s.campus.replace('대학교', '대').replace(/ 캠퍼스$/, ''); }
+    var listEl = document.getElementById('board-list'), noteEl = document.getElementById('board-note'), moreBtn = document.getElementById('board-more');
+    function renderBoard() {
+      var key = span;   // 'today' | 'total'
+      var rows = Object.keys(board).map(function (c) { return board[c]; })
+        .filter(function (r) { return byCode[r.code] && r[key + '_score'] > 0; })
+        .sort(function (a, b) { return b[key + '_score'] - a[key + '_score']; });
+      noteEl.textContent = span === 'today' ? '오늘 순위는 매일 자정(한국 시간)에 새로 시작합니다.' : '지금까지 모인 업무지구별 점수입니다.';
+      listEl.replaceChildren();
+      if (!rows.length) {
+        var e = document.createElement('p'); e.className = 'board-empty';
+        e.textContent = span === 'today' ? '오늘은 아직 아무도 부수지 않았습니다. 첫 점수를 올려 보세요.' : '아직 모인 점수가 없습니다.';
+        listEl.append(e); moreBtn.hidden = true;
+        document.getElementById('board-peek').textContent = '아직 모인 점수가 없어요 · 펼쳐서 보기'; return;
+      }
+      var top = rows[0][key + '_score'];
+      (showAll ? rows : rows.slice(0, 3)).forEach(function (r, i) {
+        var s = byCode[r.code], v = r[key + '_score'];
+        var li = document.createElement('li');
+        var pos = document.createElement('span'); pos.className = 'pos'; pos.textContent = i + 1;
+        var who = document.createElement('a'); who.className = 'who'; who.href = s.url; who.textContent = shortName(s);
+        var pts = document.createElement('span'); pts.className = 'pts'; pts.textContent = fmtPts(v) + '점';
+        var bar = document.createElement('span'); bar.className = 'bar';
+        var fill = document.createElement('i'); fill.style.width = Math.max(2, Math.round(100 * v / top)) + '%'; bar.append(fill);
+        var sub = document.createElement('span'); sub.className = 'sub';
+        sub.textContent = '건물 ' + r[key + '_kills'].toLocaleString('ko-KR') + '동 · ' + r[key + '_players'].toLocaleString('ko-KR') + '판';
+        li.append(pos, who, pts, bar, sub);
+        listEl.append(li);
+      });
+      moreBtn.hidden = rows.length <= 3;
+      moreBtn.textContent = showAll ? '3위까지만 보기' : '더보기 · 전체 ' + rows.length + '개 업무지구';
+      var peek = document.getElementById('board-peek'), s1 = byCode[rows[0].code];   // 접힌 상태: 1위 학교 이름만
+      peek.replaceChildren();
+      var p1 = document.createElement('span'); p1.className = 'pos'; p1.textContent = '1';
+      var w1 = document.createElement('span'); w1.className = 'who'; w1.textContent = s1.campus;
+      var l1 = document.createElement('span'); l1.className = 'lbl';
+      l1.textContent = fmtPts(rows[0][key + '_score']) + '점 · 건물 ' + rows[0][key + '_kills'].toLocaleString('ko-KR') + '동';
+      peek.append(p1, w1, l1);
+    }
+    var folded = location.hash !== '#rank';
+    function syncFold() {
+      document.getElementById('board-body').hidden = folded;
+      document.getElementById('board-peek').hidden = folded ? !board : true;
+      document.querySelector('#rank .tabs').hidden = folded;
+      var fb = document.getElementById('board-fold'); fb.textContent = folded ? '펼치기 ▾' : '접기 ▴'; fb.setAttribute('aria-expanded', String(!folded));
+    }
+    function setFold(v) {
+      folded = v; if (folded) showAll = false;
+      renderBoard(); syncFold();
+      if (folded) document.getElementById('rank').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    document.getElementById('board-fold').addEventListener('click', function () { setFold(!folded); });
+    document.getElementById('board-peek').addEventListener('click', function () { setFold(false); });
+    document.querySelectorAll('.tabs button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        span = b.dataset.span; showAll = false;
+        document.querySelectorAll('.tabs button').forEach(function (x) { x.setAttribute('aria-selected', String(x === b)); });
+        renderBoard();
+      });
+    });
+    moreBtn.addEventListener('click', function () {   // 접으면 랭킹 맨 위로 돌아온다 (긴 목록 아래에 남지 않게)
+      showAll = !showAll; renderBoard();
+      if (!showAll) document.getElementById('rank').scrollIntoView({ behavior: 'smooth' });
+    });
+    function loadBoard() {
+      if (!cfg.supabaseUrl || !cfg.supabaseKey || cfg.rankingPaused) return;
+      var h = { apikey: cfg.supabaseKey };
+      if (/^eyJ/.test(cfg.supabaseKey)) h.Authorization = 'Bearer ' + cfg.supabaseKey;
+      // 서버가 멈추면 응답 없이 20초 넘게 걸려서, 8초에 끊고 '잠시 멈춤' 안내를 띄운다
+      var ctl = window.AbortController ? new AbortController() : null;
+      if (ctl) setTimeout(function () { ctl.abort(); }, 8000);
+      fetch(cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/rpc/smash_board', { headers: h, signal: ctl ? ctl.signal : undefined })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (rows) {
+          if (!Array.isArray(rows)) return;
+          var first = !board;
+          board = {};
+          rows.forEach(function (r) {
+            board[r.code] = { code: r.code, today_score: +r.today_score, today_kills: +r.today_kills, today_players: +r.today_players, total_score: +r.total_score, total_kills: +r.total_kills, total_players: +r.total_players };
+          });
+          document.getElementById('rank').hidden = false;
+          document.getElementById('rank-down').hidden = true;
+          sortSel.querySelector('option[value="hot"]').hidden = false;
+          if (first) { try { var sv = localStorage.getItem('smash-hub-sort'); if (sv === 'hot') sortSel.value = 'hot'; } catch (e) { /* storage blocked */ } }
+          renderBoard(); syncFold(); render();
+          if (first && location.hash === '#rank') document.getElementById('rank').scrollIntoView();
+        })
+        .catch(function () { if (!board) document.getElementById('rank-down').hidden = false; /* the school list still works */ });
+    }
+    try { var saved = localStorage.getItem('smash-hub-sort'); if (saved && saved !== 'hot') sortSel.value = saved; } catch (e) { /* storage blocked */ }
+    q.addEventListener('input', render);
+    sortSel.addEventListener('change', render);
+    render();
+    loadBoard();
+    setInterval(function () { if (document.visibilityState === 'visible') loadBoard(); }, 300000);   // 5분마다 (서버 전송량 한도 때문에 1분에서 늘림)
+  })();
+</script>
+</body>
+</html>
