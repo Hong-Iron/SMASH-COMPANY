@@ -47,7 +47,7 @@ for b in prep["buildings"]:
     samples = [ground(x, z) for x, z in ring]
     g, lo = round(sum(samples) / len(samples), 1), round(min(samples), 1)
     if not b["smash"]:
-        locked.append({"o": ring, "h": b["h"], "lo": lo, "minh": b["minh"], "canopy": b["kind"] == "canopy"})
+        locked.append({"o": ring, "h": b["h"], "lo": lo, "minh": b["minh"], "canopy": b["kind"] == "canopy", "c": "#c4c2bc"})
         continue
     bid = f"b/{b['id']}"
     lv = int(b["levels"]) if b.get("levels") else max(1, round(b["h"] / 3.6))
@@ -64,6 +64,28 @@ for b in prep["buildings"]:
         if st == "glass": lk["glass"] = hexc(mean); lk["wall"] = hexc([c * 1.25 + 20 for c in mean])
         else: lk["wall"] = hexc([c * 1.15 for c in mean])
         look[bid] = lk
+
+# ---------- cap: the engine gives every smashable building its own material (one draw call each), so a dense area keeps
+# only the MAX_SMASH biggest (height x footprint) breakable; the rest stand as fixed blocks tinted with their roof photo
+MAX_SMASH = 350
+if len(buildings) > MAX_SMASH:
+    def size(r):
+        o = r["o"]; return r["h"] * abs(sum(o[i - 1][0] * o[i][1] - o[i][0] * o[i - 1][1] for i in range(len(o)))) / 2
+    buildings.sort(key=size, reverse=True)
+    for r in buildings[MAX_SMASH:]:
+        rc = r.get("rc", "#b8b4aa")
+        mix = "#%02x%02x%02x" % tuple(int(int(rc[i:i + 2], 16) * 0.55 + 200 * 0.45) for i in (1, 3, 5))
+        locked.append({"o": r["o"], "h": r["h"], "lo": r["lo"], "minh": 0, "canopy": False, "c": mix})
+        look.pop(r["id"], None)
+    buildings = buildings[:MAX_SMASH]
+
+# ---------- photo-checked looks (tools/LOOKS_BRIEF.md → raw/looks/<area>_*.out.json) win over the guessed ones ----------
+photo = 0
+for f in sorted((ROOT / "raw" / "looks").glob(f"{AID}_*.out.json")):
+    for bid, v in json.loads(f.read_text(encoding="utf-8")).items():
+        if bid.startswith("_") or not isinstance(v, dict) or not v.get("style"): continue
+        look[bid] = {k: v[k] for k in ("style", "wall", "glass", "frame", "bay", "winW", "winH", "roof", "hip") if k in v}
+        photo += 1
 
 # ---------- overlaps: two prisms in the same place flicker (coplanar walls and roofs), so only one may stay ----------
 # rule: when the shared area is over 15% of the smaller footprint (5% for footprints under 300 m²), an unbreakable building wins over a breakable one
@@ -127,4 +149,4 @@ out = ROOT / "data"; out.mkdir(exist_ok=True)
 (out / f"{AID}.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 (out / f"{AID}.look.json").write_text(json.dumps(look, ensure_ascii=False, indent=0), encoding="utf-8")
 print(f"{AID}: {len(buildings)} smashable, {len(locked)} locked, {len(roads)} roads, {len(lands)} lands, "
-      f"{len(trees)} trees, look for {len(look)}, dropped {dropped} overlapping")
+      f"{len(trees)} trees, look for {len(look)} ({photo} photo-checked), dropped {dropped} overlapping")

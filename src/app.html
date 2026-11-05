@@ -928,10 +928,13 @@ if (D.locked && D.locked.length) {
     const geo = new THREE.ExtrudeGeometry(shape, { depth: y1 - y0, bevelEnabled: false });
     geo.rotateX(-Math.PI / 2); geo.translate(0, y0, 0);
     geo.deleteAttribute('uv');
+    const col = new THREE.Color(L.c || '#c4c2bc'), n = geo.attributes.position.count, ca = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) { ca[i * 3] = col.r; ca[i * 3 + 1] = col.g; ca[i * 3 + 2] = col.b; }
+    geo.setAttribute('color', new THREE.BufferAttribute(ca, 3));
     parts.push(geo);
   }
   if (parts.length) {
-    const lockedMesh = new THREE.Mesh(mergeGeometries(parts), new THREE.MeshStandardMaterial({ color: '#c4c2bc', roughness: 0.92 }));
+    const lockedMesh = new THREE.Mesh(mergeGeometries(parts), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92 }));
     lockedMesh.castShadow = lockedMesh.receiveShadow = true;
     lockedMesh.name = 'locked';
     scene.add(lockedMesh);
@@ -998,6 +1001,9 @@ placeTrees();
 scene.add(trunks, crowns);
 
 // ============ building materials (procedural facade shader)
+// SMASH 회사: per-building comic facade tiles (tools/comic_facades.py → facades.webp next to the page, 16 x 16 tiles)
+const FACADE_TEX = new THREE.TextureLoader().load('facades.webp');
+FACADE_TEX.colorSpace = THREE.SRGBColorSpace; FACADE_TEX.anisotropy = 4;
 const STYLE = {
   stone:    { wall: '#d6d0c2', glass: '#2c3843', roof: '#8f8d86', frame: '#e9e7e1', bay: 3.4, winW: 0.52, winH: 0.5,  sill: 0.3,  brick: 0, gr: 0.12 },
   brick:    { wall: '#8a4a38', glass: '#28313a', roof: '#76746f', frame: '#e6e1d6', bay: 3.0, winW: 0.48, winH: 0.55, sill: 0.28, brick: 1, gr: 0.16 },
@@ -1020,6 +1026,7 @@ function patchBuilding(sh) {
   sh.fragmentShader = sh.fragmentShader
     .replace('#include <common>', `#include <common>
 uniform vec3 uWall; uniform vec3 uGlass; uniform vec3 uRoof; uniform vec3 uFrame;
+uniform sampler2D uFac; uniform float uTile; uniform vec2 uTileM;
 uniform float uBay; uniform float uFloor; uniform float uWinW; uniform float uWinH; uniform float uSill; uniform float uBrick; uniform float uSeed; uniform float uGlassRough; uniform float uTop; uniform float uLo; uniform float uNight;
 varying vec2 vFuv; varying float vKind; varying vec2 vDoor;
 ${NOISE}
@@ -1098,6 +1105,20 @@ vec3 gLitCol = vec3(1.0, 0.76, 0.42);
     float lit = step(0.5, h21(cell * 2.37 + uSeed * 3.1)) * step(uLo + 1.0, vFuv.y);
     gLitCol = mix(vec3(1.0, 0.74, 0.4), vec3(0.82, 0.9, 1.0), step(0.62, h21(cell * 0.71 + uSeed * 1.3)));
     gLit = mix(win * (1.0 - bars) * lit, cover * 0.3, far);
+    if (uTile > -0.5) {
+      // SMASH 회사: this building's comic facade tile, 4 bays x 4 floors, alpha = window mask
+      vec2 q = vec2(vFuv.x, vFuv.y - uFloor) / uTileM;
+      float tk = floor(uTile / 16.0);
+      vec2 inner = vec2(1.0 / 16.0 - 2.0 / 2048.0);
+      vec2 auv = vec2(mod(uTile, 16.0) / 16.0, 1.0 - (tk + 1.0) / 16.0) + 1.0 / 2048.0 + fract(q) * inner;
+      vec4 tx = textureGrad(uFac, auv, dFdx(q) * inner, dFdy(q) * inner);
+      float abv = step(uLo + 0.7, vFuv.y) * (1.0 - step(uTop - 0.4, vFuv.y));
+      float wm = smoothstep(0.35, 0.75, tx.a);
+      col = mix(col, tx.rgb, abv);
+      gGlass = mix(gGlass, wm, abv);
+      gLit = mix(gLit, wm * lit, abv);
+      gHgt = mix(gHgt, -0.18 * wm * (1.0 - far), abv);
+    }
     // ground floor: granite piers, shop-front glass and a fascia band under the first slab
     {
       float gz = 1.0 - step(uFloor, vFuv.y);
@@ -1201,6 +1222,7 @@ function makeMaterial(b) {
     uFrame: { value: new THREE.Color(st.frame) }, uTop: { value: b.h }, uLo: { value: b.lo - b.g }, uGround: { value: b.g },
     uBay: { value: st.bay }, uFloor: { value: b.fh }, uWinW: { value: st.winW }, uWinH: { value: st.winH }, uSill: { value: st.sill },
     uBrick: { value: st.brick }, uSeed: { value: (hashStr(b.id) % 1000) / 37 }, uGlassRough: { value: st.gr },
+    uFac: { value: FACADE_TEX }, uTile: { value: b.t ?? -1 }, uTileM: { value: new THREE.Vector2(...(b.tm || [24, 28])) },
   };
   m.onBeforeCompile = patchBuilding;
   return m;

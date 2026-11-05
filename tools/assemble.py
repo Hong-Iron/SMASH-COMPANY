@@ -64,6 +64,7 @@ for aid in ids:
     (out / "index.html").write_text(doc, encoding="utf-8")
     shutil.copy(root / "site" / "pp-stub.js", out / "pp-stub.js")   # the engine's import map points at ./pp-stub.js
     for g in ("ground.webp", "ground_m.webp"):                          # aerial photo made by tools/prep_area.py
+        # (facades.webp is written straight into site/<area>/ by tools/comic_facades.py)
         src = root / "site" / "areas" / aid / g
         if src.exists(): shutil.copy(src, out / g)
     print(f"site/{aid}/index.html", len(doc.encode()) // 1024, "KB")
