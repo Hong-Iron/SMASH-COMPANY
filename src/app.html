@@ -401,7 +401,7 @@ kbd { font: 500 10.5px var(--font-data); color: var(--muted); }
             <path d="M16.6 6.9c.9-1.9 2.4-2.8 4.1-2.6"></path>
             <path d="M20.7 1.6v1.3M22.4 3.6h-1.3M22 2l-.9.9"></path>
           </svg>
-          <span class="tn">사직서</span><span class="td">넓게 날림</span><kbd>1</kbd>
+          <span class="tn">폭탄</span><span class="td">넓게 날림</span><kbd>1</kbd>
         </button>
         <button class="tool" type="button" role="radio" aria-checked="false" data-tool="bat">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true">
@@ -410,7 +410,7 @@ kbd { font: 500 10.5px var(--font-data); color: var(--muted); }
             <circle cx="4" cy="20" r="1.4" fill="currentColor" stroke="none"></circle>
             <circle cx="18.2" cy="16.6" r="2.6" stroke-width="1.6"></circle>
           </svg>
-          <span class="tn">가발</span><span class="td">부장님 가발</span><kbd>2</kbd>
+          <span class="tn">배트</span><span class="td">멀리 날림</span><kbd>2</kbd>
         </button>
         <button class="tool" type="button" role="radio" aria-checked="false" data-tool="laser">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -419,20 +419,20 @@ kbd { font: 500 10.5px var(--font-data); color: var(--muted); }
             <path d="M12 6v11" stroke-width="2.6"></path>
             <path d="M12 17l-4 4M12 17l4 4M12 17v5M6.5 18.5h11"></path>
           </svg>
-          <span class="tn">엑셀</span><span class="td">엑셀 레이저</span><kbd>3</kbd>
+          <span class="tn">레이저</span><span class="td">끌어서 자름</span><kbd>3</kbd>
         </button>
         <button class="tool" type="button" role="radio" aria-checked="false" data-tool="meteor">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <circle cx="15.5" cy="15.5" r="5.5" fill="currentColor" stroke="none"></circle>
             <path d="M3 3l7.5 7.5M8 2.5l4.5 4.5M2.5 8l4.5 4.5"></path>
           </svg>
-          <span class="tn">결재</span><span class="td">결재 도장</span><kbd>4</kbd>
+          <span class="tn">운석</span><span class="td">하늘에서</span><kbd>4</kbd>
         </button>
         <button class="tool" type="button" role="radio" aria-checked="false" data-tool="quake">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M2 12h3l2.2-6 3.2 12 3.2-14 3 16 2.2-8H22"></path>
           </svg>
-          <span class="tn">월요병</span><span class="td">땅이 흔들림</span><kbd>5</kbd>
+          <span class="tn">지진</span><span class="td">땅이 흔들림</span><kbd>5</kbd>
         </button>
         <button class="tool" type="button" role="radio" aria-checked="false" data-tool="nuke">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -441,20 +441,11 @@ kbd { font: 500 10.5px var(--font-data); color: var(--muted); }
             <path d="M15.6 12L21.6 12A9.6 9.6 0 0 1 16.8 20.31L13.8 15.12A3.6 3.6 0 0 0 15.6 12Z"></path>
             <path d="M10.2 15.12L7.2 20.31A9.6 9.6 0 0 1 2.4 12L8.4 12A3.6 3.6 0 0 0 10.2 15.12Z"></path>
           </svg>
-          <span class="tn">퇴사</span><span class="td">통째로</span><kbd>6</kbd>
-        </button>
-        <button class="tool" type="button" role="radio" aria-checked="false" data-tool="giant">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="10" y="1.6" width="5" height="5" rx="1" fill="currentColor" stroke="none"></rect>
-            <path d="M12.3 9.2l-1.2 6.3"></path>
-            <path d="M11.1 15.5l-4 2.4-1.2 4.1M11.1 15.5l3.6 2.6 1.4 3.9"></path>
-            <path d="M12.2 10l-4.6 2.3M12.2 10l4.2 3"></path>
-          </svg>
-          <span class="tn">거인</span><span class="td">15초 달림</span><kbd>7</kbd>
+          <span class="tn">핵폭탄</span><span class="td">통째로</span><kbd>6</kbd>
         </button>
       </div>
       <div class="toolopt" id="opt-bat" hidden>
-        <label for="bat-size">가발 크기</label>
+        <label for="bat-size">배트 크기</label>
         <output id="bat-size-out" for="bat-size"></output>
         <input type="range" id="bat-size" min="0.5" max="3" step="0.25" value="1">
       </div>
@@ -3327,7 +3318,7 @@ function makeGiant() {
 // the model takes a moment to build, so it is built once (ahead of time when the page is idle) and reused
 let giantMesh = null;
 const giantModel = () => giantMesh || (giantMesh = makeGiant());
-(window.requestIdleCallback || ((f) => setTimeout(f, 3000)))(() => giantModel(), { timeout: 8000 });
+// SMASH 회사: the giant tool is removed, so its model is never prebuilt
 const giantPad = { x: 0, y: 0, id: null }, giantKeys = new Set();
 function startGiant(x, z) {
   pushHistory();
@@ -3949,7 +3940,7 @@ function toast(text) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { el.classList.add('fade'); toastTimer = setTimeout(() => { el.hidden = true; }, 500); }, 2600);
 }
-const TOOL_TIPS = { laser: '끌어서 선을 그으면 그 선을 따라 자릅니다. 톡 누르면 한 점만 태웁니다.', meteor: '누른 곳에 결재 도장이 떨어집니다.', quake: '누른 곳이 진원이 됩니다. 아래 막대로 세기를 고르세요.', bat: '아래 막대로 가발 크기를 고르세요. 70 m 넘게 날리면 홈런입니다.', giant: '누른 곳에 거인이 내려와 15초 동안 달립니다. 동그란 패드(또는 방향키)로 방향만 바꿀 수 있어요.' };
+const TOOL_TIPS = { laser: '끌어서 선을 그으면 그 선을 따라 자릅니다. 톡 누르면 한 점만 태웁니다.', meteor: '누른 곳에 운석이 떨어집니다.', quake: '누른 곳이 진원이 됩니다. 아래 막대로 세기를 고르세요.', bat: '아래 막대로 배트 크기를 고르세요. 70 m 넘게 날리면 홈런입니다.', giant: '누른 곳에 거인이 내려와 15초 동안 달립니다. 동그란 패드(또는 방향키)로 방향만 바꿀 수 있어요.' };
 function setTool(t) {
   if (t !== tool && TOOL_TIPS[t]) toast(TOOL_TIPS[t]);
   if (t === 'giant') setTimeout(giantModel, 0);   // build before the first tap, not on it
@@ -4370,7 +4361,7 @@ addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !$('share-modal').hidden) { closeShare(); return; }
   if (e.key === 'Escape' && cine) { endCine(); return; }
   if (e.key === 'n' || e.key === 'N') { setNight(!night); store('smash-night', night ? 1 : 0); return; }
-  const keys = { 1: 'bomb', 2: 'bat', 3: 'laser', 4: 'meteor', 5: 'quake', 6: 'nuke', 7: 'giant' };
+  const keys = { 1: 'bomb', 2: 'bat', 3: 'laser', 4: 'meteor', 5: 'quake', 6: 'nuke' };   // SMASH 회사: no giant
   if (keys[e.key]) setTool(keys[e.key]);
 });
 // giant pad: the knob's offset from the centre is the steering input; letting go keeps running straight

@@ -133,11 +133,13 @@ for e in osm["elements"]:
 parts = [b for b in items if b["part"]]
 outlines = [b for b in items if not b["part"]]
 for b in outlines:
-    # Simple 3D Buildings: an outline that contains parts is drawn by its parts instead
-    b["skip"] = any(inside(p["c"], b["ring"]) for p in parts if abs(p["c"][0] - b["c"][0]) < 200 and abs(p["c"][1] - b["c"][1]) < 200)
-    if b["skip"]:
-        for p in parts:
-            if inside(p["c"], b["ring"]): p.setdefault("parent", b)
+    # The SMASH engine raises every building from the ground and cannot stack parts, so an outline that contains
+    # building:parts is kept whole (as tall as its tallest part) and the parts are dropped; drawing both made
+    # overlapping prisms that flickered.
+    kids = [p for p in parts if abs(p["c"][0] - b["c"][0]) < 200 and abs(p["c"][1] - b["c"][1]) < 200 and inside(p["c"], b["ring"])]
+    if kids:
+        b["kids"] = kids
+        for p in kids: p["skip"] = True; p.setdefault("parent", b)
 
 
 # ---------- VWorld building data (heights, floors, use codes, names) when tools/vworld.py has run ----------
@@ -215,6 +217,8 @@ for b in items:
     parent = b.get("parent")
     pt = parent["tags"] if parent else {}
     h, mh = height_of(b)
+    if b.get("kids"):
+        h = max([h] + [sum(height_of(k)) for k in b["kids"]]); mh = 0.0
     btype = t.get("building") if t.get("building") not in (None, "yes", "part") else pt.get("building", t.get("building", "yes"))
     v = b.get("vw") or (parent or {}).get("vw")
     name = t.get("name") or pt.get("name") or (v and (v["name"] or v["dong"])) or ""
