@@ -133,13 +133,11 @@ for e in osm["elements"]:
 parts = [b for b in items if b["part"]]
 outlines = [b for b in items if not b["part"]]
 for b in outlines:
-    # The SMASH engine raises every building from the ground and cannot stack parts, so an outline that contains
-    # building:parts is kept whole (as tall as its tallest part) and the parts are dropped; drawing both made
-    # overlapping prisms that flickered.
     kids = [p for p in parts if abs(p["c"][0] - b["c"][0]) < 200 and abs(p["c"][1] - b["c"][1]) < 200 and inside(p["c"], b["ring"])]
     if kids:
-        b["kids"] = kids
-        for p in kids: p["skip"] = True; p.setdefault("parent", b)
+        # Simple 3D Buildings: the parts carry the real massing (podium, towers, raised bridges), so the outline is skipped
+        b["skip"] = True
+        for p in kids: p.setdefault("parent", b)
 
 
 # ---------- VWorld building data (heights, floors, use codes, names) when tools/vworld.py has run ----------
@@ -148,7 +146,8 @@ VW_OFF = {"01000", "02000", "06000", "09000", "11000", "23000"}
 VW_USE = {"14000": "office", "03000": "commercial", "04000": "commercial", "07000": "retail", "10000": "research",
           "17000": "industrial", "18000": "warehouse", "20000": "garage"}
 vw = json.loads((RAW / "vworld_bld.json").read_text(encoding="utf-8")) if (RAW / "vworld_bld.json").exists() else []
-for v in vw:
+for vi, v in enumerate(vw):
+    v["idx"] = vi
     if len(v["ring"]) > 1 and v["ring"][0] == v["ring"][-1]: v["ring"] = v["ring"][:-1]
     v["area"] = abs(area_of([tuple(p) for p in v["ring"]])) if len(v["ring"]) > 2 else 0
     v["c"] = centroid(v["ring"]) if v["ring"] else (1e9, 1e9)
@@ -191,10 +190,17 @@ for v in vw:
     items.append({"osm": "vw", "ring": r, "tags": {"building": "yes"}, "part": False, "area": v["area"], "c": v["c"], "vw": v})
 
 
+OVR = json.loads((ROOT / "overrides.json").read_text(encoding="utf-8")).get(AID, {}) if (ROOT / "overrides.json").exists() else {}
+
+
 def height_of(b):
     t = b["tags"]
+    o = OVR.get(b["osm"])
+    if o and "h" in o:
+        return max(o["h"], 3.0), o.get("minh", num(t.get("min_height")) or 0.0)
     v = b.get("vw")
-    if v and not b["part"] and (v["h"] > 0 or v["floors"] > 0):
+    osm_says = num(t.get("height")) is not None or num(t.get("building:levels")) is not None
+    if v and not b["part"] and not osm_says and (v["h"] > 0 or v["floors"] > 0):
         h = v["h"] if v["h"] >= max(v["floors"], 1) * 2.4 else v["floors"] * 3.8 + 1.0
         return max(h, 3.0), 0.0
     h = num(t.get("height"))
@@ -217,8 +223,6 @@ for b in items:
     parent = b.get("parent")
     pt = parent["tags"] if parent else {}
     h, mh = height_of(b)
-    if b.get("kids"):
-        h = max([h] + [sum(height_of(k)) for k in b["kids"]]); mh = 0.0
     btype = t.get("building") if t.get("building") not in (None, "yes", "part") else pt.get("building", t.get("building", "yes"))
     v = b.get("vw") or (parent or {}).get("vw")
     name = t.get("name") or pt.get("name") or (v and (v["name"] or v["dong"])) or ""
@@ -231,7 +235,9 @@ for b in items:
     elif h >= 15: kind = "concrete"
     else: kind = "plaster"
     gz = min(ground_z(x, y) for x, y in b["ring"])
-    out.append({"id": len(out), "osm": b["osm"], "group": parent["osm"] if parent else b["osm"], "name": name,
+    # one building = its OSM parent, or every OSM way that overlaps the same VWorld building (e.g. towers + sky bridge)
+    grp = parent["osm"] if parent else (f"vw{b['vw']['idx']}" if b.get("vw") else b["osm"])
+    out.append({"id": len(out), "osm": b["osm"], "group": grp, "name": name,
                 "type": btype, "kind": kind, "smash": not off and kind != "canopy",
                 "h": round(h, 1), "minh": round(mh, 1), "base": round(gz, 2),
                 "levels": num(t.get("building:levels")),
@@ -282,6 +288,12 @@ for b in out:
     b["tint"] = [round(float(t), 3) for t in tint]
     b["uoff"] = round((h_ >> 12) % 240 / 10, 1)
     b["roof"] = [int(c) for c in rc] if rc is not None else None
+
+# ---------- parts of one building stand on one ground level (the lowest under any of them) ----------
+gb = {}
+for b in out: gb[b["group"]] = min(gb.get(b["group"], 1e9), b["base"])
+for b in out:
+    if sum(1 for o in out if o["group"] == b["group"]) > 1: b["base"] = gb[b["group"]]; b["gbase"] = True
 
 # ---------- trees ----------
 trees = []

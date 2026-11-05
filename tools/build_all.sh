@@ -10,5 +10,5 @@ for a in $areas; do
   echo "== $a"
   [[ -f raw/$a/osm.json ]] || python3 tools/fetch.py $a || { echo "fetch failed: $a"; continue; }
   [[ -f raw/$a/aerial.jpg ]] || $PY tools/vworld.py $a || { echo "vworld failed: $a"; continue; }
-  $PY tools/prep_area.py $a && $PY tools/to_smash.py $a && python3 tools/assemble.py $a
+  $PY tools/prep_area.py $a && $PY tools/to_smash.py $a && $PY tools/comic_facades.py $a && python3 tools/assemble.py $a
 done

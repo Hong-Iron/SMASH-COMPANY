@@ -1,0 +1,4 @@
+{
+ "_note": "Hand checks of landmark buildings, keyed by area then OSM id (w<id>). h = top above ground (m), minh = where a raised block starts. Add an entry only when OSM and VWorld are both wrong; give the source in 'why'.",
+ "pangyo-tv1": {}
+}
