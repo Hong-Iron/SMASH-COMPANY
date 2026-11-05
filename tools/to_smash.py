@@ -65,12 +65,19 @@ for b in prep["buildings"]:
     buildings.append(rec)
     v = FAC.get(b.get("fac"))
     if v:
-        t = b.get("tint", [1, 1, 1])
-        mean = [m * k for m, k in zip(v["mean"], t)]
+        # buildings without a photo check: the style from our facade pick, colours from palettes of real Korean office
+        # facades (curtain-wall glass is a darkish grey-blue / grey-green, cladding is concrete, metal or stone)
         st = STYLE_FOR[v["kind"]]
+        hsh = int(b["id"]) * 2654435761 % 2**32
+        pick = lambda arr, k: arr[(hsh >> k) % len(arr)]
         lk = {"style": st}
-        if st == "glass": lk["glass"] = hexc(mean); lk["wall"] = hexc([c * 1.25 + 20 for c in mean])
-        else: lk["wall"] = hexc([c * 1.15 for c in mean])
+        if st == "glass":
+            lk["glass"] = pick(["#3a5266", "#2f4a5c", "#44586a", "#36494f", "#4a5a63", "#2c3e4e", "#3d4f57", "#506470"], 3)
+            lk["wall"] = pick(["#a9b2ba", "#b8bec3", "#9fa8ae", "#c2c6c8", "#8f989f"], 7)
+            lk["frame"] = pick(["#2b3036", "#4a5157", "#7d858b", "#3a3f44"], 11)
+        else:
+            lk["wall"] = pick(["#bab8b0", "#c9c8c2", "#a9a7a0", "#d3d0c8", "#9a9893", "#c4bcae", "#b0a99c"], 5)
+            lk["glass"] = pick(["#2b353f", "#2d3b47", "#33404a", "#28313a"], 9)
         look[bid] = lk
 
 # ---------- cap: the engine gives every smashable building its own material (one draw call each), so a dense area keeps

@@ -1002,8 +1002,9 @@ scene.add(trunks, crowns);
 
 // ============ building materials (procedural facade shader)
 // SMASH 회사: per-building comic facade tiles (tools/comic_facades.py → facades.webp next to the page, 16 x 16 tiles)
-const FACADE_TEX = new THREE.TextureLoader().load('facades.webp');
-FACADE_TEX.colorSpace = THREE.SRGBColorSpace; FACADE_TEX.anisotropy = 4;
+// (only loaded when the data carries tile numbers; realistic mode leaves them out and the engine's own facade shader draws)
+const FACADE_TEX = D.buildings.some((b) => b.t !== undefined) ? new THREE.TextureLoader().load('facades.webp') : null;
+if (FACADE_TEX) { FACADE_TEX.colorSpace = THREE.SRGBColorSpace; FACADE_TEX.anisotropy = 4; }
 const STYLE = {
   stone:    { wall: '#d6d0c2', glass: '#2c3843', roof: '#8f8d86', frame: '#e9e7e1', bay: 3.4, winW: 0.52, winH: 0.5,  sill: 0.3,  brick: 0, gr: 0.12 },
   brick:    { wall: '#8a4a38', glass: '#28313a', roof: '#76746f', frame: '#e6e1d6', bay: 3.0, winW: 0.48, winH: 0.55, sill: 0.28, brick: 1, gr: 0.16 },
