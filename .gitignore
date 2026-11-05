@@ -1,0 +1,6 @@
+.env
+raw/
+.DS_Store
+__pycache__/
+*.blend1
+site/areas/
