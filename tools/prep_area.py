@@ -244,7 +244,7 @@ for b in items:
                 "ring": [[round(x, 2), round(y, 2)] for x, y in b["ring"]]})
 
 # ---------- per-building facade: variant from the shared atlas + tint from the building's own roof photo ----------
-FAC = json.loads((ROOT / "site" / "tex" / "facades.json").read_text(encoding="utf-8"))["variants"]
+FAC = json.loads((ROOT / "tools" / "facades.json").read_text(encoding="utf-8"))["variants"]
 BYKIND = {}
 for v_ in FAC: BYKIND.setdefault(v_["kind"], []).append(v_)
 MIX = {"glass": [("curtain", 0.7), ("grid", 0.3)], "concrete": [("ribbon", 0.6), ("grid", 0.4)],

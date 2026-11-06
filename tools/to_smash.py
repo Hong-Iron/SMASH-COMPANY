@@ -11,7 +11,7 @@ AREA = json.loads((ROOT / "areas.json").read_text(encoding="utf-8"))[AID]
 RAW = ROOT / "raw" / AID
 prep = json.loads((RAW / "prep.json").read_text(encoding="utf-8"))
 osm = json.loads((RAW / "osm.json").read_text(encoding="utf-8"))
-FAC = {v["i"]: v for v in json.loads((ROOT / "site" / "tex" / "facades.json").read_text(encoding="utf-8"))["variants"]}
+FAC = {v["i"]: v for v in json.loads((ROOT / "tools" / "facades.json").read_text(encoding="utf-8"))["variants"]}
 LAT0, LON0, SIZE = prep["lat"], prep["lon"], prep["size"]
 HALF = SIZE / 2
 phi = math.radians(LAT0)

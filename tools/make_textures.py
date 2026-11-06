@@ -226,7 +226,7 @@ def facade_atlas():
     img = noise(img, 3, 0.8)
     img.save(OUT / "facades.webp", quality=90, method=6)
     img.save(RAWT / "facades.png")
-    (OUT / "facades.json").write_text(json.dumps({"tiles": 8, "tile_m": [TW, TH], "variants": info}), encoding="utf-8")
+    (ROOT / "tools" / "facades.json").write_text(json.dumps({"tiles": 8, "tile_m": [TW, TH], "variants": info}), encoding="utf-8")
     print("wrote facades atlas:", len(info), "variants")
 
 
