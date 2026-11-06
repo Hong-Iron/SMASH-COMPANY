@@ -8,7 +8,7 @@
 
 | 폴더 | 하는 일 |
 |---|---|
-| `src/app.html` | 게임 엔진. SMASH 대학교 엔진 포크(항공사진 땅, 부술 수 없는 건물, 회사판 글자, 공중에서 시작하는 덩어리) |
+| `src/app.html` | 게임 엔진. SMASH 대학교 엔진 포크(항공사진 땅, 부술 수 있는 건물만 그림, 회사판 글자, 공중에서 시작하는 덩어리) |
 | `tools/` | 데이터 받기(`fetch.py`, `vworld.py`), 정리(`prep_area.py`), 엔진 형식으로(`to_smash.py`), 페이지(`assemble.py`), 썸네일(`thumbs.py`), 전부(`build_all.sh`) |
 | `hub/` | SMASH 회사 허브(검색·지도·지구별 랭킹·카드). `hub/build.py` → `site/index.html` |
 | `rank/` | 지구별 랭킹 서버: Cloudflare Worker + D1 (`smash-company-rank`) |

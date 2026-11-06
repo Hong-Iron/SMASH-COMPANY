@@ -1722,6 +1722,11 @@
 "wall": "#c4bcae",
 "glass": "#2d3b47"
 },
+"b/993": {
+"style": "ribbon",
+"wall": "#c9c8c2",
+"glass": "#28313a"
+},
 "b/999": {
 "style": "tan",
 "wall": "#d3d0c8",

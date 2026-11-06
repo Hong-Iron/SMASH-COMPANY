@@ -342,6 +342,11 @@
 "wall": "#a9b2ba",
 "frame": "#2b3036"
 },
+"b/163": {
+"style": "concrete",
+"wall": "#c9c8c2",
+"glass": "#2d3b47"
+},
 "b/165": {
 "style": "glass",
 "glass": "#44586a",

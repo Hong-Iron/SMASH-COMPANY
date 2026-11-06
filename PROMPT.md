@@ -5,6 +5,8 @@ Source of truth for the game, written in the "Marigold Park" format ([[_시스�
 
 > **v2 (2026-11-06, 사용자 지시): 건물이 부서지는 로직, 텍스트, 폰트, UI는 SMASH 대학교와 동일하게 한다.** 게임 엔진은 SMASH 대학교의 `src/app.html`(three 0.160)을 그대로 가져와 쓴다. 건물은 엔진이 OSM·브이월드 데이터로 직접 만들고 조각내므로, 아래 LOOK의 "Blender로 건물 모델링·chunk id·per-chunk visibility texture" 문장은 대체되었다(블렌더는 무기·소품 모델에 쓴다). 데이터는 `tools/to_smash.py`가 SMASH 형식(`data/<area>.json`)으로 바꾸고, 건물마다 엔진의 `look`(style·wall·glass)을 지붕 사진 색과 외벽 선택으로 정한다. 엔진 변경은 세 가지뿐이다: 땅에 브이월드 항공사진을 그림, 부술 수 없는 건물을 무기 대상 밖의 회색 덩어리로 그림, 글자(무기 이름 사직서·가발·엑셀·결재·월요병·퇴사, 학교→회사, 캠퍼스→업무지구). 거인(7)은 SMASH 그대로 두었다. 뜨거운 커피는 아직 자리가 없다.
 
+> **v3 (2026-11-07, 사용자 지시): "못 부술 건물은 아예 렌더링하지 말자. 회색으로 있는 게 불편해."** 부술 수 없는 건물(집·관공서·병원·학교·종교 시설)과 구역당 350동을 넘는 건물은 그리지 않는다. 그 자리는 땅의 항공사진으로만 보인다. 아래 v2의 "회색 덩어리"와 LOOK의 "plain grey blocks … They stay visible" 문장은 대체되었다.
+
 ```text
 PROMPT
 

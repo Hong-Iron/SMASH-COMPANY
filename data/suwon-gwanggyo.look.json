@@ -236,6 +236,11 @@
 "wall": "#bab8b0",
 "glass": "#2d3b47"
 },
+"b/230": {
+"style": "concrete",
+"wall": "#9a9893",
+"glass": "#33404a"
+},
 "b/232": {
 "style": "ribbon",
 "wall": "#c4bcae",

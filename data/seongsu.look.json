@@ -1137,6 +1137,11 @@
 "wall": "#a9b2ba",
 "frame": "#4a5157"
 },
+"b/805": {
+"style": "tan",
+"wall": "#bab8b0",
+"glass": "#2b353f"
+},
 "b/806": {
 "style": "concrete",
 "wall": "#9a9893",

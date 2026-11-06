@@ -1,6 +1,7 @@
 # Converts one prepared sub-area into the SMASH 대학교 engine's data format (data/<area>.json), so buildings are built,
-# chunked and destroyed by the same engine. Unbreakable buildings (homes, schools, care, worship, public safety) go to
-# "locked": the page draws them as plain grey blocks that weapons never target.
+# chunked and destroyed by the same engine. Unbreakable buildings (homes, schools, care, worship, public safety) and the
+# ones past MAX_SMASH are left out entirely (user, 2026-11-07: "못 부술 건물은 아예 렌더링하지 말자"); the aerial photo
+# under them still shows where they stand.
 # usage: ~/.venvs/vault-plots/bin/python tools/to_smash.py <area_id>      (numpy, matplotlib)
 # SMASH axes: x east, z south (metres from the centre); terrain heights in decimetres, rows along z.
 import json, math, pathlib, sys
@@ -139,7 +140,8 @@ def shared(a, b, n=14):
     return 0.0 if not ina.any() else float((ina & Path(b).contains_points(g)).sum() / ina.sum())
 
 
-allb = [("S", r) for r in buildings] + [("L", r) for r in locked]
+n_locked = len(locked)
+allb = [("S", r) for r in buildings]                      # locked buildings are not drawn, so they never hide one
 box = [(min(p[0] for p in r["o"]), max(p[0] for p in r["o"]), min(p[1] for p in r["o"]), max(p[1] for p in r["o"])) for _, r in allb]
 gone = set()
 for i in range(len(allb)):
@@ -183,9 +185,9 @@ trees = [[x, -y, 0.8] for x, y in prep["trees"]]
 
 data = {"terrain": terrain, "campus": [[[-HALF, -HALF], [HALF, -HALF], [HALF, HALF], [-HALF, HALF]]],
         "buildings": buildings, "roads": roads, "lands": lands, "trees": trees,
-        "meta": {"lat": LAT0, "lon": LON0, "area": AID, "size": SIZE}, "locked": locked}
+        "meta": {"lat": LAT0, "lon": LON0, "area": AID, "size": SIZE}, "locked": []}
 out = ROOT / "data"; out.mkdir(exist_ok=True)
 (out / f"{AID}.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 (out / f"{AID}.look.json").write_text(json.dumps(look, ensure_ascii=False, indent=0), encoding="utf-8")
-print(f"{AID}: {len(buildings)} smashable, {len(locked)} locked, {len(roads)} roads, {len(lands)} lands, "
+print(f"{AID}: {len(buildings)} smashable, {n_locked} locked (not drawn), {len(roads)} roads, {len(lands)} lands, "
       f"{len(trees)} trees, look for {len(look)} ({photo} photo-checked), dropped {dropped} overlapping")
