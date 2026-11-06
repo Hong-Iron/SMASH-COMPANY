@@ -11,6 +11,12 @@ assert all(k in tpl for k in ("__CAU_DATA__", "__TITLE__", "__PAGE_TITLE__", "__
 ids = sys.argv[1:] or [p.stem for p in (root / "data").glob("*.json") if not p.stem.endswith(".look")]
 e = lambda v: html.escape(v, quote=True)
 
+
+def eul(word):   # 을/를 by whether the last syllable has a final consonant
+    c = word.strip()[-1:]
+    return word + ("을" if c and "가" <= c <= "힣" and (ord(c) - 0xAC00) % 28 else "를")
+
+
 for aid in ids:
     a = areas[aid]
     data = json.loads((root / "data" / f"{aid}.json").read_text(encoding="utf-8"))
@@ -18,7 +24,7 @@ for aid in ids:
     cfg = dict(base)
     cfg.update({"code": aid.upper(), "school": a["district"], "fullName": f"{a['district']} {a['name']}",
                 "campusName": f"{a['district']} {a['name']}", "url": f"{base['url']}{aid}/",
-                "tagline": f"{a['district']} {a['name']}를 부셔 (월요병 해소)",
+                "tagline": f"{eul(a['district'] + ' ' + a['name'])} 부셔 (월요병 해소)",
                 "description": f"{a['district']} {a['name']}의 실제 회사 건물을 3D로 부수는 스트레스 해소 게임",
                 "ogAlt": f"무너지는 {a['district']} {a['name']} 3D 화면과 SMASH 회사 제목",
                 "look": json.loads(lookf.read_text(encoding="utf-8")) if lookf.exists() else {}})
@@ -46,7 +52,10 @@ for aid in ids:
 <meta property="og:description" content="{e(cfg['tagline'])}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{e(url)}">
-<meta property="og:image" content="{e(url)}og.png">
+<meta property="og:image" content="{e(url)}og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="{e(url)}og.jpg">
 <meta property="og:image:alt" content="{e(cfg['ogAlt'])}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../icon-32.png" sizes="32x32">

@@ -12,12 +12,12 @@
 <meta property="og:description" content="우리 회사를 부셔 (월요병 해소)">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hong-iron.github.io/SMASH-COMPANY/">
-<meta property="og:image" content="https://hong-iron.github.io/SMASH-COMPANY/og.png">
+<meta property="og:image" content="https://hong-iron.github.io/SMASH-COMPANY/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="여러 업무지구의 회사 건물이 3D로 부서지는 화면과 SMASH 회사 제목">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://hong-iron.github.io/SMASH-COMPANY/og.png">
+<meta name="twitter:image" content="https://hong-iron.github.io/SMASH-COMPANY/og.jpg">
 <link rel="icon" href="icon-32.png" sizes="32x32">
 <link rel="icon" href="icon-512.png" sizes="512x512">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -528,7 +528,7 @@ button:active, .hits a:active { transform: translateY(1px); }
       a.className = 'card'; a.href = s.url;
       var img = document.createElement('img');
       img.src = s.url + 'card.webp'; img.alt = s.campus + '가 부서지는 게임 화면'; img.loading = 'lazy'; img.width = 600; img.height = 315;
-      img.onerror = function () { this.onerror = null; this.src = s.url + 'og.png'; };   // card.webp가 아직 없는 학교
+      img.onerror = function () { this.onerror = null; this.src = s.url + 'og.jpg'; };   // card.webp가 아직 없는 학교
       var body = document.createElement('div'); body.className = 'body';
       var code = document.createElement('span'); code.className = 'code'; code.textContent = 'SMASH ' + s.code;
       var name = document.createElement('span'); name.className = 'name'; name.textContent = s.campus;
@@ -756,7 +756,7 @@ button:active, .hits a:active { transform: translateY(1px); }
       var a = aspect(), w = 18, h = w * a;   // 핀은 왼쪽 4분의 1 지점, 오른쪽 절반은 썸네일
       animateTo({ x: s.mx - w * 0.24, y: s.my - h * 0.55, w: w, h: h });
       var msImg = document.getElementById('ms-img');
-      msImg.onerror = function () { this.onerror = null; this.src = s.url + 'og.png'; };
+      msImg.onerror = function () { this.onerror = null; this.src = s.url + 'og.jpg'; };
       msImg.src = s.url + 'card.webp';
       document.getElementById('ms-img').alt = s.campus + ' 게임 화면';
       document.getElementById('ms-code').textContent = 'SMASH ' + s.code;

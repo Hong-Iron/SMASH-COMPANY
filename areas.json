@@ -158,5 +158,95 @@
   "anchor": "디지털미디어시티역 (OSM)",
   "region": "서울 마포구",
   "nameEn": "Sangam DMC"
+ },
+ "busan-centum": {
+  "district": "부산",
+  "name": "센텀시티",
+  "lat": 35.16859,
+  "lon": 129.13122,
+  "size": 1200,
+  "anchor": "센텀시티역 (OSM)",
+  "region": "부산 해운대구",
+  "nameEn": "Busan Centum City"
+ },
+ "busan-munhyeon": {
+  "district": "부산",
+  "name": "문현 금융단지",
+  "lat": 35.14733,
+  "lon": 129.06566,
+  "size": 1200,
+  "anchor": "부산국제금융센터 (OSM)",
+  "region": "부산 남구",
+  "nameEn": "Busan Munhyeon Financial Center"
+ },
+ "busan-seomyeon": {
+  "district": "부산",
+  "name": "서면",
+  "lat": 35.15777,
+  "lon": 129.05926,
+  "size": 1200,
+  "anchor": "서면역 (OSM)",
+  "region": "부산 부산진구",
+  "nameEn": "Busan Seomyeon"
+ },
+ "daegu-beomeo": {
+  "district": "대구",
+  "name": "범어",
+  "lat": 35.85905,
+  "lon": 128.62652,
+  "size": 1200,
+  "anchor": "범어역 (OSM)",
+  "region": "대구 수성구",
+  "nameEn": "Daegu Beomeo"
+ },
+ "daejeon-dunsan": {
+  "district": "대전",
+  "name": "둔산",
+  "lat": 36.35761,
+  "lon": 127.38162,
+  "size": 1200,
+  "anchor": "정부청사역 (OSM)",
+  "region": "대전 서구",
+  "nameEn": "Daejeon Dunsan"
+ },
+ "gwangju-sangmu": {
+  "district": "광주",
+  "name": "상무지구",
+  "lat": 35.14673,
+  "lon": 126.84865,
+  "size": 1200,
+  "anchor": "상무역 (OSM)",
+  "region": "광주 서구",
+  "nameEn": "Gwangju Sangmu"
+ },
+ "incheon-songdo": {
+  "district": "인천",
+  "name": "송도",
+  "lat": 37.39351,
+  "lon": 126.63456,
+  "size": 1200,
+  "anchor": "센트럴파크역 (OSM)",
+  "region": "인천 연수구",
+  "nameEn": "Incheon Songdo"
+ },
+ "suwon-gwanggyo": {
+  "district": "수원",
+  "name": "광교",
+  "lat": 37.28856,
+  "lon": 127.05152,
+  "size": 1200,
+  "anchor": "광교중앙역 (OSM)",
+  "region": "경기 수원시 영통구",
+  "nameEn": "Suwon Gwanggyo"
+ },
+ "changwon-sangnam": {
+  "district": "창원",
+  "name": "상남동",
+  "lat": 35.2212,
+  "lon": 128.68301,
+  "size": 1200,
+  "anchor": "상남분수광장 (OSM)",
+  "region": "경남 창원시 성산구",
+  "nameEn": "Changwon Sangnam"
  }
 }

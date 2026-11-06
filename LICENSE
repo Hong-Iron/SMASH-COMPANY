@@ -1,0 +1,23 @@
+Copyright (c) 2026 Hong-Iron. All rights reserved.
+
+이 저장소의 코드, 그림, 화면 디자인을 복제하거나 고쳐서 배포하거나
+다른 곳에 게시할 수 없습니다. 사이트를 이용하는 것과, GitHub에서
+소스를 읽고 배우는 것은 자유입니다.
+
+"업무지구의 회사 건물을 3D로 부수는 게임"이라는 아이디어는 누구나 쓸 수 있습니다.
+비슷한 게임이나 패러디를 자기 코드로 새로 만드는 것은 환영합니다.
+만들 때 SMASH 회사(https://hong-iron.github.io/SMASH-COMPANY/)와
+SMASH 대학교(https://hong-iron.github.io/SMASH/)에서 영감을 받았다고
+적어 주시면 고맙겠습니다.
+
+이 게임은 회사들과 관계없는 비공식 패러디입니다. 회사 로고를 쓰지 않으며,
+회사가 요청하면 해당 건물이나 이름을 내립니다.
+
+다른 사람의 자료는 각자의 라이선스를 따르며, 위 제한을 받지 않습니다:
+- 건물·도로 데이터: © OpenStreetMap 기여자,
+  Open Database License (ODbL) 1.0 — https://www.openstreetmap.org/copyright
+- 건물 높이·용도·이름, 항공사진(땅·지붕): 국토교통부 브이월드, 공공누리 제1유형(출처표시)
+- 지형 높이: AWS Terrain Tiles (Mapzen terrarium), 각 원자료의 라이선스
+- 시도 경계(hub/korea_provinces.json): 통계청 2013 경계 자료,
+  https://github.com/southkorea/southkorea-maps
+- three.js: MIT License

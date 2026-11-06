@@ -7,3 +7,4 @@ site/areas/
 rank/node_modules
 .wrangler/
 rank/.wrangler/
+site/props.glb

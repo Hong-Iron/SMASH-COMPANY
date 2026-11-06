@@ -34,7 +34,7 @@ gc = f'<script data-goatcounter="{e(cfg["goatcounter"])}" async src="https://gc.
 pub = {k: cfg[k] for k in ("supabaseUrl", "supabaseKey", "rankingPaused") if cfg.get(k)}
 by_name = sorted(schools, key=lambda s: s["name"])  # same order as the page's default "이름순"; the script re-sorts with Korean collation
 cards = "".join(
-    f'<a class="card" href="{e(s["url"])}"><img src="{e(s["url"])}card.webp" alt="{e(s["campus"])}가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace(\'card.webp\',\'og.png\')">'
+    f'<a class="card" href="{e(s["url"])}"><img src="{e(s["url"])}card.webp" alt="{e(s["campus"])}가 부서지는 게임 화면" loading="lazy" width="600" height="315" onerror="this.onerror=null;this.src=this.src.replace(\'card.webp\',\'og.jpg\')">'
     f'<div class="body"><span class="code">SMASH {e(s["name"])}</span><span class="name">{e(s["campus"])}</span>'
     f'<span class="region">{e(s.get("region", ""))}</span><span class="meta"></span><span class="go">부수러 가기 →</span></div></a>'
     for s in by_name)
@@ -65,7 +65,9 @@ LON0, LAT1, K = 124.5, 38.75, 100.0
 KX = K * math.cos(math.radians(36.2))
 INSET_DX, INSET_DY = -1.3, 0.95   # 울릉도·독도(동경 130.5° 동쪽)는 지도 오른쪽 위 바다의 상자 안으로 옮겨 그린다
 proj = lambda lon, lat: (round((lon - LON0) * KX, 1), round((LAT1 - lat) * K, 1))
-SECTIONS = [("seoul", "서울", {"11"}), ("gyeonggi", "경기·인천", {"23", "31"})]   # SMASH 회사: the capital area only
+SECTIONS = [("seoul", "서울", {"11"}), ("gyeonggi", "경기·인천", {"23", "31"}), ("gangwon", "강원", {"32"}),
+            ("chungcheong", "충청", {"25", "29", "33", "34"}), ("jeolla", "전라", {"24", "35", "36"}),
+            ("gyeongbuk", "대구·경북", {"22", "37"}), ("gyeongnam", "부산·울산·경남", {"21", "26", "38"}), ("jeju", "제주", {"39"})]
 prov = json.loads((here / "korea_provinces.json").read_text(encoding="utf-8"))
 def rings_of(f):
     g = f["geometry"]; polys = g["coordinates"] if g["type"] == "MultiPolygon" else [g["coordinates"]]
@@ -109,7 +111,7 @@ secs = []
 groups = []
 for k, name, _ in SECTIONS:
     rs = sec_rings[k]; xs = [p[0] for r in rs for p in r]; ys = [p[1] for r in rs for p in r]
-    lx, ly = proj(127.42, 37.12) if k == "gyeonggi" else label_point(rs)   # 경기 이름표는 서울과 겹치지 않게 남동쪽(이천·안성 부근)에
+    lx, ly = proj(127.42, 37.12) if k == "gyeonggi" else proj(127.62, 33.42) if k == "jeju" else label_point(rs)   # 경기 이름표는 서울과 겹치지 않게 남동쪽(이천·안성 부근)에
     n = sum(1 for s in schools if s["sec"] == k)
     secs.append({"k": k, "name": name, "bbox": [min(xs), min(ys), max(xs), max(ys)], "lx": lx, "ly": ly, "n": n})
     groups.append(f'<g class="sec" data-sec="{k}"><path d="{"".join(ring_d(r) for r in rs)}"/></g>')
@@ -120,7 +122,7 @@ _unused = (f'<g class="inset"><rect x="{ix0}" y="{iy0}" width="{round(ix1 - ix0,
          f'<circle cx="{dx}" cy="{dy}" r="1.6"/><circle cx="{dx + 2.4}" cy="{dy + 0.6}" r="1.2"/>'
          f'<text class="isl" x="{dx + 1}" y="{dy - 6}" text-anchor="middle">독도</text><text class="isl" x="{ux}" y="{uy - 9}" text-anchor="middle">울릉도</text></g>')
 W, Hh = proj(130.78, 33.0)   # (the page frames the visible sections itself)
-map_svg = (f'<svg class="kmap" id="kmap" viewBox="0 0 {W} {Hh}" data-w="{W}" data-h="{Hh}" role="img" aria-label="수도권 지도: 구역을 누르면 그 지역 업무지구가 핀으로 나온다">'
+map_svg = (f'<svg class="kmap" id="kmap" viewBox="0 0 {W} {Hh}" data-w="{W}" data-h="{Hh}" role="img" aria-label="남한 지도: 구역을 누르면 그 지역 업무지구가 핀으로 나온다">'
            f'<rect class="sea" x="-2000" y="-2000" width="5000" height="5000"/><g id="kmap-land">{"".join(groups)}{extra}</g>'
            f'<g id="kmap-labels"></g><g id="kmap-pins"></g></svg>'
            f'<script type="application/json" id="map-sections">{blob(secs)}</script>')
