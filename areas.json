@@ -248,5 +248,15 @@
   "anchor": "상남분수광장 (OSM)",
   "region": "경남 창원시 성산구",
   "nameEn": "Changwon Sangnam"
+ },
+ "ulsan-samsan": {
+  "district": "울산",
+  "name": "삼산",
+  "lat": 35.5388,
+  "lon": 129.343,
+  "size": 1200,
+  "anchor": "울산시외버스터미널(35.53683,129.33858)과 삼산사거리(35.53977,129.34776) 사이 (OSM)",
+  "region": "울산 남구",
+  "nameEn": "Ulsan Samsan"
  }
 }

@@ -5,13 +5,13 @@
 #   site/<area>/card.webp 600 x 315, quality 72 (hub card, about 30 KB)
 # Ranking requests are blocked while it runs, so the test blasts never reach the leaderboard.
 # usage: ~/.venvs/vault-plots/bin/python tools/thumbs.py [area …]      (needs the local server on :8790 — preview "smash-company")
-import base64, io, json, math, os, pathlib, random, shutil, socket, struct, subprocess, sys, tempfile, time, urllib.request
+import base64, io, json, math, os, pathlib, random, re, shutil, socket, struct, subprocess, sys, tempfile, time, urllib.request
 from PIL import Image
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 BASE = "http://localhost:8790"
-SKIP = ("주차", "화장실", "주유소", "관리사무", "경비", "공영")
+SKIP = ("주차", "화장실", "주유소", "관리사무", "경비", "공영", "문화회관", "극장", "미술관", "박물관", "지하")
 
 
 class WS:   # minimal CDP websocket client (standard library only), as in SMASH's cdp_shot.py
@@ -55,6 +55,17 @@ class WS:   # minimal CDP websocket client (standard library only), as in SMASH'
                 return m.get("result", {})
 
 
+BLOCK = re.compile(r"[A-Za-z0-9가-힣]{1,2}동")                  # names that are only a block number ("1동", "A동")
+
+
+def inside(p, ring):
+    x, y, c = p[0], p[1], False
+    for i in range(len(ring)):
+        (x1, y1), (x2, y2) = ring[i - 1], ring[i]
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1): c = not c
+    return c
+
+
 def plan(aid):
     d = json.loads((ROOT / "data" / f"{aid}.json").read_text(encoding="utf-8"))
     bs = []
@@ -63,14 +74,32 @@ def plan(aid):
         a = abs(sum(b["o"][i][0] * b["o"][i - 1][1] - b["o"][i - 1][0] * b["o"][i][1] for i in range(len(b["o"])))) / 2
         bs.append(dict(n=b.get("n"), cx=sum(xs) / len(xs), cz=sum(zs) / len(zs), g=b["g"], h=b["h"], a=a,
                        w=max(max(xs) - min(xs), max(zs) - min(zs))))
-    named = [b for b in bs if b["n"] and not any(s in b["n"] for s in SKIP) and abs(b["cx"]) < 400 and abs(b["cz"]) < 400]
+    named = [b for b in bs if b["n"] and not any(s in b["n"] for s in SKIP) and not BLOCK.fullmatch(b["n"])
+             and abs(b["cx"]) < 400 and abs(b["cz"]) < 400]
     f = max(named or bs, key=lambda b: b["a"] * (1 + b["h"] / 40))
     near = sorted((b for b in (named or bs) if b is not f and b["n"] != f["n"]), key=lambda b: math.hypot(b["cx"] - f["cx"], b["cz"] - f["cz"]))
     near = [b for b in near if math.hypot(b["cx"] - f["cx"], b["cz"] - f["cz"]) < 170][:2]
     dist = min(520, max(200, 2.4 * f["w"] + 1.6 * f["h"]))
     k = math.sqrt(0.22 ** 2 + 0.45 ** 2 + 0.87 ** 2)
     ty = f["g"] + 0.35 * f["h"]
-    cam = [f["cx"] + dist * 0.22 / k, ty + dist * 0.45 / k, f["cz"] + dist * 0.87 / k, f["cx"], ty, f["cz"]]
+    # every footprint the camera could look through (smashable and locked), with its top height
+    walls = [(b["o"], b["g"] + b["h"]) for b in d["buildings"] if b.get("n") != f["n"]] + \
+            [(b["o"], b["lo"] + b["h"]) for b in d.get("locked", [])]
+    walls = [(o, top, min(p[0] for p in o), max(p[0] for p in o), min(p[1] for p in o), max(p[1] for p in o)) for o, top in walls]
+
+    def hits(cam):                                          # samples of the sight line that pass through a building
+        n = 0
+        for i in range(1, 20):
+            t = i / 20; x, y, z = (cam[j] + (cam[j + 3] - cam[j]) * t for j in range(3))
+            n += any(x0 <= x <= x1 and z0 <= z <= z1 and top > y and inside((x, z), o) for o, top, x0, x1, z0, z1 in walls)
+        return n
+
+    cams = []
+    for turn in range(4):                                   # the usual south-east view first, then the other three sides
+        c, sn = math.cos(turn * math.pi / 2), math.sin(turn * math.pi / 2)
+        ox, oz = 0.22 * c - 0.87 * sn, 0.22 * sn + 0.87 * c
+        cams.append([f["cx"] + dist * ox / k, ty + dist * 0.45 / k, f["cz"] + dist * oz / k, f["cx"], ty, f["cz"]])
+    cam = min(cams, key=hits)
     strikes = [x["n"] or [round(x["cx"], 1), round(x["cz"], 1)] for x in [f] + near]
     return cam, strikes, f["n"]
 
@@ -121,6 +150,7 @@ def shoot(aid, w=1200, h=630):
         time.sleep(4)                                           # aerial photo and fonts
         r = ws.call("Runtime.evaluate", expression=js(cam, strikes, place), awaitPromise=True, returnByValue=True, timeout=170000)
         res = r.get("result", {}).get("value")
+        if not res or json.loads(res).get("score", 0) <= 0: raise RuntimeError(f"no blast in the frame: {res}")
         time.sleep(1.0)
         png = base64.b64decode(ws.call("Page.captureScreenshot", format="png")["data"])
     finally:
@@ -135,8 +165,10 @@ def shoot(aid, w=1200, h=630):
 if __name__ == "__main__":
     ids = sys.argv[1:] or [p.name for p in sorted((ROOT / "site").iterdir()) if (p / "index.html").exists() and (ROOT / "data" / f"{p.name}.json").exists()]
     for aid in ids:
-        try:
-            focus, res, og, card = shoot(aid)
-            print(f"{aid}: focus {focus} {res} og.jpg {og} KB card.webp {card} KB", flush=True)
-        except Exception as e:
-            print(f"{aid}: FAILED {type(e).__name__} {e}", flush=True)
+        for attempt in (1, 2):                                  # headless Chrome sometimes drops under load: one retry
+            try:
+                focus, res, og, card = shoot(aid)
+                print(f"{aid}: focus {focus} {res} og.jpg {og} KB card.webp {card} KB", flush=True)
+                break
+            except Exception as e:
+                print(f"{aid}: {'retrying after' if attempt == 1 else 'FAILED'} {type(e).__name__} {e}", flush=True)

@@ -26,7 +26,23 @@ OFF_TYPES = {"apartments", "residential", "house", "detached", "semidetached_hou
              "chapel", "mosque", "shrine", "government", "public", "civic", "fire_station", "police",
              "military", "embassy", "train_station", "transportation"}
 OFF_NAME = re.compile(r"아파트|빌라|주택|오피스텔|초등학교|중학교|고등학교|학교|유치원|어린이집|교회|성당|사찰|절$|병원|의원|"
-                      r"보건|주민센터|행정복지센터|구청|시청|소방|경찰|파출소|지구대|군부대|대사관|도서관|\d{3,4}동$|^\d{3,4}$")
+                      r"보건|주민센터|행정복지센터|구청|시청|소방|경찰|파출소|지구대|군부대|대사관|영사관|도서관|청사|정부|[가-힣]{2,}청(\s|$)|"
+                      r"법원|검찰|세무서|등기소|우체국|의회|국회|선거관리|병무|119|안전센터|복지관|커뮤니티센터|요양|노인|\d{3,4}동$|^\d{3,4}$")
+
+
+# homes without a use code (e.g. all of Daegu in 건물통합정보): apartment brands, and complex blocks numbered "101동"
+APT_NAME = re.compile(r"맨션|빌라|위브|메르디앙|아너스|캐슬|예가|푸르지오|파크드림|리젠시|라온프라이빗|데시앙|하이빌|그린빌|나우빌|"
+                      r"포레스트|유쉘|하늘채|래미안|힐스테이트|아이파크|더샵|e편한세상|이편한세상|자이(\s|$|\d)|스위첸|수자인|"
+                      r"꿈에그린|해링턴|스타힐스|더휴|SK ?뷰|에스케이뷰|아크로|휴먼시아|리첸시아|센트레빌|어울림|코아루|노르웨이숲|"
+                      r"빌리지|타운$|\d단지|맨숀|하이츠|하임$|하우스$|빌(\s|$)|팰리스|브라운스톤|KAN$|아파트")
+APT_DC = re.compile(r"\d{3,4}동?")
+WORK_NAME = re.compile(r"센터|타워|밸리|테크|지식|비즈|빌딩|오피스$|산업|사옥|프라자|플라자|스퀘어|몰")
+
+
+def ko_name(t):
+    """OSM name, or name:ko when the name has no Hangul (e.g. name=Shinsegae, name:ko=신세계)."""
+    n = t.get("name") or ""
+    return n if re.search("[가-힣]", n) else (t.get("name:ko") or n)
 
 
 def ll2xy(lat, lon):
@@ -112,6 +128,7 @@ items = []
 for e in osm["elements"]:
     t = e.get("tags", {})
     if "building" not in t and "building:part" not in t: continue
+    if t.get("location") == "underground" or t.get("tunnel") == "yes" or t.get("building") == "underground": continue
     if e["type"] == "way" and "geometry" in e:
         ring = ring_xy(e["geometry"])
     elif e["type"] == "relation":
@@ -190,6 +207,24 @@ for v in vw:
     items.append({"osm": "vw", "ring": r, "tags": {"building": "yes"}, "part": False, "area": v["area"], "c": v["c"], "vw": v})
 
 
+# OSM residential land: a low building that nothing else identifies is locked only when it stands on it
+RESID = []
+for e in osm["elements"]:
+    if e.get("tags", {}).get("landuse") != "residential": continue
+    if e["type"] == "way" and "geometry" in e: RESID.append(ring_xy(e["geometry"]))
+    elif e["type"] == "relation":
+        RESID += [ring_xy(m["geometry"]) for m in e.get("members", []) if m.get("role") == "outer" and "geometry" in m]
+RESID = [(r, min(p[0] for p in r), max(p[0] for p in r), min(p[1] for p in r), max(p[1] for p in r)) for r in RESID if len(r) > 2]
+
+
+# where 건물통합정보 has no use codes at all (e.g. Daegu), every unidentified low building may be a house
+NO_USE = bool(vw) and sum(1 for v in vw if not v["use"]) > 0.8 * len(vw)
+
+
+def on_resid(c):
+    return any(x0 <= c[0] <= x1 and y0 <= c[1] <= y1 and inside(c, r) for r, x0, x1, y0, y1 in RESID)
+
+
 OVR = json.loads((ROOT / "overrides.json").read_text(encoding="utf-8")).get(AID, {}) if (ROOT / "overrides.json").exists() else {}
 
 
@@ -217,6 +252,7 @@ def height_of(b):
 
 
 out = []
+n_resid = 0
 for b in items:
     if b.get("skip"): continue
     t = b["tags"]
@@ -225,10 +261,18 @@ for b in items:
     h, mh = height_of(b)
     btype = t.get("building") if t.get("building") not in (None, "yes", "part") else pt.get("building", t.get("building", "yes"))
     v = b.get("vw") or (parent or {}).get("vw")
-    name = t.get("name") or pt.get("name") or (v and (v["name"] or v["dong"])) or ""
+    name = ko_name(t) or ko_name(pt) or (v and (v["name"] or v.get("addr") or v["dong"])) or ""
+    addr = (v and v.get("addr")) or ""
     if v and btype in ("yes", None) and v["use"] in VW_USE: btype = VW_USE[v["use"]]
-    off = (btype in OFF_TYPES) or bool(OFF_NAME.search(name)) or t.get("amenity") in ("school", "hospital", "place_of_worship") \
-        or bool(v and v["use"] in VW_OFF)
+    off = (btype in OFF_TYPES) or any(OFF_NAME.search(x) for x in (name, addr)) \
+        or bool(any(APT_NAME.search(x) for x in (name, addr)) and not WORK_NAME.search(name + " " + addr)) \
+        or t.get("amenity") in ("school", "hospital", "place_of_worship") or bool(v and v["use"] in VW_OFF) \
+        or bool(v and APT_DC.fullmatch(v.get("dc") or "") and not WORK_NAME.search(name + " " + addr))
+    # nothing says what a low building on residential land (or anywhere, when NO_USE) is (no name, no use code, no OSM
+    # type or shop): it may be a house, so it stays
+    unknown = btype in ("yes", None, "part") and not name and not (v and v["use"]) and not (t.get("shop") or t.get("amenity"))
+    if not off and unknown and h < 4 * 3.8 + 1.5 and (NO_USE or on_resid(b["c"])):
+        off = True; n_resid += 1
     if btype == "roof": kind = "canopy"
     elif off: kind = "off"
     elif h >= 60 or (btype == "office" and h >= 36): kind = "glass"
@@ -374,5 +418,5 @@ prep = {"id": AID, "lat": LAT0, "lon": LON0, "size": SIZE, "zbase": round(ZBASE,
 (RAW / "prep.json").write_text(json.dumps(prep, ensure_ascii=False), encoding="utf-8")
 kinds = {}
 for b in out: kinds[b["kind"]] = kinds.get(b["kind"], 0) + 1
-print(f"{AID}: {len(out)} buildings {kinds}, trees {len(trees)}, terrain {nx}x{nx} relief {zgrid.max():.1f} m, "
+print(f"{AID}: {len(out)} buildings {kinds}, {n_resid} unknown low homes locked, trees {len(trees)}, terrain {nx}x{nx} relief {zgrid.max():.1f} m, "
       f"tallest {max(b['h'] for b in out):.0f} m")

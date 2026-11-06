@@ -1,6 +1,7 @@
 # Building data and aerial photos from 국토교통부 브이월드 (공공누리 제1유형, 출처 표시).
 # usage: ~/.venvs/vault-plots/bin/python tools/vworld.py <area_id> [--refresh]      (key VWORLD_KEY in .env, never committed)
-#   1. 건물통합정보 (LT_C_BLDGINFO) in the box → raw/<id>/vworld_bld.json (height, floors, use, names); prep_area.py merges it
+#   1. 건물통합정보 (LT_C_BLDGINFO) + 도로명주소 건물 (LT_C_SPBD) in the box → raw/<id>/vworld_bld.json (height, floors, use,
+#      names, complex block numbers); prep_area.py merges it
 #   2. 영상지도 Satellite WMTS tiles → raw/<id>/aerial.jpg, a 4096 px square covering the box in local metres (north up)
 import io, json, math, os, pathlib, subprocess, sys, urllib.parse
 import numpy as np
@@ -68,10 +69,34 @@ for f in features("LT_C_BLDGINFO"):
         bld.append({"ring": ring, "floors": int(float(p.get("grnd_flr") or 0)), "h": float(p.get("height") or 0),
                     "use": (p.get("usability") or "").strip(), "name": (p.get("bld_nm") or "").strip(),
                     "dong": (p.get("dong_nm") or "").strip()})
+# 도로명주소 건물 (LT_C_SPBD): building names and complex block numbers ("102" in an apartment complex) for buildings whose
+# 건물통합정보 entry has neither a name nor a use code (e.g. all of Daegu). Matched by the address polygon's centre.
+def inside(p, ring):
+    x, y, c = p[0], p[1], False
+    for i in range(len(ring)):
+        (x1, y1), (x2, y2) = ring[i - 1], ring[i]
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1): c = not c
+    return c
+
+
+addr = []
+for f in features("LT_C_SPBD"):
+    p, g = f["properties"], f["geometry"]
+    poly = (g["coordinates"][0] if g["type"] == "MultiPolygon" else g["coordinates"])[0]
+    xy = [((lon - LON0) * MLON, (lat - LAT0) * MLAT) for lon, lat in poly]
+    addr.append(((sum(q[0] for q in xy) / len(xy), sum(q[1] for q in xy) / len(xy)),
+                 (p.get("buld_nm") or "").strip(), (p.get("buld_nm_dc") or "").strip()))
+for b in bld:
+    xs = [q[0] for q in b["ring"]]; ys = [q[1] for q in b["ring"]]
+    for c, nm, dc in addr:
+        if min(xs) <= c[0] <= max(xs) and min(ys) <= c[1] <= max(ys) and inside(c, b["ring"]):
+            b["addr"], b["dc"] = nm, dc
+            break
 (RAW / "vworld_bld.json").write_text(json.dumps(bld, ensure_ascii=False), encoding="utf-8")
 uses = {}
 for b in bld: uses[b["use"]] = uses.get(b["use"], 0) + 1
-print(f"buildings: {len(bld)}, with height {sum(1 for b in bld if b['h'] > 0)}, uses {sorted(uses.items(), key=lambda kv: -kv[1])[:10]}")
+print(f"buildings: {len(bld)}, with height {sum(1 for b in bld if b['h'] > 0)}, address names {sum(1 for b in bld if b.get('addr'))}, "
+      f"uses {sorted(uses.items(), key=lambda kv: -kv[1])[:10]}")
 
 # ---------- 2. aerial mosaic ----------
 def merc(lat, lon):
