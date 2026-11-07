@@ -555,6 +555,11 @@
 "wall": "#c9c8c2",
 "glass": "#33404a"
 },
+"b/546": {
+"style": "ribbon",
+"wall": "#a9a7a0",
+"glass": "#2d3b47"
+},
 "b/569": {
 "style": "concrete",
 "wall": "#c9c8c2",
@@ -1171,11 +1176,6 @@
 "style": "ribbon",
 "wall": "#c4bcae",
 "glass": "#28313a"
-},
-"b/1345": {
-"style": "ribbon",
-"wall": "#b0a99c",
-"glass": "#2d3b47"
 },
 "b/1354": {
 "style": "ribbon",

@@ -11,7 +11,7 @@ from PIL import Image
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 BASE = "http://localhost:8790"
-SKIP = ("주차", "화장실", "주유소", "관리사무", "경비", "공영", "문화회관", "극장", "미술관", "박물관", "지하")
+SKIP = ("주차", "화장실", "주유소", "관리사무", "사무소", "경비", "공영", "문화회관", "극장", "미술관", "박물관", "지하")
 
 
 class WS:   # minimal CDP websocket client (standard library only), as in SMASH's cdp_shot.py

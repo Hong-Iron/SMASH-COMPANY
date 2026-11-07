@@ -1710,6 +1710,11 @@
 "wall": "#bab8b0",
 "glass": "#33404a"
 },
+"b/713": {
+"style": "tan",
+"wall": "#9a9893",
+"glass": "#33404a"
+},
 "b/715": {
 "style": "concrete",
 "wall": "#c4bcae",
@@ -1790,11 +1795,6 @@
 "style": "tan",
 "wall": "#9a9893",
 "glass": "#2d3b47"
-},
-"b/764": {
-"style": "concrete",
-"wall": "#bab8b0",
-"glass": "#33404a"
 },
 "b/765": {
 "style": "tan",
