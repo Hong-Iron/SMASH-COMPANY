@@ -365,11 +365,6 @@
 "wall": "#b8bec3",
 "frame": "#4a5157"
 },
-"b/100": {
-"style": "concrete",
-"wall": "#bab8b0",
-"glass": "#2b353f"
-},
 "b/101": {
 "style": "glass",
 "glass": "#44586a",
@@ -861,11 +856,6 @@
 "glass": "#2f4a5c",
 "wall": "#8f989f",
 "frame": "#2b3036"
-},
-"b/270": {
-"style": "concrete",
-"wall": "#bab8b0",
-"glass": "#2b353f"
 },
 "b/271": {
 "style": "glass",

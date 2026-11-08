@@ -328,5 +328,75 @@
   "anchor": "남동국가산업단지 (OSM, 남동인더스파크역 37.40822,126.69520 옆)",
   "region": "인천 남동구",
   "nameEn": "Incheon Namdong Industrial Complex"
+ },
+ "yangjae": {
+  "district": "양재",
+  "name": "현대차 사옥",
+  "lat": 37.465,
+  "lon": 127.042,
+  "size": 1200,
+  "anchor": "현대자동차 양재 사옥·코트라(37.46465,127.04441) 사이 (OSM)",
+  "region": "서울 서초구",
+  "nameEn": "Yangjae"
+ },
+ "seoul-station": {
+  "district": "도심",
+  "name": "서울역 앞",
+  "lat": 37.555,
+  "lon": 126.9725,
+  "size": 1200,
+  "anchor": "서울역(37.55777,126.97288) 남쪽, 서울스퀘어·게이트웨이타워 (OSM)",
+  "region": "서울 중구·용산구",
+  "nameEn": "Seoul Station"
+ },
+ "gongdeok": {
+  "district": "마포",
+  "name": "공덕",
+  "lat": 37.544,
+  "lon": 126.9525,
+  "size": 1200,
+  "anchor": "공덕역 (OSM)",
+  "region": "서울 마포구",
+  "nameEn": "Gongdeok"
+ },
+ "yeongdeungpo": {
+  "district": "영등포",
+  "name": "영등포역",
+  "lat": 37.517,
+  "lon": 126.9065,
+  "size": 1200,
+  "anchor": "영등포역·타임스퀘어(37.51841,126.90549) (OSM)",
+  "region": "서울 영등포구",
+  "nameEn": "Yeongdeungpo Station"
+ },
+ "daegu-dongdaegu": {
+  "district": "대구",
+  "name": "동대구역",
+  "lat": 35.879,
+  "lon": 128.6285,
+  "size": 1200,
+  "anchor": "동대구역 (OSM)",
+  "region": "대구 동구",
+  "nameEn": "Dongdaegu Station"
+ },
+ "daedeok-tv": {
+  "district": "대전",
+  "name": "대덕테크노밸리",
+  "lat": 36.423,
+  "lon": 127.402,
+  "size": 1400,
+  "anchor": "관평동(36.42619,127.39039)과 탑립동(36.41623,127.41118) 사이 (OSM)",
+  "region": "대전 유성구",
+  "nameEn": "Daedeok Techno Valley"
+ },
+ "gwangju-cheomdan": {
+  "district": "광주",
+  "name": "첨단산단",
+  "lat": 35.224,
+  "lon": 126.856,
+  "size": 1400,
+  "anchor": "첨단지구(35.21723,126.84265) 북동쪽 광주첨단과학산업단지 (OSM)",
+  "region": "광주 북구·광산구",
+  "nameEn": "Gwangju Cheomdan"
  }
 }

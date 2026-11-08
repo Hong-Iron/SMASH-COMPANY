@@ -200,11 +200,6 @@
 "wall": "#d3d0c8",
 "glass": "#2d3b47"
 },
-"b/50": {
-"style": "ribbon",
-"wall": "#bab8b0",
-"glass": "#33404a"
-},
 "b/51": {
 "style": "glass",
 "glass": "#3a5266",
@@ -309,12 +304,6 @@
 "glass": "#36494f",
 "wall": "#b8bec3",
 "frame": "#2b3036"
-},
-"b/77": {
-"style": "glass",
-"glass": "#506470",
-"wall": "#c2c6c8",
-"frame": "#3a3f44"
 },
 "b/78": {
 "style": "tan",
@@ -858,6 +847,11 @@
 "wall": "#c4bcae",
 "glass": "#33404a"
 },
+"b/769": {
+"style": "tan",
+"wall": "#b0a99c",
+"glass": "#33404a"
+},
 "b/773": {
 "style": "tan",
 "wall": "#c9c8c2",
@@ -1364,6 +1358,11 @@
 "wall": "#c4bcae",
 "glass": "#33404a"
 },
+"b/1546": {
+"style": "tan",
+"wall": "#a9a7a0",
+"glass": "#28313a"
+},
 "b/1547": {
 "style": "tan",
 "wall": "#c4bcae",
@@ -1432,6 +1431,11 @@
 "b/1622": {
 "style": "ribbon",
 "wall": "#c4bcae",
+"glass": "#28313a"
+},
+"b/1626": {
+"style": "tan",
+"wall": "#bab8b0",
 "glass": "#28313a"
 },
 "b/1631": {
@@ -1559,6 +1563,11 @@
 "wall": "#9a9893",
 "glass": "#2b353f"
 },
+"b/1729": {
+"style": "tan",
+"wall": "#9a9893",
+"glass": "#33404a"
+},
 "b/1733": {
 "style": "tan",
 "wall": "#c4bcae",
@@ -1663,6 +1672,11 @@
 "style": "tan",
 "wall": "#a9a7a0",
 "glass": "#33404a"
+},
+"b/1802": {
+"style": "ribbon",
+"wall": "#d3d0c8",
+"glass": "#28313a"
 },
 "b/1803": {
 "style": "tan",
@@ -1775,10 +1789,5 @@
 "style": "ribbon",
 "wall": "#a9a7a0",
 "glass": "#2b353f"
-},
-"b/1843": {
-"style": "ribbon",
-"wall": "#a9a7a0",
-"glass": "#33404a"
 }
 }

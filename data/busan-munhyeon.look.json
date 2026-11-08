@@ -308,16 +308,6 @@
 "wall": "#b0a99c",
 "glass": "#2b353f"
 },
-"b/168": {
-"style": "ribbon",
-"wall": "#bab8b0",
-"glass": "#33404a"
-},
-"b/169": {
-"style": "ribbon",
-"wall": "#d3d0c8",
-"glass": "#33404a"
-},
 "b/170": {
 "style": "ribbon",
 "wall": "#bab8b0",
@@ -487,6 +477,11 @@
 "style": "tan",
 "wall": "#c9c8c2",
 "glass": "#2b353f"
+},
+"b/248": {
+"style": "tan",
+"wall": "#9a9893",
+"glass": "#2d3b47"
 },
 "b/250": {
 "style": "ribbon",
@@ -1026,6 +1021,11 @@
 "style": "ribbon",
 "wall": "#a9a7a0",
 "glass": "#2d3b47"
+},
+"b/841": {
+"style": "tan",
+"wall": "#c9c8c2",
+"glass": "#28313a"
 },
 "b/846": {
 "style": "concrete",

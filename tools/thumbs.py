@@ -66,6 +66,9 @@ def inside(p, ring):
     return c
 
 
+FOCUS = {"yangjae": "현대자동차그룹 본사"}     # the landmark the area is named after, when the biggest building is something else
+
+
 def plan(aid):
     d = json.loads((ROOT / "data" / f"{aid}.json").read_text(encoding="utf-8"))
     bs = []
@@ -76,7 +79,7 @@ def plan(aid):
                        w=max(max(xs) - min(xs), max(zs) - min(zs))))
     named = [b for b in bs if b["n"] and not any(s in b["n"] for s in SKIP) and not BLOCK.fullmatch(b["n"])
              and abs(b["cx"]) < 400 and abs(b["cz"]) < 400]
-    f = max(named or bs, key=lambda b: b["a"] * (1 + b["h"] / 40))
+    f = next((b for b in bs if b["n"] == FOCUS.get(aid)), None) or max(named or bs, key=lambda b: b["a"] * (1 + b["h"] / 40))
     near = sorted((b for b in (named or bs) if b is not f and b["n"] != f["n"]), key=lambda b: math.hypot(b["cx"] - f["cx"], b["cz"] - f["cz"]))
     near = [b for b in near if math.hypot(b["cx"] - f["cx"], b["cz"] - f["cz"]) < 170][:2]
     dist = min(520, max(200, 2.4 * f["w"] + 1.6 * f["h"]))

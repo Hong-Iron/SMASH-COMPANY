@@ -28,7 +28,9 @@ OFF_TYPES = {"apartments", "residential", "house", "detached", "semidetached_hou
 OFF_NAME = re.compile(r"아파트|빌라|주택|오피스텔|초등학교|중학교|고등학교|학교|유치원|어린이집|교회|성당|사찰|절$|병원|의원|"
                       r"보건|주민센터|행정복지센터|구청|시청|소방|경찰|파출소|지구대|군부대|대사관|영사관|도서관|청사|정부|[가-힣]{2,}청(\s|$)|"
                       r"법원|검찰|세무서|등기소|우체국|의회|국회|선거관리|병무|119|안전센터|복지관|커뮤니티센터|요양|노인|\d{3,4}동$|^\d{3,4}$|"
-                      r"역$|비즈텔")          # 역$: railway stations; 비즈텔: officetel brand that the WORK_NAME exemption would let through
+                      r"역$|비즈텔|"         # 역$: railway stations; 비즈텔: officetel brand that the WORK_NAME exemption would let through
+                      r"(?<![호모])텔$|고시원|기숙사|다세대|저택|邸宅|메종|레지던스|큐브스테이트|여고$|여중$|학과|"   # officetels (○○텔, not 호텔·모텔), dorms, schools
+                      r"복지센터|치안센터|우편|세관|기념관|측정소|공원관리|역사$|정거장$|문화역서울|선교|심인당|진리회|행복의집")
 
 
 # homes without a use code (e.g. all of Daegu in 건물통합정보): apartment brands, and complex blocks numbered "101동"
@@ -36,9 +38,11 @@ APT_NAME = re.compile(r"맨션|빌라|위브|메르디앙|아너스|캐슬|예�
                       r"포레스트|유쉘|하늘채|래미안|힐스테이트|아이파크|더샵|e편한세상|이편한세상|자이(\s|$|\d)|스위첸|수자인|"
                       r"꿈에그린|해링턴|스타힐스|더휴|SK ?뷰|에스케이뷰|아크로|휴먼시아|리첸시아|센트레빌|어울림|코아루|노르웨이숲|"
                       r"빌리지|타운$|\d단지|맨숀|하이츠|하임$|하우스$|빌(\s|$)|팰리스|브라운스톤|KAN$|아파트|"
-                      r"펜테리움|디엠시티|로얄듀크|아데나루체|아스테리움|인텔리지|하이엘")
+                      r"펜테리움|디엠시티|로얄듀크|아데나루체|아스테리움|인텔리지|하이엘|"
+                      r"빌\s?[A-Z\dⅠ-Ⅹ]+차?$|\d+차$|[Hh]ouse$|파크뷰|지웰|베네리치|크로시티|드림팔레스|또레로사|로즈빌|아펠리체|"
+                      r"엘리시아|부띠크시티|코보스카운티|소미골드|케렌시아|성운힐스|트랭퀼|가원재")   # 11-08: villas "위너빌A", "○○ 4차" phases, residential brands
 APT_DC = re.compile(r"\d{3,4}동?")
-WORK_NAME = re.compile(r"센터|타워|밸리|테크|지식|비즈|빌딩|오피스$|산업|사옥|프라자|플라자|스퀘어|몰")
+WORK_NAME = re.compile(r"센터|타워|밸리|벨리|테크|지식|비즈|빌딩|오피스$|산업|사옥|프라자|플라자|스퀘어|몰")
 
 
 def ko_name(t):
