@@ -31,7 +31,9 @@ OFF_NAME = re.compile(r"아파트|빌라|주택|오피스텔|초등학교|중학
                       r"역$|비즈텔|"         # 역$: railway stations; 비즈텔: officetel brand that the WORK_NAME exemption would let through
                       r"(?<![호모])텔$|고시원|기숙사|다세대|저택|邸宅|메종|레지던스|큐브스테이트|여고$|여중$|학과|"   # officetels (○○텔, not 호텔·모텔), dorms, schools
                       r"복지센터|치안센터|우편|세관|기념관|측정소|공원관리|역사$|정거장$|문화역서울|선교|심인당|진리회|행복의집|야생동물|계사$|축사$|"
-                      r"불교|조계|템플스테이|원불교|교당$|조계사|불광사|금수사|향림사")    # temples the 사찰/절$ rule misses (11-08)
+                      r"불교|조계|템플스테이|원불교|교당$|조계사|불광사|금수사|향림사|"
+                      r"단독|연립|마을회관|동사무소|발전소|장애인|유소년센터|합숙소|"
+                      r"마을$|택지개발지구|지식정보타운\s*(단\d?|\d)")   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
 
 
 # homes without a use code (e.g. all of Daegu in 건물통합정보): apartment brands, and complex blocks numbered "101동"
@@ -41,7 +43,8 @@ APT_NAME = re.compile(r"맨션|빌라|위브|메르디앙|아너스|캐슬|예�
                       r"빌리지|타운$|\d단지|맨숀|하이츠|하임$|하우스$|빌(\s|$)|팰리스|브라운스톤|KAN$|아파트|"
                       r"펜테리움|디엠시티|로얄듀크|아데나루체|아스테리움|인텔리지|하이엘|"
                       r"빌\s?[A-Z\dⅠ-Ⅹ]+차?$|\d+차$|[Hh]ouse$|파크뷰|지웰|베네리치|크로시티|드림팔레스|또레로사|로즈빌|아펠리체|"
-                      r"엘리시아|부띠크시티|코보스카운티|소미골드|케렌시아|성운힐스|트랭퀼|가원재")   # 11-08: villas "위너빌A", "○○ 4차" phases, residential brands
+                      r"엘리시아|부띠크시티|코보스카운티|소미골드|케렌시아|성운힐스|트랭퀼|가원재|"
+                      r"(?i:house)|(?i:villa)|홈$|힐$|S-?클래스|아르테온|그라시움|리버파크")   # 11-08: villas "위너빌A", "○○ 4차" phases, residential brands
 APT_DC = re.compile(r"\d{3,4}동?")
 WORK_NAME = re.compile(r"센터|타워|밸리|벨리|테크|지식|비즈|빌딩|오피스$|산업|사옥|프라자|플라자|스퀘어|몰")
 
@@ -59,9 +62,10 @@ COMPANY = re.compile(r"\(주\)|㈜|주식회사|\(유\)|유한|회사|산업|공
 
 def label(n):
     n = n.strip()
-    m = re.match(r"^\S*[동가리로길]\s+[\d-]+\s+(.*)$", n)
+    if re.search(r"허가|^no\.?\s*\d", n, re.I): return ""          # "건축허가번호(93-311호)", "NO. 160": permit numbers, not names
+    m = re.match(r"^\S*[동가리로길]\s+\d+(?:-\d+)?(?:번지)?(?:외\s*\d+\s*필지)?(?:\s+(.*))?$", n)   # "상대원동 1318-1외1필지 (owner)", "삼정동 308-5"; not "○○벨리 2차"
     if m:
-        rest = m.group(1)
+        rest = m.group(1) or ""
         b = re.match(r".*\s\((.+)\)\s*$", " " + rest)
         n = b.group(1) if b and COMPANY.search(b.group(1)) else ""
     return n if len(re.sub(r"[\W\d_제호층내]", "", n)) >= 2 else ""
@@ -304,6 +308,10 @@ for b in items:
     # type or shop): it may be a house, so it stays
     unknown = btype in ("yes", None, "part") and not name and not (v and v["use"]) and not (t.get("shop") or t.get("amenity"))
     if not off and unknown and h < 4 * 3.8 + 1.5 and ((NO_USE and not on_resid(b["c"], INDUS)) or on_resid(b["c"])):
+        off = True; n_resid += 1
+    # areas.json lockLow: a district mixed with lots of named single houses (과천 지식정보타운): every low building
+    # without a work name stays, named or not
+    if not off and AREA.get("lockLow") and h < 4 * 3.8 + 1.5 and not WORK_NAME.search(name):
         off = True; n_resid += 1
     if btype == "roof": kind = "canopy"
     elif off: kind = "off"

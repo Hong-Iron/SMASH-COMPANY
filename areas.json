@@ -408,5 +408,56 @@
   "anchor": "카카오 본사 스페이스닷원(33.45073,126.57061) 남쪽 (OSM)",
   "region": "제주 제주시",
   "nameEn": "Jeju Science Park"
+ },
+ "seongnam-hitech": {
+  "district": "성남",
+  "name": "하이테크밸리",
+  "lat": 37.4425,
+  "lon": 127.1735,
+  "size": 1400,
+  "anchor": "성남일반산업단지, 상대원동(37.44211,127.17404) (OSM)",
+  "region": "경기 성남시 중원구",
+  "nameEn": "Seongnam Hi-Tech Valley"
+ },
+ "anyang-smart": {
+  "district": "안양",
+  "name": "평촌 스마트스퀘어",
+  "lat": 37.399,
+  "lon": 126.963,
+  "size": 1200,
+  "anchor": "평촌역(37.39429,126.96388) 북쪽 스마트스퀘어·벤처밸리 (OSM)",
+  "region": "경기 안양시 동안구",
+  "nameEn": "Anyang Smart Square"
+ },
+ "bucheon-techno": {
+  "district": "부천",
+  "name": "테크노파크",
+  "lat": 37.516,
+  "lon": 126.764,
+  "size": 1200,
+  "anchor": "부천테크노파크 2·4단지(37.51713,126.76234) 둘레 (OSM)",
+  "region": "경기 부천시 오정구",
+  "nameEn": "Bucheon Techno Park"
+ },
+ "gwacheon-kit": {
+  "district": "과천",
+  "name": "지식정보타운",
+  "lat": 37.413,
+  "lon": 126.989,
+  "size": 1200,
+  "anchor": "과천 갈현동 지식정보타운, 정부과천청사(37.42653,126.98386)는 범위 밖 (OSM)",
+  "region": "경기 과천시",
+  "nameEn": "Gwacheon Knowledge Info Town",
+  "lockLow": true
+ },
+ "goyang-hyangdong": {
+  "district": "고양",
+  "name": "향동",
+  "lat": 37.5995,
+  "lon": 126.895,
+  "size": 1200,
+  "anchor": "향동동(37.59816,126.89099) 지식산업센터 (OSM)",
+  "region": "경기 고양시 덕양구",
+  "nameEn": "Goyang Hyangdong"
  }
 }
