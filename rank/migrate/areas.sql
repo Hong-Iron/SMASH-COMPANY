@@ -8,7 +8,7 @@ INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-SEOLLEUNG', '강남 
 INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-SAMSEONG', '강남 삼성', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('DOSIM-GWANGHWAMUN', '도심 광화문', 348) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('DOSIM-EULJIRO', '도심 시청·을지로', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
-INSERT INTO school (code, name, buildings) VALUES ('JAMSIL', '잠실 잠실역', 193) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('JAMSIL', '잠실 잠실역', 192) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('SEONGSU', '성수 성수역', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('MAGOK', '마곡 마곡나루', 152) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GVALLEY-GURO', 'G밸리 구로디지털단지', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
@@ -38,3 +38,4 @@ INSERT INTO school (code, name, buildings) VALUES ('YEONGDEUNGPO', '영등포 �
 INSERT INTO school (code, name, buildings) VALUES ('DAEGU-DONGDAEGU', '대구 동대구역', 209) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('DAEDEOK-TV', '대전 대덕테크노밸리', 286) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GWANGJU-CHEOMDAN', '광주 첨단산단', 316) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('JEJU-SCIENCE', '제주 첨단과학기술단지', 25) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;

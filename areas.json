@@ -398,5 +398,15 @@
   "anchor": "첨단지구(35.21723,126.84265) 북동쪽 광주첨단과학산업단지 (OSM)",
   "region": "광주 북구·광산구",
   "nameEn": "Gwangju Cheomdan"
+ },
+ "jeju-science": {
+  "district": "제주",
+  "name": "첨단과학기술단지",
+  "lat": 33.4475,
+  "lon": 126.569,
+  "size": 1200,
+  "anchor": "카카오 본사 스페이스닷원(33.45073,126.57061) 남쪽 (OSM)",
+  "region": "제주 제주시",
+  "nameEn": "Jeju Science Park"
  }
 }

@@ -30,7 +30,8 @@ OFF_NAME = re.compile(r"아파트|빌라|주택|오피스텔|초등학교|중학
                       r"법원|검찰|세무서|등기소|우체국|의회|국회|선거관리|병무|119|안전센터|복지관|커뮤니티센터|요양|노인|\d{3,4}동$|^\d{3,4}$|"
                       r"역$|비즈텔|"         # 역$: railway stations; 비즈텔: officetel brand that the WORK_NAME exemption would let through
                       r"(?<![호모])텔$|고시원|기숙사|다세대|저택|邸宅|메종|레지던스|큐브스테이트|여고$|여중$|학과|"   # officetels (○○텔, not 호텔·모텔), dorms, schools
-                      r"복지센터|치안센터|우편|세관|기념관|측정소|공원관리|역사$|정거장$|문화역서울|선교|심인당|진리회|행복의집")
+                      r"복지센터|치안센터|우편|세관|기념관|측정소|공원관리|역사$|정거장$|문화역서울|선교|심인당|진리회|행복의집|야생동물|계사$|축사$|"
+                      r"불교|조계|템플스테이|원불교|교당$|조계사|불광사|금수사|향림사")    # temples the 사찰/절$ rule misses (11-08)
 
 
 # homes without a use code (e.g. all of Daegu in 건물통합정보): apartment brands, and complex blocks numbered "101동"
