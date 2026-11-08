@@ -175,7 +175,15 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-
 .notice .text { color: var(--muted); font-size: 14px; }
 .notice .go { justify-self: start; padding: 7px 14px; border-radius: 8px; background: var(--hot); color: #1a0d05; font-weight: 600; font-size: 14px; }
 @media (max-width: 640px) { .notice { grid-template-columns: 1fr; } .notice img { height: auto; } }
-.maker { justify-self: end; margin: 0 0 -18px; color: var(--muted); font-size: 13px; }
+.maker { color: var(--muted); font-size: 13px; }
+/* 위: SMASH 대학교 ↔ SMASH 회사 전환 막대(왼쪽)와 만든 사람(오른쪽) */
+.topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin: 0 0 -18px; }
+.topbar .maker { margin: 0; }
+.games { display: inline-flex; padding: 3px; gap: 2px; background: rgba(21, 25, 34, .82); border: 1px solid var(--line); border-radius: 999px; backdrop-filter: blur(6px); }
+.games a { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; color: var(--fg); text-decoration: none; font: 600 14px/1.2 var(--font-ui); white-space: nowrap; }
+.games a:hover { background: var(--panel-hi); }
+.games a[aria-current="page"] { background: var(--gold); color: #1a1405; }
+.games a .new { padding: 1px 6px; border-radius: 999px; background: var(--hot); color: #1a0d05; font-size: 11px; font-weight: 700; }
 .maker a { color: inherit; text-decoration: none; }
 .maker a:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
 .fab { position: fixed; right: max(calc(16px + env(safe-area-inset-right, 0px)), calc((100vw - 1080px) / 2 + 16px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 50; display: flex; gap: 8px; transition: opacity .2s, transform .2s; }
@@ -298,7 +306,7 @@ body { position: relative; }
 .notice { border-color: var(--line); }
 .notice .tag { border-radius: 3px; background: var(--fg); color: var(--bg); }
 .notice strong { font-family: var(--font-ui); font-weight: 700; font-size: 18px; }
-.maker { margin-bottom: -10px; }
+.topbar { margin-bottom: -10px; }
 
 /* school cards: real thumbnail on top, then the campus name and the one action. Long names wrap to two lines, then cut */
 .grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }   /* 3 across on PC: the first page shows 9 schools */
@@ -338,7 +346,10 @@ button:active, .hits a:active { transform: translateY(1px); }
 <body>
 <div class="scene" aria-hidden="true"><img src="hero.webp" alt="" width="1600" height="640" fetchpriority="high"></div>
 <main class="wrap">
+  <div class="topbar">
+  <nav class="games" aria-label="SMASH 게임"><a href="https://hong-iron.github.io/SMASH/" data-ev="hub-to-univ">SMASH 대학교</a><a href="https://hong-iron.github.io/SMASH-COMPANY/" aria-current="page">SMASH 회사</a></nav>
   <p class="maker">만든 사람 <a href="https://x.com/Hong_Iron_DEV" target="_blank" rel="noopener" id="x-link">@Hong_Iron_DEV</a> · <a href="https://hong-iron.github.io/Hongs_Blog/" target="_blank" rel="noopener" id="blog-link">블로그 ↗</a></p>
+  </div>
   <div class="top">
   <header class="hero">
     <h1>SMASH <span>회사</span></h1>
@@ -463,6 +474,7 @@ button:active, .hits a:active { transform: translateY(1px); }
     strip.hidden = false;
     strip.querySelectorAll('a[data-ev]').forEach(function (a) { a.addEventListener('click', function () { ev(a.dataset.ev); }); });
     document.getElementById('blog-link').addEventListener('click', function () { ev('hub-blog'); });
+    document.querySelectorAll('.games a[data-ev]').forEach(function (a) { a.addEventListener('click', function () { ev(a.dataset.ev); }); });
     document.getElementById('rank-down-kakao').addEventListener('click', function () { ev('hub-rank-down-kakaopay'); });
     ['x-link', 'x-link-foot'].forEach(function (id) { document.getElementById(id).addEventListener('click', function () { ev('hub-x'); }); });
     // 토스는 휴대폰에서만 앱 링크로 열린다. PC에서는 대신 계좌번호를 복사한다
