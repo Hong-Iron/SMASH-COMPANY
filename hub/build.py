@@ -133,3 +133,12 @@ out = (tpl.replace("__SCHOOLS__", blob(schools)).replace("__HUB_CONFIG__", blob(
        .replace("__RANK_DOWN_HIDDEN__", "" if cfg.get("rankingPaused") else " hidden"))
 (root / "site" / "index.html").write_text(out, encoding="utf-8")
 print("site/index.html", len(out.encode()) // 1024, "KB,", len(schools), "areas")
+
+# 검색 등록용: 허브와 구역 페이지 전부를 사이트맵에, robots.txt는 그 사이트맵을 가리킨다
+import datetime as _dt
+_day = _dt.date.today().isoformat()
+_urls = [cfg["url"]] + [cfg["url"] + s["url"] for s in by_name]
+(root / "site" / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + "".join(f"  <url><loc>{e(u)}</loc><lastmod>{_day}</lastmod></url>\n" for u in _urls) + "</urlset>\n", encoding="utf-8")
+(root / "site" / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {cfg['url']}sitemap.xml\n", encoding="utf-8")
+print("site/sitemap.xml", len(_urls), "urls")

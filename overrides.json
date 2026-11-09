@@ -1,4 +1,11 @@
 {
  "_note": "Hand checks of landmark buildings, keyed by area then OSM id (w<id>). h = top above ground (m), minh = where a raised block starts. Add an entry only when OSM and VWorld are both wrong; give the source in 'why'.",
- "pangyo-tv1": {}
+ "pangyo-tv1": {},
+ "seongsu": {
+  "w871884982": {
+   "work": true,
+   "name": "SM엔터테인먼트 (D TOWER)",
+   "why": "아크로 서울포레스트 D타워는 업무동(SM엔터테인먼트 본사, 왕십리로 83-21)인데 OSM이 building=apartments로 적음"
+  }
+ }
 }

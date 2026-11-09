@@ -36,7 +36,8 @@ OFF_NAME = re.compile(r"아파트|빌라|주택|오피스텔|초등학교|중학
                       r"마을$|택지개발지구|지식정보타운\s*(단\d?|\d)|"
                       r"문화원$|주한|시민회관|구민회관|세종문화회관|고덕문화회관|"
                       r"대통령|관저|청와대|장례|주상복합|구립|시립|국립|도립|기술교육원|(도로|차량|등록|시설|승무|수도|하수|녹지|공원)사업소|민원|아동교육|"
-                      r"타워팰리스|엠프리스|르웨스트|미르웰|드미라벨|아카데미스위트|[Pp]ost ?[Vv]ille|VIEW$|자원화시설|겸재정선미술관|식물문화센터|역\(\d호선\)")   # 11-09: 한남 대통령 관저, 대치 타워팰리스, 마곡 시니어 주거·오피스텔   # public culture halls (city/district-run), foreign cultural centres   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
+                      r"타워팰리스|엠프리스|르웨스트|미르웰|드미라벨|아카데미스위트|[Pp]ost ?[Vv]ille|VIEW$|자원화시설|겸재정선미술관|식물문화센터|역\(\d호선\)|"
+                      r"관사|도민의집|통일관|통계사무소|발전연구원|아트홀|공연장|소극장|정수장|관제센터|어린이회관|경기장|체육관|구민|청소년수련관|청소년청년센터|피엔폴루스|루시아 청담|^[가-힣]{1,3}암$")   # 11-09: 창원 도지사 관사·공공기관·시립 공연장, 의왕 절·정수장   # 11-09: 한남 대통령 관저, 대치 타워팰리스, 마곡 시니어 주거·오피스텔   # public culture halls (city/district-run), foreign cultural centres   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
 
 
 # homes without a use code (e.g. all of Daegu in 건물통합정보): apartment brands, and complex blocks numbered "101동"
@@ -66,12 +67,15 @@ COMPANY = re.compile(r"\(주\)|㈜|주식회사|\(유\)|유한|회사|산업|공
 def label(n):
     n = n.strip()
     if re.search(r"허가|^no\.?\s*\d", n, re.I): return ""          # "건축허가번호(93-311호)", "NO. 160": permit numbers, not names
-    m = re.match(r"^\S*[동가리로길]\s+\d+(?:-\d+)?(?:번지)?(?:외\s*\d+\s*필지)?(?:\s+(.*))?$", n)   # "상대원동 1318-1외1필지 (owner)", "삼정동 308-5"; not "○○벨리 2차"
+    m = re.match(r"^\S*[동가리로길]\s*\d+(?:-\d+)?(?:번지)?(?:외\s*\d+\s*필지)?(?:\s+(.*))?$", n)   # "상대원동 1318-1외1필지 (owner)", "삼정동 308-5"; not "○○벨리 2차"
     if m:
         rest = m.group(1) or ""
         b = re.match(r".*\s\((.+)\)\s*$", " " + rest)
         n = b.group(1) if b and COMPANY.search(b.group(1)) else ""
     m = re.match(r"^\S*[동리읍면]\s+\S*시설\s*\((.+)\)$", n)        # "도원동  제2종근린생활시설 (김창배)": no lot number
+    if m: n = m.group(1) if COMPANY.search(m.group(1)) else ""
+    if re.fullmatch(r"[가-힣]{2,4}\s*건축물", n): return ""                # "박우태 건축물": an owner's name
+    m = re.match(r"^(?:공장|창고|사무소|상가|건물|근린생활시설|판매시설|공장동|사무동)\s*\((.+)\)$", n)   # "공장 (윤태영)": a use word + the owner
     if m: n = m.group(1) if COMPANY.search(m.group(1)) else ""
     # owner names after a company: "그랜드건설(주)대표;임도영", "HB한남동빌딩 ((주)에이치비콥 문성준)"; a 3-syllable word
     # ending like 공장·지점·본관·연구소 is a place, not a person
@@ -323,6 +327,10 @@ for b in items:
     # without a work name stays, named or not
     if not off and AREA.get("lockLow") and h < 4 * 3.8 + 1.5 and not WORK_NAME.search(name):
         off = True; n_resid += 1
+    # overrides.json "work": an office the map data calls a home (SM 사옥 = 아크로 서울포레스트 D TOWER, OSM building=apartments)
+    ov = OVR.get(b["osm"]) or {}
+    if ov.get("work"): off = False; btype = "office"
+    if ov.get("name"): name = ov["name"]
     if btype == "roof": kind = "canopy"
     elif off: kind = "off"
     elif h >= 60 or (btype == "office" and h >= 36): kind = "glass"
