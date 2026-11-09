@@ -1,14 +1,14 @@
-INSERT INTO school (code, name, buildings) VALUES ('PANGYO-TV1', '판교 제1테크노밸리', 193) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('PANGYO-TV1', '판교 제1테크노밸리', 192) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-YEOKSAM', '강남 역삼', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
-INSERT INTO school (code, name, buildings) VALUES ('PANGYO-STATION', '판교 판교역 앞', 88) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('PANGYO-STATION', '판교 판교역 앞', 83) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('PANGYO-TV2', '판교 제2테크노밸리', 218) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('YEOUIDO', '여의도 금융가', 230) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
-INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-STATION', '강남 강남역', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-STATION', '강남 강남역', 348) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-SEOLLEUNG', '강남 선릉', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-SAMSEONG', '강남 삼성', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('DOSIM-GWANGHWAMUN', '도심 광화문', 348) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('DOSIM-EULJIRO', '도심 시청·을지로', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
-INSERT INTO school (code, name, buildings) VALUES ('JAMSIL', '잠실 잠실역', 190) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('JAMSIL', '잠실 잠실역', 188) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('SEONGSU', '성수 성수역', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('MAGOK', '마곡 마곡나루', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GVALLEY-GURO', 'G밸리 구로디지털단지', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
@@ -25,7 +25,7 @@ INSERT INTO school (code, name, buildings) VALUES ('SUWON-GWANGGYO', '수원 광
 INSERT INTO school (code, name, buildings) VALUES ('CHANGWON-SANGNAM', '창원 상남동', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('ULSAN-SAMSAN', '울산 삼산', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('YONGSAN', '용산 신용산', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
-INSERT INTO school (code, name, buildings) VALUES ('BUNDANG-JEONGJA', '분당 정자', 196) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('BUNDANG-JEONGJA', '분당 정자', 194) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('MUNJEONG', '문정 법조단지', 348) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('MULLAE', '영등포 문래', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('DONGTAN-TV', '동탄 테크노밸리', 81) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
@@ -43,7 +43,7 @@ INSERT INTO school (code, name, buildings) VALUES ('SEONGNAM-HITECH', '성남 �
 INSERT INTO school (code, name, buildings) VALUES ('ANYANG-SMART', '안양 평촌 스마트스퀘어', 348) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('BUCHEON-TECHNO', '부천 테크노파크', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GWACHEON-KIT', '과천 지식정보타운', 28) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
-INSERT INTO school (code, name, buildings) VALUES ('GOYANG-HYANGDONG', '고양 향동', 59) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('GOYANG-HYANGDONG', '고양 향동', 58) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GANGDONG-GODEOK', '강동 고덕비즈밸리', 71) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-NONHYEON', '강남 논현·신논현', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('DAECHI-DOGOK', '강남 대치·도곡', 185) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
@@ -60,3 +60,10 @@ INSERT INTO school (code, name, buildings) VALUES ('SINSA', '강남 신사·가�
 INSERT INTO school (code, name, buildings) VALUES ('HAPJEONG', '마포 합정·서교', 348) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('CHEONGDAM', '강남 청담', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('SEONGNAE', '강동 성내동', 349) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('GANGNAM-GUOFFICE', '강남 강남구청역·학동', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('BUCHEON-CHUNUI', '부천 춘의·원미', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('DONGDAEMUN', '도심 동대문', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('BUNDANG-SUNAE', '분당 수내', 116) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('ULSAN-INNOCITY', '울산 혁신도시', 292) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('ITAEWON', '용산 이태원', 350) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('INCHEON-GANSEOK', '인천 간석', 347) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;

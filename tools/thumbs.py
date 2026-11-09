@@ -68,7 +68,8 @@ def inside(p, ring):
 
 FOCUS = {"yangjae": "현대자동차그룹 본사", "daechi-dogok": "린스퀘어", "hannam": "제일기획",
          "cheonan-4": "신세계푸드 천안공장", "magok": "LG사이언스파크", "sangam": "상암 MBC 사옥", "hapjeong": "YG 엔터테인먼트 신사옥",
-         "seongnae": "JYP엔터테인먼트", "seongsu": "SM엔터테인먼트 (D TOWER)", "uiwang-pogil": "에이스 청계타워"}   # the landmark the area is named after or the issue asked for, when the biggest building is something else
+         "seongnae": "JYP엔터테인먼트", "seongsu": "SM엔터테인먼트 (D TOWER)", "uiwang-pogil": "에이스 청계타워",
+         "itaewon": "몬드리안 서울 이태원", "bucheon-chunui": "부천테크노밸리 U1 center"}   # the landmark the area is named after or the issue asked for, when the biggest building is something else
 
 
 def plan(aid):

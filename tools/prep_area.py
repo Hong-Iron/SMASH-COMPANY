@@ -37,7 +37,7 @@ OFF_NAME = re.compile(r"아파트|빌라|주택|오피스텔|초등학교|중학
                       r"문화원$|주한|시민회관|구민회관|세종문화회관|고덕문화회관|"
                       r"대통령|관저|청와대|장례|주상복합|구립|시립|국립|도립|기술교육원|(도로|차량|등록|시설|승무|수도|하수|녹지|공원)사업소|민원|아동교육|"
                       r"타워팰리스|엠프리스|르웨스트|미르웰|드미라벨|아카데미스위트|[Pp]ost ?[Vv]ille|VIEW$|자원화시설|겸재정선미술관|식물문화센터|역\(\d호선\)|"
-                      r"관사|도민의집|통일관|통계사무소|발전연구원|아트홀|공연장|소극장|정수장|관제센터|어린이회관|경기장|체육관|구민|청소년수련관|청소년청년센터|피엔폴루스|루시아 청담|^[가-힣]{1,3}암$")   # 11-09: 창원 도지사 관사·공공기관·시립 공연장, 의왕 절·정수장   # 11-09: 한남 대통령 관저, 대치 타워팰리스, 마곡 시니어 주거·오피스텔   # public culture halls (city/district-run), foreign cultural centres   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
+                      r"관사|도민의집|통일관|통계사무소|발전연구원|아트홀|공연장|소극장|정수장|관제센터|어린이회관|경기장|체육관|구민|청소년수련관|청소년청년센터|대학|교사동|오피앙|에테르노|엠밸리|고용복지|복지공단|한강자이|피엔폴루스|루시아 청담|^[가-힣]{1,3}암$")   # 11-09: 창원 도지사 관사·공공기관·시립 공연장, 의왕 절·정수장   # 11-09: 한남 대통령 관저, 대치 타워팰리스, 마곡 시니어 주거·오피스텔   # public culture halls (city/district-run), foreign cultural centres   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
 
 
 # homes without a use code (e.g. all of Daegu in 건물통합정보): apartment brands, and complex blocks numbered "101동"
@@ -167,14 +167,15 @@ osm = json.loads((RAW / "osm.json").read_text(encoding="utf-8"))
 items = []
 for e in osm["elements"]:
     t = e.get("tags", {})
-    if "building" not in t and "building:part" not in t: continue
+    if "building" not in t and t.get("building:part") in (None, "no"): continue
     if t.get("location") == "underground" or t.get("tunnel") == "yes" or t.get("building") == "underground": continue
     if e["type"] == "way" and "geometry" in e:
         ring = ring_xy(e["geometry"])
     elif e["type"] == "relation":
         outers = [m for m in e.get("members", []) if m.get("role") == "outer" and "geometry" in m]
         if not outers: continue
-        ring = max((ring_xy(m["geometry"]) for m in outers), key=lambda r: abs(area_of(r)))
+        rings = [ring_xy(m["geometry"]) for m in outers]
+        ring = max(rings, key=lambda r: abs(area_of(r)))
     else:
         continue
     if len(ring) > 2 and ring[0] == ring[-1]: ring = ring[:-1]
@@ -184,13 +185,18 @@ for e in osm["elements"]:
     if a < 0: ring = ring[::-1]                      # counter-clockwise
     cx, cy = centroid(ring)
     if abs(cx) > HALF or abs(cy) > HALF: continue   # keep buildings whose centre is in the box
-    items.append({"osm": f"{e['type'][0]}{e['id']}", "ring": ring, "tags": t, "part": "building:part" in t,
-                  "area": abs(a), "c": (cx, cy)})
+    # anything with a building tag is an outline, whatever building:part says (분당 수내 601/602 said part=no, 608 said
+    # part=no;yes: treated as parts, their own parts lost
+    # their parent's "apartments" and became smashable)
+    items.append({"osm": f"{e['type'][0]}{e['id']}", "ring": ring, "tags": t, "part": "building" not in t and t.get("building:part") not in (None, "no"),
+                  "area": abs(a), "c": (cx, cy), "rings": rings if e["type"] == "relation" else [ring]})
 
 parts = [b for b in items if b["part"]]
 outlines = [b for b in items if not b["part"]]
 for b in outlines:
-    kids = [p for p in parts if abs(p["c"][0] - b["c"][0]) < 200 and abs(p["c"][1] - b["c"][1]) < 200 and inside(p["c"], b["ring"])]
+    # a relation's outline can be split over several outer ways (분당 수내 601/602동): a part inside any of them is its child
+    kids = [p for p in parts if abs(p["c"][0] - b["c"][0]) < 200 and abs(p["c"][1] - b["c"][1]) < 200
+            and any(inside(p["c"], r) for r in b["rings"])]
     if kids:
         # Simple 3D Buildings: the parts carry the real massing (podium, towers, raised bridges), so the outline is skipped
         b["skip"] = True
@@ -273,6 +279,9 @@ for e in osm["elements"]:
     elif e["type"] == "relation":
         INDUS += [ring_xy(m["geometry"]) for m in e.get("members", []) if m.get("role") == "outer" and "geometry" in m]
 INDUS = [(r, min(p[0] for p in r), max(p[0] for p in r), min(p[1] for p in r), max(p[1] for p in r)) for r in INDUS if len(r) > 2]
+# military land (용산 미군기지 next to 이태원): every building on it stays, whatever its tags say
+MIL = [ring_xy(e["geometry"]) for e in osm["elements"] if e.get("tags", {}).get("landuse") == "military" and e["type"] == "way" and "geometry" in e]
+MIL = [(r, min(p[0] for p in r), max(p[0] for p in r), min(p[1] for p in r), max(p[1] for p in r)) for r in MIL if len(r) > 2]
 
 
 OVR = json.loads((ROOT / "overrides.json").read_text(encoding="utf-8")).get(AID, {}) if (ROOT / "overrides.json").exists() else {}
@@ -327,6 +336,7 @@ for b in items:
     # without a work name stays, named or not
     if not off and AREA.get("lockLow") and h < 4 * 3.8 + 1.5 and not WORK_NAME.search(name):
         off = True; n_resid += 1
+    if not off and MIL and on_resid(b["c"], MIL): off = True
     # overrides.json "work": an office the map data calls a home (SM 사옥 = 아크로 서울포레스트 D TOWER, OSM building=apartments)
     ov = OVR.get(b["osm"]) or {}
     if ov.get("work"): off = False; btype = "office"
