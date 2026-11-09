@@ -3934,7 +3934,7 @@ const VIEW_DIR = (() => {
   return new THREE.Vector3(dx, 0, dz);
 })();
 function homeView(instant = false) {
-  const aspect = stage.clientWidth / Math.max(1, stage.clientHeight);
+  const aspect = stage.clientWidth > 0 && stage.clientHeight > 0 ? stage.clientWidth / stage.clientHeight : 0.5;   // no size yet: frame as a phone
   const portrait = aspect < 1;
   const tanH = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * aspect;
   const dist = portrait ? Math.max(0.6 * FB.diag, 0.31 * FB.diag / tanH) : 0.8 * FB.diag;
@@ -4421,6 +4421,8 @@ function resize() {
   camera.fov = camera.aspect < 1 ? 52 : 38;
   camera.updateProjectionMatrix();
   labelKey = ''; obstaclesAt = -99;
+  // a page opened with no size (hidden or background pane) framed the view at width 0 → camera at Infinity/NaN: frame it again
+  if (w > 0 && h > 0 && !(Number.isFinite(camera.position.x) && Number.isFinite(camera.position.y) && Number.isFinite(camera.position.z))) homeView(true);
 }
 new ResizeObserver(resize).observe(stage);
 
