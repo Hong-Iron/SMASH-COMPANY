@@ -59,6 +59,18 @@
 "wall": "#c9c8c2",
 "glass": "#2b353f"
 },
+"b/21": {
+"style": "glass",
+"glass": "#3a5266",
+"wall": "#c2c6c8",
+"frame": "#3a3f44"
+},
+"b/22": {
+"style": "glass",
+"glass": "#3d4f57",
+"wall": "#a9b2ba",
+"frame": "#7d858b"
+},
 "b/23": {
 "style": "tan",
 "wall": "#b0a99c",
