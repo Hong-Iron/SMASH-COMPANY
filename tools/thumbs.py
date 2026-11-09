@@ -66,7 +66,8 @@ def inside(p, ring):
     return c
 
 
-FOCUS = {"yangjae": "현대자동차그룹 본사"}     # the landmark the area is named after, when the biggest building is something else
+FOCUS = {"yangjae": "현대자동차그룹 본사", "daechi-dogok": "린스퀘어", "hannam": "제일기획",
+         "cheonan-4": "신세계푸드 천안공장", "magok": "LG사이언스파크"}   # the landmark the area is named after or the issue asked for, when the biggest building is something else
 
 
 def plan(aid):

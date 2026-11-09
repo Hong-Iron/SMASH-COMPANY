@@ -34,7 +34,9 @@ OFF_NAME = re.compile(r"아파트|빌라|주택|오피스텔|초등학교|중학
                       r"불교|조계|템플스테이|원불교|교당$|조계사|불광사|금수사|향림사|"
                       r"단독|연립|마을회관|동사무소|발전소|장애인|유소년센터|합숙소|"
                       r"마을$|택지개발지구|지식정보타운\s*(단\d?|\d)|"
-                      r"문화원$|주한|시민회관|구민회관|세종문화회관|고덕문화회관")   # public culture halls (city/district-run), foreign cultural centres   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
+                      r"문화원$|주한|시민회관|구민회관|세종문화회관|고덕문화회관|"
+                      r"대통령|관저|청와대|장례|주상복합|구립|시립|국립|도립|기술교육원|(도로|차량|등록|시설|승무|수도|하수|녹지|공원)사업소|민원|아동교육|"
+                      r"타워팰리스|엠프리스|르웨스트|미르웰|드미라벨|아카데미스위트|[Pp]ost ?[Vv]ille|VIEW$|자원화시설|겸재정선미술관|식물문화센터|역\(\d호선\)")   # 11-09: 한남 대통령 관저, 대치 타워팰리스, 마곡 시니어 주거·오피스텔   # public culture halls (city/district-run), foreign cultural centres   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
 
 
 # homes without a use code (e.g. all of Daegu in 건물통합정보): apartment brands, and complex blocks numbered "101동"
@@ -45,9 +47,9 @@ APT_NAME = re.compile(r"맨션|빌라|위브|메르디앙|아너스|캐슬|예�
                       r"펜테리움|디엠시티|로얄듀크|아데나루체|아스테리움|인텔리지|하이엘|"
                       r"빌\s?[A-Z\dⅠ-Ⅹ]+차?$|\d+차$|[Hh]ouse$|파크뷰|지웰|베네리치|크로시티|드림팔레스|또레로사|로즈빌|아펠리체|"
                       r"엘리시아|부띠크시티|코보스카운티|소미골드|케렌시아|성운힐스|트랭퀼|가원재|"
-                      r"(?i:house)|(?i:villa)|홈$|힐$|S-?클래스|아르테온|그라시움|리버파크")   # 11-08: villas "위너빌A", "○○ 4차" phases, residential brands
+                      r"(?i:house)|(?i:villa)|홈$|힐$|S-?클래스|아르테온|그라시움|리버파크|아르누보|리체$|펠리체|스위트뷰")   # 11-08: villas "위너빌A", "○○ 4차" phases, residential brands
 APT_DC = re.compile(r"\d{3,4}동?")
-WORK_NAME = re.compile(r"센터|타워|밸리|벨리|테크|지식|비즈|빌딩|오피스$|산업|사옥|프라자|플라자|스퀘어|몰")
+WORK_NAME = re.compile(r"센터|타워|밸리|벨리|호텔|테크|지식|비즈|빌딩|오피스$|산업|사옥|프라자|플라자|스퀘어|몰")
 
 
 def ko_name(t):
@@ -69,6 +71,13 @@ def label(n):
         rest = m.group(1) or ""
         b = re.match(r".*\s\((.+)\)\s*$", " " + rest)
         n = b.group(1) if b and COMPANY.search(b.group(1)) else ""
+    m = re.match(r"^\S*[동리읍면]\s+\S*시설\s*\((.+)\)$", n)        # "도원동  제2종근린생활시설 (김창배)": no lot number
+    if m: n = m.group(1) if COMPANY.search(m.group(1)) else ""
+    # owner names after a company: "그랜드건설(주)대표;임도영", "HB한남동빌딩 ((주)에이치비콥 문성준)"; a 3-syllable word
+    # ending like 공장·지점·본관·연구소 is a place, not a person
+    person = r"[가-힣]{2}[가-힣](?<![장점관소사터딩워동실층호])"
+    n = re.sub(r"\s*대표[;:]?\s*" + person + r"(\)?)$", r"\1", n)
+    n = re.sub(r"((?:\(주\)|㈜|주식회사)[^()\s]*)\s+" + person + r"(\)?)$", r"\1\2", n)
     return n if len(re.sub(r"[\W\d_제호층내]", "", n)) >= 2 else ""
 
 
