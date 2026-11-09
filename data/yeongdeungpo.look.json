@@ -1030,11 +1030,6 @@
 "wall": "#c4bcae",
 "glass": "#2b353f"
 },
-"b/1877": {
-"style": "tan",
-"wall": "#a9a7a0",
-"glass": "#28313a"
-},
 "b/1884": {
 "style": "ribbon",
 "wall": "#c9c8c2",
@@ -1643,6 +1638,11 @@
 "b/2495": {
 "style": "concrete",
 "wall": "#b0a99c",
+"glass": "#33404a"
+},
+"b/2496": {
+"style": "ribbon",
+"wall": "#d3d0c8",
 "glass": "#33404a"
 },
 "b/2497": {

@@ -44,3 +44,4 @@ INSERT INTO school (code, name, buildings) VALUES ('ANYANG-SMART', '안양 평�
 INSERT INTO school (code, name, buildings) VALUES ('BUCHEON-TECHNO', '부천 테크노파크', 298) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GWACHEON-KIT', '과천 지식정보타운', 28) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
 INSERT INTO school (code, name, buildings) VALUES ('GOYANG-HYANGDONG', '고양 향동', 59) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;
+INSERT INTO school (code, name, buildings) VALUES ('GANGDONG-GODEOK', '강동 고덕비즈밸리', 71) ON CONFLICT (code) DO UPDATE SET name = excluded.name, buildings = excluded.buildings;

@@ -459,5 +459,15 @@
   "anchor": "향동동(37.59816,126.89099) 지식산업센터 (OSM)",
   "region": "경기 고양시 덕양구",
   "nameEn": "Goyang Hyangdong"
+ },
+ "gangdong-godeok": {
+  "district": "강동",
+  "name": "고덕비즈밸리",
+  "lat": 37.557,
+  "lon": 127.175,
+  "size": 1200,
+  "anchor": "상일동역(37.55680,127.16784) 동쪽 고덕비즈밸리 (OSM)",
+  "region": "서울 강동구",
+  "nameEn": "Godeok Biz Valley"
  }
 }

@@ -33,7 +33,8 @@ OFF_NAME = re.compile(r"아파트|빌라|주택|오피스텔|초등학교|중학
                       r"복지센터|치안센터|우편|세관|기념관|측정소|공원관리|역사$|정거장$|문화역서울|선교|심인당|진리회|행복의집|야생동물|계사$|축사$|"
                       r"불교|조계|템플스테이|원불교|교당$|조계사|불광사|금수사|향림사|"
                       r"단독|연립|마을회관|동사무소|발전소|장애인|유소년센터|합숙소|"
-                      r"마을$|택지개발지구|지식정보타운\s*(단\d?|\d)")   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
+                      r"마을$|택지개발지구|지식정보타운\s*(단\d?|\d)|"
+                      r"문화원$|주한|시민회관|구민회관|세종문화회관|고덕문화회관")   # public culture halls (city/district-run), foreign cultural centres   # apartment complexes named ○○마을 (판교 봇들마을·백현마을), 과천 lot names   # 11-09: 과천 단독주택 lots, row houses, public halls, power plants    # temples the 사찰/절$ rule misses (11-08)
 
 
 # homes without a use code (e.g. all of Daegu in 건물통합정보): apartment brands, and complex blocks numbered "101동"
