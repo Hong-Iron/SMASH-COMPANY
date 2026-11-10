@@ -1,6 +1,6 @@
 # Builds site/index.html (the SMASH 회사 hub) from hub/index.html, areas.json, data/<area>.json and hub/config.json.
 # Area cards are also written into the HTML so search crawlers see every game link. Each card image is a crop of the
-# area's aerial photo (site/<area>/card.webp). Forked from the SMASH 대학교 hub (Hong-Iron/SMASH tools/build.py).
+# area's thumbnail from tools/thumbs.py (site/<area>/card.webp; an aerial crop only until it is shot). Forked from the SMASH 대학교 hub (Hong-Iron/SMASH tools/build.py).
 # usage: ~/.venvs/vault-plots/bin/python hub/build.py      (Pillow)
 import html, json, pathlib
 from PIL import Image
@@ -20,7 +20,9 @@ for aid, a in areas.items():
     names = sorted({b["n"] for b in d["buildings"] if b.get("n")})
     card = root / "site" / aid / "card.webp"
     g = root / "site" / aid / "ground_m.webp"
-    if g.exists() and (not card.exists() or card.stat().st_mtime < g.stat().st_mtime):
+    # only a stand-in for an area tools/thumbs.py hasn't shot yet: never replace a real thumbnail (11-09 every rebuild
+    # rewrote ground_m.webp, so a "newer than the card" rule turned all 69 explosion thumbnails into aerial crops)
+    if g.exists() and not card.exists():
         im = Image.open(g).convert("RGB"); w, h = im.size
         im.crop((0, int(h * 0.24), w, int(h * 0.24) + int(w * 315 / 600))).resize((600, 315), Image.LANCZOS).save(card, quality=82)
     schools.append({"code": aid.upper(), "name": a["district"], "campus": f"{a['district']} {a['name']}", "url": f"{aid}/",
